@@ -1,0 +1,180 @@
+BODY {
+	margin: 10px auto;
+	background: #fff;
+	font-family: sans-serif;
+}
+
+A {
+	color: #000;
+	text-decoration: none;
+}
+
+A:hover {
+	color: purple;
+	text-decoration: none;
+	cursor: hand;
+}
+
+.wrapper {
+	margin: 0 auto;
+	width: 900px;
+	background: transparent;
+}
+
+h1 {
+	display:inline-block;
+}
+
+.logo {
+	text-align: left;
+}
+
+.LoginButn {
+	display: inline-block;
+	margin: 0 auto;
+	padding: 6px 6px;
+	width: 300px;
+	border: 1px solid #dcdcdc;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	background-color: #3584d8;
+	color: #ffffff;
+	text-align: right;
+	text-decoration: none;
+	font-weight: lighter;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.LoginButton:hover {
+	background-color:#3584d8;
+}
+
+.LoginButton:active {
+	position:relative;
+	top:1px;
+}
+
+.LoginButn input {
+	cursor: hand;
+}
+
+.LoginButn input[type=submit] {
+	border:none;
+	background: #3584d8;
+	color: white;
+	cursor: hand;
+}
+
+.menu_icon {
+	margin-bottom: -1px;
+}
+
+.menu {
+	padding: 5px;
+	border: solid  3px #3584d8;
+	border-radius: 5px;
+	background: #eee;
+	line-height: 30px;
+}
+
+.stream_ava {
+	border-radius:; 
+	
+}
+
+.sidebar {
+	position: fixed;
+	float:left;
+	width: 150px;
+}
+
+.contents {
+	float:right;
+	margin: 87px 0px;
+	width:720px;
+	border: solid #3584d8;
+	border-radius: 5px;
+	background-color: #eee;	
+	padding:10px;
+}
+.submit_trikl {
+	margin-top: -70px;
+	border: none;
+	border-radius: 5px;
+	background-color: #3584d8;
+	color: black;
+	vertical-align: middle;
+	font-size: 18px;	
+	cursor: pointer;
+}
+
+ul {
+	margin:0px;
+}
+
+.textarea {
+	margin: 0px;
+	padding: 0px;
+}
+
+.page_load_time {
+	position: fixed;
+	right: 5px;
+	bottom: 0;
+	font-size: 12px;
+}
+
+.post {
+	margin-left:163px;
+	min-height:120px;
+	text-align:left;
+}
+
+.post a {
+	color: #3584D8;
+}
+
+.inputpost textarea {
+	width:765px;
+	height:117px !important;
+	margin-left:0px !important;
+	min-height:0px !important;
+}
+
+.notification-bar {
+	position:fixed;
+	left: 0;
+	margin-bottom: 2px;
+	padding: 5px 0 5px 0;
+	width: 100%;
+	height: 19px;
+	border-bottom: solid #3584d8;
+	background-color: #414040;
+	color: #4662c9;
+	text-align: center;
+	font-size: 12px;
+	font-family: georgia;
+	top; 0;
+}
+
+.stream_cont {
+	padding-top: 10px;
+	padding-left: 10px;
+	border-bottom: 1px dotted;
+}
+
+#showHideTopContent {
+	right:500px;
+	background:black;
+	margin-top:-10px;
+	color:white;
+	padding:5px;
+	position: absolute;
+}
+
+#container {
+	width:900px;
+	margin:0 auto;
+}
