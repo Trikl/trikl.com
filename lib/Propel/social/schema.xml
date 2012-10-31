@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="social" defaultIdMethod="native">
+  <table name="users" phpName="User">
+    <column name="id" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="username" type="varchar" size="15" required="true" phpName="username"/>
+    	<validator column="username">
+    		<rule name="minLength"  value="8"  message="Username must be at least ${value} characters !" />
+    	</validator>
+    	<validator column="username">
+	    	<rule
+	    	name="unique"
+	    	message="Username already exists !" />
+	    </validator>
+    <column name="password" type="varchar" size="75" required="true" phpName="password"/>
+    <column name="email" type="varchar" size="50" required="true" phpName="email"/>
+    	<validator column="email">
+		    <rule
+		    name="match"
+		    value="/^([a-zA-Z0-9])+([\.a-zA-Z0-9_-])*@([a-zA-Z0-9])+(\.[a-zA-Z0-9_-]+)+$/"
+		    message="Please enter a valid email address." />
+		</validator>
+		<validator column="email">
+			<rule
+			name="unique"
+			message="Email already in use!" />
+		</validator>
+    <column name="first_name" type="varchar" size="50" required="true"/>
+    <column name="last_name" type="varchar" size="50" required="true"/>
+    <column name="activate_code" type="varchar" size="10" required="true"/>
+    <column name="is_activated" defaultValue="1" type="integer" size="1" required="true"/>
+    <column name="avatar_filename" type="varchar" size="50" required="true"/>
+    <column name="hide_stream" defaultValue="0" type="integer" size="1" required="true"/>
+    <column name="invisible" defaultValue="0" type="integer" size="1" required="true"/>
+  </table>
+  <table name="friends" phpName="Friend">
+    <column name="groupid" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="userid" type="integer" size="50" required="true"/>
+    <column name="friendid" type="integer" size="50" required="true"/>
+  </table>
+  <table name="friend_requests" phpName="Requests">
+    <column name="requestid" type="integer" size="255" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="userid" type="integer" size="255" required="true"/>
+    <column name="friendid" type="integer" size="255" required="true"/>
+  </table>
+  <table name="status" phpName="Status">
+    <column name="postid" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="userid" type="integer" size="50" required="true"/>
+    <column name="bucketid" type="integer" size="50" required="true"/>
+    <column name="date" type="timestamp" required="true"/>
+    <column name="status" type="varchar" size="500" required="true"/>
+    <column name="drops" defaultValue="0" type="integer" size="11" required="true"/>
+  </table>
+  <table name="profile" phpName="Profile">
+    <column name="userid" type="integer" size="50" required="true" primaryKey="true"/>
+    <column name="phone" type="varchar" size="10" required="true"/>
+    <column name="bio" type="varchar" size="100" required="true"/>
+    <column name="website" type="varchar" size="100" required="true"/>
+  </table>
+  <table name="user_buckets" phpName="Bucket">
+    <column name="bucketid" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="userid" type="integer" size="50" required="true"/>
+    <column name="bucket_name" type="varchar" size="50" required="true"/>
+  </table>
+   <table name="user_bucket_friend" phpName="FriendBucket">
+    <column name="bucketid" type="integer" size="50" required="true" primaryKey="true"/>
+    <column name="userid" type="integer" size="50" required="true"/>
+  </table>
+</database>

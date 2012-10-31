@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <!-- Uncomment this if you have PEAR Log installed
+  <log>
+    <type>file</type>
+    <name>/path/to/propel.log</name>
+    <ident>propel-bookstore</ident>
+    <level>7</level>
+  </log>
+  -->
+  <propel>
+    <datasources default="social">
+      <datasource id="social">
+        <adapter>mysql</adapter> <!-- sqlite, mysql, mssql, oracle, or pgsql -->
+        <connection>
+          <dsn>mysql:host=localhost;dbname=socss_trikl</dsn>
+          <user>socss_trikl</user>
+          <password>vLL69#e8</password>
+        </connection>
+      </datasource>
+    </datasources>
+  </propel>
+</config>
