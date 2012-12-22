@@ -20,6 +20,7 @@ CREATE TABLE `users`
     `activate_code` VARCHAR(10) NOT NULL,
     `is_activated` INTEGER(1) DEFAULT 1 NOT NULL,
     `avatar_filename` VARCHAR(50) NOT NULL,
+    `banner_filename` VARCHAR(50) NOT NULL,
     `hide_stream` INTEGER(1) DEFAULT 0 NOT NULL,
     `invisible` INTEGER(1) DEFAULT 0 NOT NULL,
     PRIMARY KEY (`id`)
@@ -110,6 +111,54 @@ CREATE TABLE `user_bucket_friend`
     `bucketid` INTEGER(50) NOT NULL,
     `userid` INTEGER(50) NOT NULL,
     PRIMARY KEY (`bucketid`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- galleries
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `galleries`;
+
+CREATE TABLE `galleries`
+(
+    `GalleryID` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `UserID` INTEGER(50) NOT NULL,
+    `GalleryName` VARCHAR(50) NOT NULL,
+    `Date` DATETIME NOT NULL,
+    PRIMARY KEY (`GalleryID`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- photos
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `photos`;
+
+CREATE TABLE `photos`
+(
+    `PhotoID` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `UserID` INTEGER(50) NOT NULL,
+    `GalleryID` INTEGER(50) NOT NULL,
+    `PhotoName` VARCHAR(50) NOT NULL,
+    `Date` DATETIME NOT NULL,
+    PRIMARY KEY (`PhotoID`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- comments
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `comments`;
+
+CREATE TABLE `comments`
+(
+    `PostID` INTEGER(50) NOT NULL,
+    `CommentID` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `UserID` INTEGER(50) NOT NULL,
+    `Date` DATETIME NOT NULL,
+    `Content` VARCHAR(500) NOT NULL,
+    `Tier` INTEGER(11) DEFAULT 0 NOT NULL,
+    PRIMARY KEY (`CommentID`)
 ) ENGINE=MyISAM;
 
 # This restores the fkey checks, after having unset them earlier

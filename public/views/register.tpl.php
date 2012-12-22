@@ -64,63 +64,13 @@ $.validator.addMethod('passreq', function(value, element) {
   });
   </script>
 
-
-
-<style>
-.contents {
-	margin:0 auto;
-	width:223px;
-}
-.LoginButn {
-	height: 192px;
-	position:absolute;
-}
-.error {
-	position:absolute;
-	width:400px;
-	color:#FFF;
-	-webkit-border-top-right-radius: 20px;
-	-webkit-border-bottom-right-radius: 20px;
-	-moz-border-radius-topright: 20px;
-	-moz-border-radius-bottomright: 20px;
-	border-top-right-radius: 20px;
-	border-bottom-right-radius: 20px;
-	text-align: center;
-	box-shadow: 0 0 7px black;
-	background:#000;
-	height:22px;
-	padding-top:3px;
-}
-.reg {
-	position:relative;
-	width:173px;
-	color:#000;
-	margin-top:0px;
-	background:#FFF;
-	border-radius:0px;
-	text-align:left;
-	height:19px;
-	padding-top:0px;
-
-}
-form {
-	margin-left:20px;
-	position: absolute;
-}
-.error.valid {
-	opacity:0;
-}
-</style>
-
 <form id="register" method='post' action="index.php">
-	<input class="reg" id="username" placeholder="USERNAME" type='text' name='username' size='30'><br />
-	<input class="reg" id="password" placeholder="PASSWORD" type='password' name='password' size='30'><br />
-	<input class="reg" id="password_conf" placeholder="CONFIRM PASSWORD" type='password' name='password_conf' size='30'><br />
-	<input class="reg" id="email" placeholder="EMAIL" type='text' name='email' size='30'><br />
-	<input class="reg" id="email_conf" placeholder="CONFIRM EMAIL" type='text' name='email_conf' size='30'><br />
-	<input class="reg" id="firstname" placeholder="FIRST NAME" type='text' name='firstname' size='30'><br />
-	<input class="reg" id="lastname" placeholder="LAST NAME" type='text' name='lastname' size='30'><br />
+	<input class="reg" id="username" placeholder="Username" type='text' name='username' size='30'><br />
+	<input class="reg" id="password" placeholder="Password" type='password' name='password' size='30'>
+	<input class="reg" id="password_conf" placeholder="Confirm Password" type='password' name='password_conf' size='30'><br />
+	<input class="reg" id="email" placeholder="E-Mail" type='text' name='email' size='30'>
+	<input class="reg" id="email_conf" placeholder="Confirm E-Mail" type='text' name='email_conf' size='30'><br />
+	<input class="reg" id="firstname" placeholder="First Name" type='text' name='firstname' size='30'>
+	<input class="reg" id="lastname" placeholder="Last Name" type='text' name='lastname' size='30'><br />
 	<input type='submit' name="register" value="Submit">
-	<input type="submit" value="< Back" class="back" >
-
 </form>

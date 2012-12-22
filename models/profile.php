@@ -7,7 +7,6 @@ class Profile_Model
 		$page = $params['0'];
 		$subpage = $params['1'];
 
-
 		if ($subpage) {
 			$user = UserQuery::create()->findOneByUsername(strtolower($subpage));
 		} else {

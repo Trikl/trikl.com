@@ -24,13 +24,13 @@ abstract class BaseUserPeer
     const TM_CLASS = 'UserTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 11;
+    const NUM_COLUMNS = 12;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 11;
+    const NUM_HYDRATE_COLUMNS = 12;
 
     /** the column name for the ID field */
     const ID = 'users.ID';
@@ -59,6 +59,9 @@ abstract class BaseUserPeer
     /** the column name for the AVATAR_FILENAME field */
     const AVATAR_FILENAME = 'users.AVATAR_FILENAME';
 
+    /** the column name for the BANNER_FILENAME field */
+    const BANNER_FILENAME = 'users.BANNER_FILENAME';
+
     /** the column name for the HIDE_STREAM field */
     const HIDE_STREAM = 'users.HIDE_STREAM';
 
@@ -84,12 +87,12 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[UserPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'username', 'password', 'email', 'FirstName', 'LastName', 'ActivateCode', 'IsActivated', 'AvatarFilename', 'HideStream', 'Invisible', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', 'email', 'firstName', 'lastName', 'activateCode', 'isActivated', 'avatarFilename', 'hideStream', 'invisible', ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::EMAIL, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::ACTIVATE_CODE, UserPeer::IS_ACTIVATED, UserPeer::AVATAR_FILENAME, UserPeer::HIDE_STREAM, UserPeer::INVISIBLE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', 'EMAIL', 'FIRST_NAME', 'LAST_NAME', 'ACTIVATE_CODE', 'IS_ACTIVATED', 'AVATAR_FILENAME', 'HIDE_STREAM', 'INVISIBLE', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'email', 'first_name', 'last_name', 'activate_code', 'is_activated', 'avatar_filename', 'hide_stream', 'invisible', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'username', 'password', 'email', 'FirstName', 'LastName', 'ActivateCode', 'IsActivated', 'AvatarFilename', 'BannerFilename', 'HideStream', 'Invisible', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'username', 'password', 'email', 'firstName', 'lastName', 'activateCode', 'isActivated', 'avatarFilename', 'bannerFilename', 'hideStream', 'invisible', ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::USERNAME, UserPeer::PASSWORD, UserPeer::EMAIL, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::ACTIVATE_CODE, UserPeer::IS_ACTIVATED, UserPeer::AVATAR_FILENAME, UserPeer::BANNER_FILENAME, UserPeer::HIDE_STREAM, UserPeer::INVISIBLE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'USERNAME', 'PASSWORD', 'EMAIL', 'FIRST_NAME', 'LAST_NAME', 'ACTIVATE_CODE', 'IS_ACTIVATED', 'AVATAR_FILENAME', 'BANNER_FILENAME', 'HIDE_STREAM', 'INVISIBLE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'username', 'password', 'email', 'first_name', 'last_name', 'activate_code', 'is_activated', 'avatar_filename', 'banner_filename', 'hide_stream', 'invisible', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -99,12 +102,12 @@ abstract class BaseUserPeer
      * e.g. UserPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'FirstName' => 4, 'LastName' => 5, 'ActivateCode' => 6, 'IsActivated' => 7, 'AvatarFilename' => 8, 'HideStream' => 9, 'Invisible' => 10, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'firstName' => 4, 'lastName' => 5, 'activateCode' => 6, 'isActivated' => 7, 'avatarFilename' => 8, 'hideStream' => 9, 'invisible' => 10, ),
-        BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::EMAIL => 3, UserPeer::FIRST_NAME => 4, UserPeer::LAST_NAME => 5, UserPeer::ACTIVATE_CODE => 6, UserPeer::IS_ACTIVATED => 7, UserPeer::AVATAR_FILENAME => 8, UserPeer::HIDE_STREAM => 9, UserPeer::INVISIBLE => 10, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, 'EMAIL' => 3, 'FIRST_NAME' => 4, 'LAST_NAME' => 5, 'ACTIVATE_CODE' => 6, 'IS_ACTIVATED' => 7, 'AVATAR_FILENAME' => 8, 'HIDE_STREAM' => 9, 'INVISIBLE' => 10, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'first_name' => 4, 'last_name' => 5, 'activate_code' => 6, 'is_activated' => 7, 'avatar_filename' => 8, 'hide_stream' => 9, 'invisible' => 10, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'FirstName' => 4, 'LastName' => 5, 'ActivateCode' => 6, 'IsActivated' => 7, 'AvatarFilename' => 8, 'BannerFilename' => 9, 'HideStream' => 10, 'Invisible' => 11, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'firstName' => 4, 'lastName' => 5, 'activateCode' => 6, 'isActivated' => 7, 'avatarFilename' => 8, 'bannerFilename' => 9, 'hideStream' => 10, 'invisible' => 11, ),
+        BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::USERNAME => 1, UserPeer::PASSWORD => 2, UserPeer::EMAIL => 3, UserPeer::FIRST_NAME => 4, UserPeer::LAST_NAME => 5, UserPeer::ACTIVATE_CODE => 6, UserPeer::IS_ACTIVATED => 7, UserPeer::AVATAR_FILENAME => 8, UserPeer::BANNER_FILENAME => 9, UserPeer::HIDE_STREAM => 10, UserPeer::INVISIBLE => 11, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'USERNAME' => 1, 'PASSWORD' => 2, 'EMAIL' => 3, 'FIRST_NAME' => 4, 'LAST_NAME' => 5, 'ACTIVATE_CODE' => 6, 'IS_ACTIVATED' => 7, 'AVATAR_FILENAME' => 8, 'BANNER_FILENAME' => 9, 'HIDE_STREAM' => 10, 'INVISIBLE' => 11, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'username' => 1, 'password' => 2, 'email' => 3, 'first_name' => 4, 'last_name' => 5, 'activate_code' => 6, 'is_activated' => 7, 'avatar_filename' => 8, 'banner_filename' => 9, 'hide_stream' => 10, 'invisible' => 11, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
     /**
@@ -187,6 +190,7 @@ abstract class BaseUserPeer
             $criteria->addSelectColumn(UserPeer::ACTIVATE_CODE);
             $criteria->addSelectColumn(UserPeer::IS_ACTIVATED);
             $criteria->addSelectColumn(UserPeer::AVATAR_FILENAME);
+            $criteria->addSelectColumn(UserPeer::BANNER_FILENAME);
             $criteria->addSelectColumn(UserPeer::HIDE_STREAM);
             $criteria->addSelectColumn(UserPeer::INVISIBLE);
         } else {
@@ -199,6 +203,7 @@ abstract class BaseUserPeer
             $criteria->addSelectColumn($alias . '.ACTIVATE_CODE');
             $criteria->addSelectColumn($alias . '.IS_ACTIVATED');
             $criteria->addSelectColumn($alias . '.AVATAR_FILENAME');
+            $criteria->addSelectColumn($alias . '.BANNER_FILENAME');
             $criteria->addSelectColumn($alias . '.HIDE_STREAM');
             $criteria->addSelectColumn($alias . '.INVISIBLE');
         }

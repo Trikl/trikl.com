@@ -31,8 +31,9 @@ class Settings_Controller
 		        $settingsModel->createProfile();
 	        }
 	    }
-	    if ($_POST['upload']) {
-		    $settingsModel->avatar();
+
+		if ($_POST['banner']) {
+		    $settingsModel->banner();
 		}
 		if ($_POST['create_bucket']) {
 		    $settingsModel->createBucket();

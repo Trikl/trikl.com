@@ -1,15 +1,12 @@
 <?php
-	/** start mah session foo */
-	    session_start();
-	
 	// Where are we going?
-		$params = explode( "/", $_GET['p'] );
-		$page = $params['0'];
-		if ($page === '' || !$_SESSION['uid']) {
-				$page = 'login';
-		}
+	if ($page === '' || !$_SESSION['uid']) {
+			$page = 'login';
+	}
 	//compute the path to the file
 	$target = SERVER_ROOT . '/controllers/' . $page . '.php';
+	
+
 	
 	//get target
 	if (file_exists($target)) {
@@ -32,6 +29,8 @@
 	}
 	
 	include_once(SERVER_ROOT . '/models/view.php'); 
+		include_once(SERVER_ROOT . '/models/stream.php'); 
+
 	
 	$classes = SERVER_ROOT . '/models/' . $page . '.php';
 	if (file_exists($classes)) {
@@ -40,7 +39,7 @@
 		die('class does not exist');
 	}
 	
+	
 	//once we have the controller instantiated, execute the default function
 	//pass any GET varaibles to the main method
-	
 	$controller->main($subpage);

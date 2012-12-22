@@ -1,3 +1,5 @@
+<div class="notstream">
+
 Friend Request's<br /><br />
 <?php foreach($data['userpanel'] as $request) {
 	    	$me = $request->getFriendid();
@@ -16,3 +18,4 @@ Friend Request's<br /><br />
 <?php } ?>
 
 
+</div>

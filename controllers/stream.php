@@ -14,10 +14,10 @@ class Stream_Controller
      * @param array $getVars the GET variables posted to index.php
      */
     public function main()
-    {
+    { 
     	$streamModel = new Stream_Model;
 		$view = new View_Model($this->template);
-		$view->assign('status', $streamModel->stream());					
+		$view->assign('status', $streamModel->stream());
 
      }
 }

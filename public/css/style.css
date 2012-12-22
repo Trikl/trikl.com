@@ -1,132 +1,86 @@
-BODY {
-	margin: 20px auto;
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: 0 auto;
+	padding: 0;
 	width: 900px;
-	background: #fff;
-	font-family: sans-serif !important;
+	font-family: Verdana, Geneva, sans-serif;
 }
 
-A {
-	color: #000;
-	text-decoration: none;
+.sidebar_left {
+	float:left;
+	background:#ccc;
+	width: 150px;
+	min-height: 100%;
+	margin: auto;
+	margin-top: 204px;
+	position: fixed;
 }
 
-.back {
-	float: left !important;
-}
-
-A:hover {
-	color: purple;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.wrapper {
-	padding: 10px;
-	background: transparent;
-}
-
-.remember {
-	margin-top: 10px;
-	padding-left: 83px;
+.sidebar_left a {
 	color: black;
-	font-size: 10px;
 }
 
-.logo {
-	padding-top: 15%;
-	text-align: center;
+.sidebar_right {
+	float:right;
+	background:#ccc;
+	width: 150px;
+	min-height: 100%;
+	margin: auto;
+	margin-top: 204px;
+	position: fixed;
+	margin-left: 750px;
+}
+
+.contents {
+	width: 500px;
+	margin-top: 150px;
+	float:left;
+	background: #FFFFFF;
+	margin-left: 150px;
+	z-index: 14;
+}
+
+.usr_bg {
+	width: 900px;
+	height: 200px;
+	background: #000;
+	border-bottom: 4px solid #3584D8;
+	position:fixed;
+}
+
+.menu_item {
+	height: 40px;
+	position: relative;
+}
+
+.menu_item:hover {
+	background:white;
+	border-left:3px solid #CCC;
+}
+
+.menu_item .item {
+	margin-left: 10px;
+	position:absolute;
+	top:30%;
+}
+
+.notstream{
+	margin:auto 10px;
+	margin-top: 60px;
 }
 
 .LoginButn {
-	margin: 0 auto;
-	padding: 6px;
-	width: 223px;
-	height: 64px;
-	border: 1px solid #dcdcdc;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	background-color: #3584d8;
-	color: #ffffff;
-	text-align: center;
-	text-decoration: none;
-	font-weight: lighter;
-	font-size: 15px;
+	width:580px;
+	text-align:center;
 }
 
-.LoginButton:hover {
-	background-color:#3584d8;
+input {
+	font-size: 18px;
+	border: 1px solid #CCC!important;
 }
 
-.LoginButton:active {
-	position: relative;
-	top: 1px;
-}
-
- .RegButn {
-	 float: right:;
- }
- 
-.register {
-	float: left !important;	
-	
-}
-
-.LoginButn input {
-	
-}
-
-.LoginButn input[type=submit] {
-	float: right;
-	border: none;
-	background: #3584d8;
-	color: white;
-	cursor: pointer;
-}
-
- .LoginButn a {
-	 float: left;
-	 margin-top: 2px;
-	 margin-left: 4px;
-	 color: white;
- }
- 
- .menu {
-	 float: left;
-	 margin-left: -150px !important;
- }
-
-.page_load_time {
-	position: fixed;
-	right: 5px;
-	bottom: 0;
-	font-size: 12px;
-}
-
-.notification-bar {
-	position:fixed;
-	left: 0;
-	margin-bottom: 2px;
-	padding: 5px 0 5px 0;
-	width: 100%;
-	height: 19px;
-	border-bottom: solid #3584d8;
-	background-color: #414040;
-	color: #4662c9;
-	text-align: center;
-	font-size: 12px;
-	font-family: georgia;
-	top; 0;
-}
-
-.test_fp {
-	border-radius: 5px;
-	margin-top: 2%;
-	width: 900px;
-	height: 600px;
-	background-image: url(/templates/images/here.png);
-}
-
-.test_logo {
-	padding: 15px 0 0 15px;
-}
+:focus { outline: none; }

@@ -49,15 +49,28 @@ class Settings_Model
 	
 	// upload avatar
 	function avatar() {
-		$target = "avatars";  // Saved image location
+		$target = SERVER_ROOT . "/public/avatars";  // Saved image location
 		$allowedExts = array("jpg", "jpeg", "png"); // allowed extensions
 		$temp_filename = pathinfo($_FILES["photo"]["name"]);
 		$filename = $_SESSION['uid'].".".$temp_filename['extension'];
 		$file_target = $target."/".$filename;
-	
 		move_uploaded_file($_FILES["photo"]["tmp_name"], $file_target);
 		$user = UserQuery::create()->findPK($_SESSION['uid']);
 			$user->setAvatarFilename($filename);
+			$user->save();
+
+	}
+	
+	// upload banner
+	function banner() {
+		$target = SERVER_ROOT . "/public/banner";  // Saved image location
+		$allowedExts = array("jpg", "jpeg", "png"); // allowed extensions
+		$temp_filename = pathinfo($_FILES["photo"]["name"]);
+		$filename = $_SESSION['uid'].".".$temp_filename['extension'];
+		$file_target = $target."/".$filename;
+		move_uploaded_file($_FILES["photo"]["tmp_name"], $file_target);
+		$user = UserQuery::create()->findPK($_SESSION['uid']);
+			$user->setBannerFilename($filename);
 			$user->save();
 
 	}

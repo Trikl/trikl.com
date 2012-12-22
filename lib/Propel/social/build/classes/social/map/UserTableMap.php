@@ -47,6 +47,7 @@ class UserTableMap extends TableMap
         $this->addColumn('ACTIVATE_CODE', 'ActivateCode', 'VARCHAR', true, 10, null);
         $this->addColumn('IS_ACTIVATED', 'IsActivated', 'INTEGER', true, 1, 1);
         $this->addColumn('AVATAR_FILENAME', 'AvatarFilename', 'VARCHAR', true, 50, null);
+        $this->addColumn('BANNER_FILENAME', 'BannerFilename', 'VARCHAR', true, 50, null);
         $this->addColumn('HIDE_STREAM', 'HideStream', 'INTEGER', true, 1, 0);
         $this->addColumn('INVISIBLE', 'Invisible', 'INTEGER', true, 1, 0);
         // validators

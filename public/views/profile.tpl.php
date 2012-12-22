@@ -7,12 +7,14 @@ $friendList = $userinfos['friendlist'];
 $showfriend = $userinfos['showfriend'];
 $notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
-
  ?>
+ 
+<div class="profile">
 <?php if (!$notfound) { ?>
-	<h1><?=$title?></h1>
+	<img class="profile_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>" />
+	<h1 class="profile_un"><?=$title?></h1>
 	<?php if ($profile) {  ?>
-		<div style="background:white;">
+		<div class="profile_bio">
 			<ul>
 				<?php if($profile->getBio()) { ?>
 				<li>
@@ -35,13 +37,15 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 		</form>
 	<?php } ?>
 	<br />
-	<span> Friends: <?php echo $nbFriends; ?> </span> <br />
+	<div class="profile_friends">
+	<span> Friends: </span> <br />
 	<?php foreach($friendList as $profriend) {
-		echo '<a href="http://trikl.com/profile/'.$profriend['username'].'">';
+		echo '<a href="/profile/'.$profriend['username'].'">';
 		echo $profriend['firstname']." ".$profriend['lastname'];
 		echo '</a>';
 		echo '<br />';
 	} ?>
+	</div>
 <?php } else { ?>
 	<h1>User Not Found: </h1>
 	<br />
@@ -52,3 +56,5 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 	<br />
 	
 <?php  } ?>
+
+</div>

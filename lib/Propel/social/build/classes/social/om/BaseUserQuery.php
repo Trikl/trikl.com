@@ -15,6 +15,7 @@
  * @method UserQuery orderByActivateCode($order = Criteria::ASC) Order by the activate_code column
  * @method UserQuery orderByIsActivated($order = Criteria::ASC) Order by the is_activated column
  * @method UserQuery orderByAvatarFilename($order = Criteria::ASC) Order by the avatar_filename column
+ * @method UserQuery orderByBannerFilename($order = Criteria::ASC) Order by the banner_filename column
  * @method UserQuery orderByHideStream($order = Criteria::ASC) Order by the hide_stream column
  * @method UserQuery orderByInvisible($order = Criteria::ASC) Order by the invisible column
  *
@@ -27,6 +28,7 @@
  * @method UserQuery groupByActivateCode() Group by the activate_code column
  * @method UserQuery groupByIsActivated() Group by the is_activated column
  * @method UserQuery groupByAvatarFilename() Group by the avatar_filename column
+ * @method UserQuery groupByBannerFilename() Group by the banner_filename column
  * @method UserQuery groupByHideStream() Group by the hide_stream column
  * @method UserQuery groupByInvisible() Group by the invisible column
  *
@@ -45,6 +47,7 @@
  * @method User findOneByActivateCode(string $activate_code) Return the first User filtered by the activate_code column
  * @method User findOneByIsActivated(int $is_activated) Return the first User filtered by the is_activated column
  * @method User findOneByAvatarFilename(string $avatar_filename) Return the first User filtered by the avatar_filename column
+ * @method User findOneByBannerFilename(string $banner_filename) Return the first User filtered by the banner_filename column
  * @method User findOneByHideStream(int $hide_stream) Return the first User filtered by the hide_stream column
  * @method User findOneByInvisible(int $invisible) Return the first User filtered by the invisible column
  *
@@ -57,6 +60,7 @@
  * @method array findByActivateCode(string $activate_code) Return User objects filtered by the activate_code column
  * @method array findByIsActivated(int $is_activated) Return User objects filtered by the is_activated column
  * @method array findByAvatarFilename(string $avatar_filename) Return User objects filtered by the avatar_filename column
+ * @method array findByBannerFilename(string $banner_filename) Return User objects filtered by the banner_filename column
  * @method array findByHideStream(int $hide_stream) Return User objects filtered by the hide_stream column
  * @method array findByInvisible(int $invisible) Return User objects filtered by the invisible column
  *
@@ -162,7 +166,7 @@ abstract class BaseUserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `EMAIL`, `FIRST_NAME`, `LAST_NAME`, `ACTIVATE_CODE`, `IS_ACTIVATED`, `AVATAR_FILENAME`, `HIDE_STREAM`, `INVISIBLE` FROM `users` WHERE `ID` = :p0';
+        $sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `EMAIL`, `FIRST_NAME`, `LAST_NAME`, `ACTIVATE_CODE`, `IS_ACTIVATED`, `AVATAR_FILENAME`, `BANNER_FILENAME`, `HIDE_STREAM`, `INVISIBLE` FROM `users` WHERE `ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -520,6 +524,35 @@ abstract class BaseUserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(UserPeer::AVATAR_FILENAME, $avatarFilename, $comparison);
+    }
+
+    /**
+     * Filter the query on the banner_filename column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBannerFilename('fooValue');   // WHERE banner_filename = 'fooValue'
+     * $query->filterByBannerFilename('%fooValue%'); // WHERE banner_filename LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $bannerFilename The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return UserQuery The current query, for fluid interface
+     */
+    public function filterByBannerFilename($bannerFilename = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($bannerFilename)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $bannerFilename)) {
+                $bannerFilename = str_replace('*', '%', $bannerFilename);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(UserPeer::BANNER_FILENAME, $bannerFilename, $comparison);
     }
 
     /**

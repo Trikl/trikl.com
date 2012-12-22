@@ -85,6 +85,12 @@ abstract class BaseUser extends BaseObject implements Persistent
     protected $avatar_filename;
 
     /**
+     * The value for the banner_filename field.
+     * @var        string
+     */
+    protected $banner_filename;
+
+    /**
      * The value for the hide_stream field.
      * Note: this column has a database default value of: 0
      * @var        int
@@ -223,6 +229,16 @@ abstract class BaseUser extends BaseObject implements Persistent
     public function getAvatarFilename()
     {
         return $this->avatar_filename;
+    }
+
+    /**
+     * Get the [banner_filename] column value.
+     *
+     * @return string
+     */
+    public function getBannerFilename()
+    {
+        return $this->banner_filename;
     }
 
     /**
@@ -435,6 +451,27 @@ abstract class BaseUser extends BaseObject implements Persistent
     } // setAvatarFilename()
 
     /**
+     * Set the value of [banner_filename] column.
+     *
+     * @param string $v new value
+     * @return User The current object (for fluent API support)
+     */
+    public function setBannerFilename($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->banner_filename !== $v) {
+            $this->banner_filename = $v;
+            $this->modifiedColumns[] = UserPeer::BANNER_FILENAME;
+        }
+
+
+        return $this;
+    } // setBannerFilename()
+
+    /**
      * Set the value of [hide_stream] column.
      *
      * @param int $v new value
@@ -529,8 +566,9 @@ abstract class BaseUser extends BaseObject implements Persistent
             $this->activate_code = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->is_activated = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
             $this->avatar_filename = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->hide_stream = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
-            $this->invisible = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+            $this->banner_filename = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->hide_stream = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+            $this->invisible = ($row[$startcol + 11] !== null) ? (int) $row[$startcol + 11] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -539,7 +577,7 @@ abstract class BaseUser extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = UserPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = UserPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating User object", $e);
@@ -778,6 +816,9 @@ abstract class BaseUser extends BaseObject implements Persistent
         if ($this->isColumnModified(UserPeer::AVATAR_FILENAME)) {
             $modifiedColumns[':p' . $index++]  = '`AVATAR_FILENAME`';
         }
+        if ($this->isColumnModified(UserPeer::BANNER_FILENAME)) {
+            $modifiedColumns[':p' . $index++]  = '`BANNER_FILENAME`';
+        }
         if ($this->isColumnModified(UserPeer::HIDE_STREAM)) {
             $modifiedColumns[':p' . $index++]  = '`HIDE_STREAM`';
         }
@@ -821,6 +862,9 @@ abstract class BaseUser extends BaseObject implements Persistent
                         break;
                     case '`AVATAR_FILENAME`':
                         $stmt->bindValue($identifier, $this->avatar_filename, PDO::PARAM_STR);
+                        break;
+                    case '`BANNER_FILENAME`':
+                        $stmt->bindValue($identifier, $this->banner_filename, PDO::PARAM_STR);
                         break;
                     case '`HIDE_STREAM`':
                         $stmt->bindValue($identifier, $this->hide_stream, PDO::PARAM_INT);
@@ -990,9 +1034,12 @@ abstract class BaseUser extends BaseObject implements Persistent
                 return $this->getAvatarFilename();
                 break;
             case 9:
-                return $this->getHideStream();
+                return $this->getBannerFilename();
                 break;
             case 10:
+                return $this->getHideStream();
+                break;
+            case 11:
                 return $this->getInvisible();
                 break;
             default:
@@ -1032,8 +1079,9 @@ abstract class BaseUser extends BaseObject implements Persistent
             $keys[6] => $this->getActivateCode(),
             $keys[7] => $this->getIsActivated(),
             $keys[8] => $this->getAvatarFilename(),
-            $keys[9] => $this->getHideStream(),
-            $keys[10] => $this->getInvisible(),
+            $keys[9] => $this->getBannerFilename(),
+            $keys[10] => $this->getHideStream(),
+            $keys[11] => $this->getInvisible(),
         );
 
         return $result;
@@ -1096,9 +1144,12 @@ abstract class BaseUser extends BaseObject implements Persistent
                 $this->setAvatarFilename($value);
                 break;
             case 9:
-                $this->setHideStream($value);
+                $this->setBannerFilename($value);
                 break;
             case 10:
+                $this->setHideStream($value);
+                break;
+            case 11:
                 $this->setInvisible($value);
                 break;
         } // switch()
@@ -1134,8 +1185,9 @@ abstract class BaseUser extends BaseObject implements Persistent
         if (array_key_exists($keys[6], $arr)) $this->setActivateCode($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setIsActivated($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setAvatarFilename($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setHideStream($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setInvisible($arr[$keys[10]]);
+        if (array_key_exists($keys[9], $arr)) $this->setBannerFilename($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setHideStream($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setInvisible($arr[$keys[11]]);
     }
 
     /**
@@ -1156,6 +1208,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         if ($this->isColumnModified(UserPeer::ACTIVATE_CODE)) $criteria->add(UserPeer::ACTIVATE_CODE, $this->activate_code);
         if ($this->isColumnModified(UserPeer::IS_ACTIVATED)) $criteria->add(UserPeer::IS_ACTIVATED, $this->is_activated);
         if ($this->isColumnModified(UserPeer::AVATAR_FILENAME)) $criteria->add(UserPeer::AVATAR_FILENAME, $this->avatar_filename);
+        if ($this->isColumnModified(UserPeer::BANNER_FILENAME)) $criteria->add(UserPeer::BANNER_FILENAME, $this->banner_filename);
         if ($this->isColumnModified(UserPeer::HIDE_STREAM)) $criteria->add(UserPeer::HIDE_STREAM, $this->hide_stream);
         if ($this->isColumnModified(UserPeer::INVISIBLE)) $criteria->add(UserPeer::INVISIBLE, $this->invisible);
 
@@ -1229,6 +1282,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $copyObj->setActivateCode($this->getActivateCode());
         $copyObj->setIsActivated($this->getIsActivated());
         $copyObj->setAvatarFilename($this->getAvatarFilename());
+        $copyObj->setBannerFilename($this->getBannerFilename());
         $copyObj->setHideStream($this->getHideStream());
         $copyObj->setInvisible($this->getInvisible());
         if ($makeNew) {
@@ -1291,6 +1345,7 @@ abstract class BaseUser extends BaseObject implements Persistent
         $this->activate_code = null;
         $this->is_activated = null;
         $this->avatar_filename = null;
+        $this->banner_filename = null;
         $this->hide_stream = null;
         $this->invisible = null;
         $this->alreadyInSave = false;

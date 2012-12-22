@@ -17,6 +17,8 @@ class View_Model
     /**
      * Accept a template to load
      */
+
+     
     public function __construct($template)
     {
         //compose file name
@@ -31,10 +33,10 @@ class View_Model
              * if we render it now, we wouldn't be able to assign variables
              * to the view!
              */
-            $this->header = $header;
+             
+	        $this->header = $header;
             $this->render = $file;
-            $this->footer = $footer;
-
+	        $this->footer = $footer;
         }        
     }
 

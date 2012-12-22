@@ -29,6 +29,7 @@
     <column name="activate_code" type="varchar" size="10" required="true"/>
     <column name="is_activated" defaultValue="1" type="integer" size="1" required="true"/>
     <column name="avatar_filename" type="varchar" size="50" required="true"/>
+    <column name="banner_filename" type="varchar" size="50" required="true"/>
     <column name="hide_stream" defaultValue="0" type="integer" size="1" required="true"/>
     <column name="invisible" defaultValue="0" type="integer" size="1" required="true"/>
   </table>
@@ -64,5 +65,26 @@
    <table name="user_bucket_friend" phpName="FriendBucket">
     <column name="bucketid" type="integer" size="50" required="true" primaryKey="true"/>
     <column name="userid" type="integer" size="50" required="true"/>
+  </table>
+  <table name="galleries" phpName="Galleries">
+    <column name="GalleryID" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="UserID" type="integer" size="50" required="true"/>
+    <column name="GalleryName" type="varchar" size="50" required="true"/>
+    <column name="Date" type="timestamp" required="true"/>
+  </table>
+    <table name="photos" phpName="Photos">
+    <column name="PhotoID" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="UserID" type="integer" size="50" required="true"/>
+    <column name="GalleryID" type="integer" size="50" required="true"/>
+    <column name="PhotoName" type="varchar" size="50" required="true"/>
+    <column name="Date" type="timestamp" required="true"/>
+  </table>
+  <table name="comments" phpName="Comments">
+    <column name="PostID" type="integer" size="50" required="true"/>
+    <column name="CommentID" type="integer" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="UserID" type="integer" size="50" required="true"/>
+    <column name="Date" type="timestamp" required="true"/>
+    <column name="Content" type="varchar" size="500" required="true"/>
+    <column name="Tier" defaultValue="0" type="integer" size="11" required="true"/>
   </table>
 </database>
