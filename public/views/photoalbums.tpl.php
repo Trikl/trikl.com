@@ -17,8 +17,8 @@
 
 		 			  		$.ajax({  
 							    type: "POST",  
-							    url: "/public/ajax/changealbum.php",
-							    data : { "imageid" : draggable.attr('id') },
+							    url: "/photo",
+							    data : { "imageid" : draggable.attr('id'), "action" : "changealbum" },
 							    success: function(response) {
 								    alert("saved! "+response);
 							    }
@@ -49,31 +49,7 @@
  
     <script type="text/javascript">
         $(document).ready(function() {
-        	var bar = $('.photobar');
-			var percent = $('.photopercent');
-			var status = $('#photostatus');
-        
-            var options = {
-            target: '#photomessage', 
-            url:'/public/ajax/upload.php', 
-		    beforeSend: function() {
-		        status.empty();
-		        var percentVal = '0%';
-		        bar.width(percentVal)
-		        percent.html(percentVal);
-		    },
-		    uploadProgress: function(event, position, total, percentComplete) {
-		        var percentVal = percentComplete + '%';
-		        bar.width(percentVal)
-		        percent.html(percentVal);
-		    }
-            };
 
-            $('#photoupload').submit(function() {
-                $(this).ajaxSubmit(options);
-                return false;
-            });
-            
             
 
           }); 

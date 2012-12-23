@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-	  	<head>
+	  	<head >
 			  	<title><?php if(isset($page_title)) echo $page_title; else echo "trikl"; ?></title>
 				<base href="<?PHP echo SITE_ROOT; ?>">
 				<?php if ($_SESSION['uid']) { ?>
@@ -24,7 +24,7 @@
 			<?php } ?>
 			<div class="contents">
 					<?php if ($_SESSION['uid']) { ?>
-						<form id="makePost" action="/public/ajax/post.php" method="post">
+						<form id="makePost" action="/stream" method="post">
 							<textarea id="makePostTextbox" placeholder="Whats Trikling Through Your Mind?"  class="posttextarea" name="post"></textarea>
 							<div id="options">
 								<li id="subimage"> Upload Picture</li>

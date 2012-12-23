@@ -111,6 +111,30 @@ body,html {
 	background:#CCC url(/public/images/icons/profile.png) no-repeat center;
 }
 
+.makeComment {
+	min-height:42px;
+	width:500px;
+	text-align:center;
+}
+
+.makeComment textarea {
+	width:450px;
+	border:1px solid #CCC!important;
+	background:rgba(0,0,0,0.80);
+	color:#FFF;
+	font-size:16px;
+	line-height:18px;
+	resize:none;
+	min-height:42px;
+}
+
+.makeComment input {
+	width:20px;
+	position: absolute;
+	background:#CCC url(/public/images/icons/profile.png) no-repeat center;
+}
+
+
 .stream {
 	margin:auto;
 	width:540px;
@@ -166,7 +190,7 @@ body,html {
 }
 
 .tags {
-	margin-left: 80px;
+	margin-top:10px;
 }
 
 .tags a {
@@ -183,7 +207,7 @@ body,html {
 .tags h4 {
 	float:right;
 	margin-top:0;
-	width:265px;
+	width:355px;
 }
 
 .tags p {
