@@ -15,4 +15,4 @@ if (file_exists($target)) {
 	die('page does not exist!');
 }
 spl_autoload_register(function ($classes) { require_once $classes . '.php'; });
-$controller->main($subpage);
+$controller->main();
