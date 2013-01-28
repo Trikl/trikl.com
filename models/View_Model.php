@@ -19,7 +19,7 @@ class View_Model
      */
 
      
-    public function __construct($template , $discard)
+    public function __construct($template , $discard = false)
     {
         //compose file name
         $header = SERVER_ROOT . '/public/views/header.tpl.php';
