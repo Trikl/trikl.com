@@ -131,7 +131,7 @@ class Stream_Model {
 	}
 
 
-	function stream($subpage, $postpage, $postid) {
+	function stream($subpage = false, $postpage = false, $postid = false) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
 
 		// Load friends Userid's into array, include logged in user.
