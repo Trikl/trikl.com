@@ -66,9 +66,9 @@ class View_Model
         $info = $this->info;
     
         //render view
-        include($this->header);
-        include($this->render);
-        include($this->footer);
+        if(isset($this->header)) include($this->header);
+        if(isset($this->render)) include($this->render);
+        if(isset($this->footer)) include($this->footer);
 
     }
 }
