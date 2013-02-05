@@ -1,7 +1,7 @@
 RewriteEngine On
 RewriteBase /
 
-RewriteCond %{HTTP_HOST} bitpul.se
+RewriteCond %{HTTP_HOST} trikl.com
 RewriteCond %{REQUEST_URI} !public/
 RewriteRule ^(.*)$ public/index.php?p=$1 [NC]
 
@@ -11,3 +11,10 @@ AuthType Basic
 AuthUserFile /home/socss/domains/trikl.com/.htpasswd 
 AuthGroupFile /dev/null 
 require valid-user
+
+
+php_value upload_max_filesize 32M
+php_value post_max_size 32M
+
+
+php_value include_path ".:/usr/local/lib/php:/home/socss/domains/trikl.com/public_html/lib:/home/socss/domains/trikl.com/public_html/models:/home/socss/domains/trikl.com/public_html/controllers" 
