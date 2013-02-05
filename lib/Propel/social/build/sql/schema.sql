@@ -161,5 +161,97 @@ CREATE TABLE `comments`
     PRIMARY KEY (`CommentID`)
 ) ENGINE=MyISAM;
 
+-- ---------------------------------------------------------------------
+-- message_users
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `message_users`;
+
+CREATE TABLE `message_users`
+(
+    `id` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `MessageID` INTEGER(50),
+    `UserID` INTEGER(50),
+    PRIMARY KEY (`id`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- message_contents
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `message_contents`;
+
+CREATE TABLE `message_contents`
+(
+    `MessageID` INTEGER(50),
+    `ThreadID` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `UserID` INTEGER(50),
+    `Content` VARCHAR(500),
+    `Date` DATETIME,
+    PRIMARY KEY (`ThreadID`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- messages
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `messages`;
+
+CREATE TABLE `messages`
+(
+    `MessageID` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `Date` DATETIME NOT NULL,
+    `Subject` VARCHAR(500) NOT NULL,
+    PRIMARY KEY (`MessageID`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- votes
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `votes`;
+
+CREATE TABLE `votes`
+(
+    `voteid` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `postid` INTEGER(50),
+    `userid` INTEGER(50),
+    `value` INTEGER(50),
+    PRIMARY KEY (`voteid`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- url
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `url`;
+
+CREATE TABLE `url`
+(
+    `urlid` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `urlhost` VARCHAR(255) NOT NULL,
+    `urlpath` VARCHAR(255) NOT NULL,
+    `urlquery` VARCHAR(255) NOT NULL,
+    `contenttype` VARCHAR(255) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `content` VARCHAR(255) NOT NULL,
+    `contentimg` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`urlid`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
+-- post_url
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `post_url`;
+
+CREATE TABLE `post_url`
+(
+    `posturlid` INTEGER(50) NOT NULL AUTO_INCREMENT,
+    `urlid` INTEGER(50),
+    `postid` INTEGER(50),
+    PRIMARY KEY (`posturlid`)
+) ENGINE=MyISAM;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

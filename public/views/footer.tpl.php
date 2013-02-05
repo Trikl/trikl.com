@@ -4,15 +4,47 @@
 	
 		 <div id="right_mouseline">
 	<div id="sidebar_right">
-		Notifications<hr />
-		Slut trikl'd you<br /><br />
-		Trick requested friendship<br /><br />
+		<div id="notifications"></div>
 		Messages <hr /> 
-		messages here <br /><br />
+		<div id="messages">
+		messages here 
+		</div>
 		Who's Online <hr />
 		Trick <br /><br />
 	</div>
  </div>
+ 
+ <script>
+ 	var intval = setInterval(function() {
+		notificationUpdates()
+	}, 300000);
+	notificationUpdates()
+
+	function notificationUpdates() {
+			$.ajax({
+				type: "POST",
+				url: "/global",
+				data: {
+					"action": "getNotifications",
+				},
+				success: function(response){
+					$("#notifications").html(response)
+				}
+			})
+	};
+	function messageUpdates() {
+			$.ajax({
+				type: "POST",
+				url: "/global",
+				data: {
+					"action": "getMessages",
+				},
+				success: function(response){
+					$("#messages").html(response)
+				}
+			})
+	};
+</script>
  
  <?php } ?>
 	</body>

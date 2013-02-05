@@ -1,5 +1,4 @@
 body,html {
-	height:100%;
 	background: #F7F4E2;
 }
 
@@ -7,25 +6,25 @@ body,html {
 	position:fixed;
 	top:0;
 	left:0;
-	display:none;
 	float:left;
-	width:250px;
-	height:100%;
+	width:100px;
 	background:#444;
 	-webkit-box-shadow:inset -18px 0 24px -8px #222;
 	-moz-box-shadow:inset -18px 0 24px -8px #222;
 	box-shadow:inset -18px 0 24px -8px #222;
 	color:#fff;
 	vertical-align:middle;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 #sidebar_right {
 	position:fixed;
 	top:0;
 	right:0;
-	display:none;
 	float:right;
-	width:250px;
+	min-width:100px;
 	height:100%;
 	background:#444;
 	-webkit-box-shadow:inset 18px 0 24px -8px #222;
@@ -104,6 +103,16 @@ body,html {
 	resize:none;
 }
 
+#editPostBox {
+	width:450px;
+	border:1px solid #CCC!important;
+	background:rgba(0,0,0,0.80);
+	color:#FFF;
+	font-size:16px;
+	line-height:18px;
+	resize:none;
+}
+
 #makePost input {
 	top:0;
 	width:40px;
@@ -118,6 +127,7 @@ body,html {
 }
 
 .makeComment textarea {
+	min-height:42px;
 	width:450px;
 	border:1px solid #CCC!important;
 	background:rgba(0,0,0,0.80);
@@ -125,34 +135,34 @@ body,html {
 	font-size:16px;
 	line-height:18px;
 	resize:none;
-	min-height:42px;
 }
 
 .makeComment input {
-	width:20px;
 	position: absolute;
+	width:20px;
 	background:#CCC url(/public/images/icons/profile.png) no-repeat center;
 }
 
 
-.stream {
+
+.messages {
 	margin:auto;
-	width:540px;
-	background:rgba(0,0,0,0.07);
+	width:750px;
+	background:rgba(0,0,0,0.07);	
 }
 
-.stream .post {
+.post {
 	margin:0 5px;
 	min-height:95px;
 	border-bottom:1px solid rgba(0,0,0,0.0980392);
 }
 
-.stream .post p {
+.post p {
 	margin-bottom:0px;
 	min-height:60px;
 }
 
-.stream .post .usr_img {
+.usr_img {
 	float:left;
 	margin:5px;
 	width:80px;
@@ -160,31 +170,55 @@ body,html {
 	border-radius:5px;
 }
 
-.stream .post a {
+.post a {
 	color:#3584D8;
 	text-decoration:none;
 }
 
+.stream {
+	margin:auto;
+	width:740px;
+	background:rgba(0,0,0,0.07);
+}
+
 .stream .post .share {
 	display:none;
-	margin:5px auto 10px;
-	padding-top:10px;
-	width:430px;
-	height:30px;
+	margin: 0 auto;
+	padding:5px;
+	width: 720px;
 	background:#444;
 	color:#000;
 	text-align:center;
 }
 
-.stream .post .postcontents {
+.post .postcontents {
 	padding: 5px;
+	width:680px;
+	display:inline-block;
+	margin-left:40px;
+}
+
+.post .postvotes {
+	display: inline-block;
+	padding: 5px;
+	position:absolute;
+	margin-top: 15px;
+}
+
+.post .urldata {
+	text-align:center;
+	padding-top: 5px;
+}
+
+.post .urldata img {
+	max-width: 730px;
 }
 
 .comment {
 	margin: 10px 25px 0 100px;
 }
 
-.stream .post .date {
+.post .date {
 	float:right;
 	color:rgba(0,0,0,0.43);
 }
@@ -205,9 +239,7 @@ body,html {
 }
 
 .tags h4 {
-	float:right;
 	margin-top:0;
-	width:355px;
 }
 
 .tags p {
@@ -226,22 +258,7 @@ body,html {
 	text-align:left;
 }
 
-.profile_img {
-	float:left;
-}
 
-.profile_un {
-	float:right;
-}
-
-.profile_friends {
-	float:left;
-}
-
-.profile {
-	margin:auto;
-	width:540px;
-}
 
 #newposts {
 	display:none;
@@ -266,7 +283,7 @@ body,html {
 
 .settings {
 	margin: auto;
-	width:740px;
+	width:535px;
 }
 
 #photobar {
@@ -274,15 +291,13 @@ body,html {
 }
 
 .photo {
-	width:200px;
 	display: inline-block;
+	width:200px;
 }
 
-.ui-dialog { position: fixed; top: 0; left: 0; overflow: hidden; padding: .2em; width: 400px !important; }
+.ui-dialog { position: fixed; top: 0; left: 0; overflow: hidden; padding: .2em; width: auto !important; }
 .ui-dialog .ui-dialog-content { position: relative; overflow: auto; padding: .5em 1em; border: 0; background: none; background: #444; zoom: 1; }
 .ui-dialog .ui-dialog-titlebar { position: relative; padding: .4em 1em; height:20px; background:white; }
-
-
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; top: 50%; right: .3em; margin: -10px 0 0 0; padding: 1px; width: 19px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
@@ -291,3 +306,140 @@ body,html {
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { float: right; }
 .ui-dialog .ui-dialog-buttonpane button { margin: .5em .4em .5em 0; cursor: pointer; }
 .ui-dialog .ui-resizable-se { right: 3px; bottom: 3px; width: 14px; height: 14px; }
+
+.proset {
+	text-align:center;
+}
+#avatar {
+	width:80px;
+	height:80px;
+	cursor: pointer;
+}
+#blah {
+	margin: 10px 37% 30px;
+	width:80px;
+	height:80px;
+	border: 1px solid white;
+}
+#imagepreview {
+	display: none;
+}
+h4 {
+	margin:0;
+}
+h5 {
+	display:inline-block;
+	float:left;
+	margin: 0;
+	width:50px;
+	color: rgba(0, 0, 0, 0.43);
+	text-align:left;
+	font-size:18px;
+}
+.LoginButn {
+	width:580px;
+	text-align:center;
+}
+
+textarea, input {
+	border: 1px solid #CCC!important;	
+	font-size: 14px;
+}
+
+.input-field {
+	margin: 0 auto;
+	width:500px;
+	height:80px;
+	text-align:right;
+}
+.small-input-field {
+	margin: 0 auto;
+	width:500px;
+	height:40px;
+}
+.small-input-field textarea {
+}
+.bigtext {
+	float:right;
+}
+
+.smalltext {
+	float:none;
+}
+
+.bigtextlabel {
+	margin-top:20px;
+}
+
+.smalltextlabel {
+	text-align:right;
+}
+fieldset {
+	margin: 0px;
+	padding:20px;
+	border: 1px solid rgba(0, 0, 0, 0.0980392);
+		background: rgba(0, 0, 0, 0.07);
+
+}
+.longlable {
+	width:247px;
+	text-align: right;
+}
+select {
+	margin: 0px;
+	padding: 0px;
+	width: 243px;
+	border: none;
+	background: none;
+	color: #3584D8;
+	font-size: 18px;
+	-webkit-appearance: none;
+}
+.period {
+	display:inline-block;
+	float:left;
+	margin: 0;
+	width:0px;
+	color: rgba(0, 0, 0, 0.43);
+	font-size:18px;
+}
+.privacyfields {
+	border-top:none;
+}
+
+.upvote {
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-bottom: 20px solid #3584D8;
+	cursor: pointer;
+}
+
+.downvote {
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid #444444;
+	cursor: pointer;
+}
+
+.votes {
+	text-align:center;
+}
+
+.notification {
+	height:90px;
+	margin-left:10px;
+	float:left;
+}
+
+.notification img {
+	float:left;
+}
+
+.notification_action {
+	display:none;
+	float:right;
+}

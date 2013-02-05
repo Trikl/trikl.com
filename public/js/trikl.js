@@ -1,4 +1,217 @@
 $(document).ready(function() {
+	function postView() {
+		$(".postcontents").each(function() {
+			var thispost = '#' + $(this).attr('id') + '.postcontents';
+			var thispostid = $(this).attr('id');
+			var thispostedit = '#editpost-' + $(this).attr('id');
+			var posteditor = '#editor-' + thispostid;
+			var thispostdownvote = '#downvote-' + $(this).attr('id');
+			var thispostupvote = '#upvote-' + $(this).attr('id');
+			var share = '#' + $(this).attr('id') + '.share';
+			var comments = '#' + thispostid + '.comments';
+			var urldata = '#' + thispostid + '.urldata';
+			var editoptions = {
+				resetForm: true,
+				clearForm: true,
+				data: {
+					"action": "editpost",
+					"id": $('#editPost').attr('post'),
+				},
+				success: function() {
+					$(posteditor).dialog('close');
+				}
+			};
+			var commentoptions = {
+				resetForm: true,
+				clearForm: true,
+				data: {
+					post: thispostid,
+					"action": "comment",
+				},
+				success: function(response) {
+					alert(response);
+				},
+			};
+			$(thispostedit).click(function() {
+				$('#editPost').ajaxForm(editoptions);
+				$(posteditor).dialog(function() {});
+			});
+			$(thispostupvote).click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"action": "upvote",
+						"id": thispostid,
+					}
+				})
+			});
+			$(thispostdownvote).click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"action": "downvote",
+						"id": thispostid,
+					}
+				})
+			});
+			$(thispost).mouseover(function() {
+				$(share).hide().show();
+			});
+			$('.post').mouseleave(function() {
+				$(share).hide();
+			})
+			$(thispost).toggle(function() {
+				$(thispost).css("background", "rgba(0,0,0,0.10)");
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"URL": $(this).attr('url'),
+						"action": "geturl",
+					},
+					success: function(response) {
+						//alert(response);
+						$(urldata).html(response).show();
+					}
+				})
+				$(comments).show();
+				$('.makeComment').ajaxForm(commentoptions);
+				$('.makeCommentTextbox').autosize();
+			}, function() {
+				$(urldata).hide();
+				$(comments).hide();
+				$(thispost).css("background", "rgba(0,0,0,0.00)");
+			});
+			$("a").click(function(e) {
+				e.stopPropagation();
+			})
+		});
+	};
+	function omnibar() {
+		var commentoptions = {
+			resetForm: true,
+			clearForm: true,
+			data: {
+				"action": "createpost",
+			},
+			success: function(response) {
+				alert(response);
+			}
+		};
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		var streamphoto = {
+			url: '/photo',
+			beforeSend: function() {
+				status.empty();
+				var percentVal = '0%';
+				bar.width(percentVal)
+				percent.html(percentVal);
+			},
+			data: {
+				"action": "upload",
+			},
+			uploadProgress: function(event, position, total, percentComplete) {
+				var percentVal = percentComplete + '%';
+				bar.width(percentVal)
+				percent.html(percentVal);
+			},
+			success: function(response) {
+				$('#makePostTextbox').val($('#makePostTextbox').val() + ' http://trikl.com/photo/' + response);
+				$("#dialog").dialog('close');
+			}
+		};
+		var posttext = '#makePostTextbox';
+		$('#makePost').ajaxForm(commentoptions);
+		$(posttext).autosize().on("keyup", function() {
+			var postdata = $(posttext).val().length;
+			if (postdata > 0) {
+				$('#options').show();
+			} else {
+				$('#options').hide();
+			}
+		});
+		$('#subpost').click(function() {
+			$('#makePost').submit();
+			$(posttext).css('height', '36px');
+			$('#options').stop(true, true).hide("slide", {
+				direction: "up"
+			}, 700);
+		});
+		$('#subimage').click(function() {
+			$("#dialog").dialog(function() {
+				$('#upload').submit(function() {
+					$(this).ajaxSubmit(streamphoto);
+					return false;
+				});
+			});
+		});
+	};
+	function morePosts() {
+		var c = 1;
+		$("#page").click(function() {
+			c++;
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"page": c,
+					"action": "more",
+				},
+				success: function(response) {
+					$(response).appendTo("#streamlist");
+					postView();
+				}
+			})
+		});
+	};
+	function newPosts() {
+		function streamInt() {
+			var intval = setInterval(function() {
+				streamUpdates()
+			}, 15000);
+		};
+		function streamUpdates() {
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"PID": $(".post").attr('id'),
+					"action": "updates",
+				},
+				success: function(response) {
+					if (response > 0) {
+						$("#newposts").html(response + ' new update').show();
+					}
+				},
+			});
+		};
+		$("#newposts").click(function() {
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"PID": $(".post").attr('id'),
+					"action": "new",
+				},
+				success: function(response) {
+					$(response).prependTo("#streamlist"), clearInterval(intval), $("#newposts").hide()
+					streamInt();
+					postView();
+				}
+			})
+		});
+		streamInt();
+	};
+	
+	omnibar();
+	postView();
+	morePosts();
+	newPosts();
+	
 	var current_content = $(".LoginButn").html();
 	$("#register").click(function(e) {
 		e.preventDefault();
@@ -18,234 +231,24 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#left_mouseline').hover(function() {
-		$('#sidebar_left').stop(true, true).show("slide", {
-			direction: "left"
-		}, 500);
-	}, function() {
-		$('#sidebar_left').stop(true, true).hide("slide", {
-			direction: "left"
-		}, 500);
-	});
-	$('#right_mouseline').hover(function() {
-		$('#sidebar_right').stop(true, true).show("slide", {
-			direction: "right"
-		}, 500);
-	}, function() {
-		$('#sidebar_right').stop(true, true).hide("slide", {
-			direction: "right"
-		}, 500);
-	});
-	var uewptens = {
-		resetForm: true,
-		clearForm: true,
-		data: {
-			"action": "createpost",
-		}
-	};
-	$('#makePost').ajaxForm(uewptens);
-	$('#makePostTextbox').autosize();
-	$('#makePostTextbox').keypress(function() {
-		var omni = $('#makePostTextbox').val().length;
-		if (omni > 0) {
-			$('#options').stop(true, true).show("slide", {
-				direction: "up"
-			}, 700);
-		}
-		$('#makePostTextbox').focus(function() {
-			var omni = $('#makePostTextbox').val().length;
-			if (omni > 0) {
-				$('#options').show("slide", {
-					direction: "up"
-				}, 700);
-			}
-		});
-	});
-	$('#subpost').click(function() {
-		$('#makePost').submit();
-		$('#makePostTextbox').css('height', '36px');
-		$('#options').stop(true, true).hide("slide", {
-			direction: "up"
-		}, 700);
-	});
-	var c = 1;
-	$("#page").click(function() {
-		c++;
-		$.ajax({
-			type: "POST",
-			url: "/stream",
-			data: {
-				"page": c,
-				"action": "more",
-			},
-			success: function(response) {
-				$(response).appendTo("#streamlist");
-			}
-		})
-	});
-	var bar = $('.bar');
-	var percent = $('.percent');
-	var status = $('#status');
-	var lulzoptions = {
-		url: '/photo',
-		beforeSend: function() {
-			status.empty();
-			var percentVal = '0%';
-			bar.width(percentVal)
-			percent.html(percentVal);
-		},
-		data: {
-			"action": "upload",
-		},
-		uploadProgress: function(event, position, total, percentComplete) {
-			var percentVal = percentComplete + '%';
-			bar.width(percentVal)
-			percent.html(percentVal);
-		},
-		success: function(response) {
-			alert(response);
-			$('#makePostTextbox').val($('#makePostTextbox').val() + ' http://trikl.com/photo/' + response);
-			$("#dialog").dialog('close');
-		}
-	};
-	$('#upload').submit(function() {
-		$(this).ajaxSubmit(lulzoptions);
-		return false;
-	});
-	$('#subimage').click(function() {
-		$("#dialog").dialog(function() {});
-	});
-	var info = $(".post").attr('id');
-	var data = '#' + info + '.post';
-	$(data).click(function() {
-		var info = $(".post").attr('id');
-		$(data).show();
-		var options = {
-			resetForm: true,
-			clearForm: true,
-			url: "/stream",
-			data: {
-				post: info,
-				"action": "comment",
-			},
-			success: function(response) {
-				alert(response);
-			},
-		};
-		$('.makeComment').ajaxForm(options);
-		$('.makeCommentTextbox').autosize();
-	});
-	var sharediv = $(".post").each(function () {
-		var share = '#' + $(this).attr('id') + '.share';
-		var thispost = '#' + $(this).attr('id') + '.post';
-		$(thispost).mouseover(function() {
-			$(share).hide();
-			$(share).show();
-		});
-		$('.post').mouseleave(function() {
-			$(share).hide();
-		})
-	});
-	var intval = setInterval(function() {
-		streamUpdates()
-	}, 3000);
-
-	function getResponse(response) {
-		var b = 0;
-		if (response > b) {
-			$("#newposts").show();
-			$("#newposts").html(response + ' new update')
-		}
-	};
-
-	function streamUpdates(last) {
-		var a = $(".post").attr('id');
-		if (last != 'undefined' && last) {
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"PID": last,
-					"action": "updates",
-				},
-				success: getResponse
-			})
-		}
-		if (a) {
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"PID": a,
-					"action": "updates",
-				},
-				success: getResponse
-			})
-		}
-	};
-	$("#newposts").click(function() {
-		var a = $(".post").attr('id');
-		$.ajax({
-			type: "POST",
-			url: "/stream",
-			data: {
-				"PID": a,
-				"action": "new",
-			},
-			success: function(response) {
-				$(response).prependTo("#streamlist"), clearInterval(intval), $("#newposts").hide()
-				var intval = setInterval(function() {
-					streamUpdates(last)
-				}, 15000);
-			}
-		})
-	});
-	$(".postcontents").each(function() {
-		var share = '#' + $(this).attr('id') + '.share';
-		var thispost = '#' + $(this).attr('id') + '.postcontents';
-		$(thispost).toggle(function() {
-			$(this).css("background", "rgba(0,0,0,0.10)");
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"URL": $(this).attr('url'),
-					"action": "geturl",
-				},
-				dataType: "json",
-				success: function(response) {
-					$(thispost).each(function() {
-						var fuck = '#' + $(thispost).attr('id') + '.urldata';
-						$(fuck).html(response);
-						$(fuck).show();
-					})
-				}
-			})
-			var info = $(this).attr('id');
-			var comments = '#' + $(this).attr('id') + '.comments';
-			$(comments).show();
-			var options = {
-				resetForm: true,
-				clearForm: true,
-				data: {
-					post: info,
-				},
-				success: function(response) {
-					alert(response);
-				},
-			};
-			$('.makeComment').ajaxForm(options);
-			$('.makeCommentTextbox').autosize();
-		}, function() {
-			$(thispost).each(function() {
-				var fuck = '#' + $(thispost).attr('id') + '.urldata';
-				var comments = '#' + $(this).attr('id') + '.comments';
-				$(fuck).hide();
-				$(comments).hide();
-				$(thispost).css("background", "rgba(0,0,0,0.00)");
-			})
-		});
-	});
+//	$('#left_mouseline').hover(function() {
+//		$('#sidebar_left').stop(true, true).show("slide", {
+//			direction: "left"
+//		}, 500);
+//	}, function() {
+//		$('#sidebar_left').stop(true, true).hide("slide", {
+//			direction: "left"
+//		}, 500);
+//	});
+//	$('#right_mouseline').hover(function() {
+//		$('#sidebar_right').stop(true, true).show("slide", {
+//			direction: "right"
+//		}, 500);
+//	}, function() {
+//		$('#sidebar_right').stop(true, true).hide("slide", {
+//			direction: "right"
+//		}, 500);
+//	});
 	var bar = $('.photobar');
 	var percent = $('.photopercent');
 	var status = $('#photostatus');
@@ -272,4 +275,3 @@ $(document).ready(function() {
 		return false;
 	});
 });
-

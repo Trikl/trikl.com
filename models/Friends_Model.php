@@ -10,6 +10,56 @@ class Friends_Model
                 $buckets = BucketQuery::create()->findByUserid($_SESSION['uid']);
                 $hasbuckets = BucketQuery::create()->findOneByUserid($_SESSION['uid']);
                 $nbFriends = FriendQuery::create()->filterByUserid($_SESSION['uid'])->count($con);
+
+		if ($user) {
+			$profile = ProfileQuery::create()->findPK($user->getId());
+			$nbFriends = FriendQuery::create()->filterByUserid($user->getId())->count($con);
+		
+			if ($userid != $user->getId() && $userid && $user->getId()) {
+				$friends = FriendQuery::create()
+				->filterByUserid($_SESSION['uid'])
+				->filterByFriendid($user->getId())
+				->findOne();
+		
+				if ($friends) {
+				$bucket = FriendBucketQuery::create()
+				->filterByUserid($friends->getUserid())
+				->findOne();
+				}
+			}
+			if ($nbFriends > 0) {
+				$friendslist = FriendQuery::create()
+					->filterByUserid($user->getId())
+					->find();
+							
+				// Load friends Userid's into array, include logged in user.
+				foreach ($friendslist as $friendlist) {
+					$friendid = $friendlist->getFriendid();
+					$groupid = $friendlist->getGroupid();
+					$aFriends[$groupid] = $friendid;
+				}
+				
+				foreach ($aFriends as $aFriend) {
+					$myfriend = UserQuery::create()
+						->findPK($aFriend);
+										
+						$friendList[] = array (
+							"username" => $myfriend->getUsername(),
+							"firstname" => $myfriend->getFirstname(),
+							"lastname" => $myfriend->getLastname(),
+						);
+						
+				
+					if ($_SESSION['uid']) {
+						if ($aFriend === $_SESSION['uid'] || $user->getId() === $_SESSION['uid']) {
+							$showfriend = 1;
+						}
+					}
+				}
+			}
+		} else {
+			$notfound = 1;
+		}
                 
                 $info = array (
                         "user" => $user,
@@ -19,46 +69,12 @@ class Friends_Model
                         "buckets" => $buckets,
                         "hasbuckets" => $hasbuckets,
                         "nbFriends" => $nbFriends,
-                );
-                
-                return $info;
-
-                        if ($userid != $user->getId() && $userid && $user->getId()) {
-                                $friends = FriendQuery::create()
-                                ->filterByUserid($_SESSION['uid'])
-                                ->filterByFriendid($user->getId())
-                                ->findOne();
-                
-                                if ($friends) {
-                                $bucket = FriendBucketQuery::create()
-                                ->filterByUserid($friends->getUserid())
-                                ->findOne();
-                                }
-                        }
-                        if ($nbFriends > 0) {
-                                $friendslist = FriendQuery::create()
-                                        ->filterByUserid($user->getId())
-                                        ->find();
-                                                        
-                                // Load friends Userid's into array.
-                                foreach ($friendslist as $friendlist) {
-                                        $friendid = $friendlist->getFriendid();
-                                        $groupid = $friendlist->getGroupid();
-                                        $aFriends[$groupid] = $friendid;
-                                }
-                                
-                                foreach ($aFriends as $aFriend) {
-                                        $myfriend = UserQuery::create()
-                                                ->findPK($aFriend);
-                                                                                
-                                                $friendList[] = array (
-                                                        "username" => $myfriend->getUsername(),
-                                                        "firstname" => $myfriend->getFirstname(),
-                                                        "lastname" => $myfriend->getLastname(),
-                                                );
-                               }
-                        }                 
-                return $friendsList;  
+                        "friendlist" => $friendList,
+                        "showfriend" => $showfriend,
+                        "notfound" => $notfound,
+                        
+                );                        
+                return $info;  
         }
 }
 ?>

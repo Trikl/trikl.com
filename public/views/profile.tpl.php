@@ -9,6 +9,37 @@ $notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
  ?>
  
+ <style>
+ .profile {
+ 	margin:auto;
+	width:540px;
+	 background: rgba(0, 0, 0, 0.07);
+	 height: 150px;
+	 padding:10px;
+	 border: 1px solid rgba(0, 0, 0, 0.0980392);
+ }
+ .profile li {
+	 display:block;
+ }
+ .profile_bio {
+	 float:right;
+ }
+ .profile_img {
+ 	float:left;
+	 width:80px;
+	 height:80px;
+	 border-radius: 5px;
+}
+.profile_un {
+	margin-top:0px;
+	margin-left:85px;
+
+}
+.profile_friends {
+	float:left;
+}
+ </style>
+ 
 <div class="profile">
 <?php if (!$notfound) { ?>
 	<img class="profile_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>" />
@@ -36,6 +67,8 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 			<input type="Submit" name="submit" value="Friend Me!">
 		</form>
 	<?php } ?>
+</div>
+<!--
 	<br />
 	<div class="profile_friends">
 	<span> Friends: </span> <br />
@@ -55,6 +88,4 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 	<br />
 	<br />
 	
-<?php  } ?>
-
-</div>
+<?php  } ?> -->

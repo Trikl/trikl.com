@@ -1,34 +1,14 @@
 <?php
 class Stream_Model {
-	function auto_link_text($text) {
-		$pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
-		$callback = create_function('$matches', '
-		$url       = array_shift($matches);
-		$url_parts = parse_url($url);
-
-		$text = parse_url($url, PHP_URL_HOST) . parse_url($url, PHP_URL_PATH);
-		$text = preg_replace("/^www./", "", $text);
-
-		$last = -(strlen(strrchr($text, "/"))) + 1;
-		if ($last < 0) {
-   	        $text = substr($text, 0, $last) . "&hellip;";
-       }
-
-       	return sprintf(\'<a rel="nofollow" href="%s">%s</a>\', $url, $text);
- 	      ');
-
-		return preg_replace_callback($pattern, $callback, $text);
-	}
 
 
 	function link_parse($text) {
-		preg_match('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', $text, $link);
-		if ($link['0']) {
-			return $link['0'];
+		preg_match_all('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', $text, $link);
+		if ($link[0]) {
+			return $link[0];
 		}
 
 	}
-
 
 	function ago($datefrom, $dateto=-1) {
 		// Defaults and assume if 0 is passed in that
@@ -130,7 +110,6 @@ class Stream_Model {
 		return $res;
 	}
 
-
 	function stream($subpage = false, $postpage = false, $postid = false) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
 
@@ -175,7 +154,7 @@ class Stream_Model {
 				'bucket' => $posts->getBucketid(),
 				'text' => $text,
 				'uid' => $posts->getUserid(),
-				'url' => $url,
+				'url' => $this->get_url($posts->getPostid()),
 			);
 
 		} else {
@@ -206,8 +185,6 @@ class Stream_Model {
 				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
 				$text = nl2br($text);
 
-
-
 				$datefrom = $p->getDate();
 				$date = $this->ago($datefrom);
 				$commentquery = CommentsQuery::create()->filterByPostID($p->getPostid())->find();
@@ -223,6 +200,17 @@ class Stream_Model {
 					);
 				}
 
+
+				$votesquery = VotesQuery::create()->filterByPostID($p->getPostid())->find();
+				foreach ($votesquery as $vote) {
+					$votetally = $votetally+$vote->getValue();
+					if (is_int($votetally)) {
+						//kk
+					} else {
+						$votetally = 0;
+					}
+				}
+
 				$parsedPost[] = array(
 					'user' => UserQuery::create()->findPK($p->getUserid()),
 					'date' => $date,
@@ -230,29 +218,120 @@ class Stream_Model {
 					'bucket' => $p->getBucketid(),
 					'text' => $text,
 					'uid' => $p->getUserid(),
-					'url' => $url,
+					'url' => $this->get_url($p->getPostid()),
 					'comments' => $comments,
+					'votetally' => $votetally,
 				);
-
+				unset($votetally);
 				unset($comments);
 			}
 		}
 		return $parsedPost;
 	}
 
-
 	function post($contents) {
 		$contents = strip_tags($contents);
+		$urls = $this->link_parse($contents);
 		if ($contents) {
 			$post = new Status();
 			$post->setUserid($_SESSION['uid']);
 			$post->setBucketid('0');
-			$post->setStatus(strip_tags($contents));
+			$post->setStatus($contents);
 			$post->setDate(date("r"));
 			$post->save();
+
+			foreach ($urls as $url) {
+				$urlid = $this->write_url($url);
+
+				$post_url = new PostUrl();
+				$post_url->setUrlid($urlid);
+				$post_url->setPostid($post->getPostid());
+				$post_url->save();
+			}
 		}
 	}
 
+	function write_url($url) {
+		$url = parse_url($url);
+
+		if ($url['query']) {
+			$query = $url['query'];
+		} else {
+			$query = ' ';
+		}
+
+		$urlquery = UrlQuery::create()
+		->filterByUrlhost($url['host'])
+		->filterByUrlpath($url['path'])
+		->filterByUrlquery($query)
+		->findOne();
+		
+		$urldata = $this->urldata($url);
+
+	//	if ($urlquery) {
+	//		return $urlquery->getUrlid();
+	//	} else {
+			$urldb = new Url();
+			$urldb->setUrlhost($url['host']);
+			$urldb->setUrlpath($url['path']);
+			$urldb->setUrlquery($url['query']);
+			$urldb->setContenttype($urldata['type']);
+			$urldb->setTitle($urldata['title']);
+	//		$urldb->setContent($urldata['desc']);
+	//		$urldb->setContentimg($urldata['image']);
+			$urldb->save();
+
+			return $urldb->getUrlid();
+	//}
+
+	}
+
+	function get_url($postid) {
+		$urlquery = PostUrlQuery::create()->findByPostid($postid);
+		unset($urldata);
+		foreach ($urlquery as $url) {
+			$urldata[] = $url->getUrlid();
+		}
+		return $urldata;
+	}
+	
+	function urldata($url) {
+			$fullurl = "http://" . $url['host'] . $url['path'] . $url['query'];
+			header('X-Frame-Options: GOFORIT');
+			require_once 'OpenGraph.php';
+			$graph = OpenGraph::fetch($fullurl);
+			foreach ($graph as $key => $value) {
+				$data[$key] = $value;
+			}
+			if ($data['title']) {
+				$title = $data['title'];
+				$type = $data['type'];
+			} else {
+				$twitter = get_meta_tags('http://imgur.com/gallery/mkt7y');
+				var_dump($twitter);
+				$title = $twitter['twitter:title'];
+				$type = $twitter['twitter:card'];
+			}
+			
+			$urldata = array(
+				"title" => $title,
+				"image" => $data['image'],
+				"desc" => $data['description'],
+				"type" => $type,
+			);
+			return $urldata;
+	}
+	
+	function edit_post($contents) {
+		$contents = strip_tags($_POST['edit']);
+		if ($contents) {
+			$post = StatusQuery::create()
+			->filterByPostid($_POST['id'])
+			->findOne();
+			$post->setStatus($contents);
+			$post->save();
+		}
+	}
 
 	function updates($lastpost) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
@@ -284,7 +363,6 @@ class Stream_Model {
 		echo $posts;
 	}
 
-
 	function comment($commentcon) {
 		$commentcon['comment'] = strip_tags($commentcon['comment']);
 		if ($commentcon['comment']) {
@@ -300,53 +378,138 @@ class Stream_Model {
 		echo "saved!";
 	}
 
-
-	function geturl($url) {
-		switch ($url['host']) {
-		case 'imgur.com':
-			$image = explode('/', $url['path']);
-			$newPost .= "<img width='520' src='http://i.imgur.com/" . $image[2] . ".png' />";
-			break;
-		case 'trikl.com':
-			$image = explode('/', $url['path']);
-			$newPost .= "<img width='520' src='/public/photos/" . $image[2] . "' />";
-			break;
-		default:
-			header('X-Frame-Options: GOFORIT');
-			require_once 'OpenGraph.php';
-			$graph = OpenGraph::fetch($_POST['URL']);
-			foreach ($graph as $key => $value) {
-				$data[$key] = $value;
+	function upvote($data) {
+		// First check to see if a user has voted on this particular post before
+		$vote = VotesQuery::create()
+		->filterByPostid($data['id'])
+		->filterByUserid($_SESSION['uid'])
+		->findOne();
+		// if user has
+		if ($vote) {
+			echo "user has voted";
+			// check to see if that vote was NOT an upvote, and if it wasn't, then reverse the vote.
+			if ($vote->getValue() == -1) {
+				$vote->setValue('1');
+				$vote->save();
 			}
-			switch ($data['type']) {
-			case  'video':
-				$video = parse_url($data['url']);
-				switch ($video['host']) {
-				case 'www.youtube.com':
-					parse_str($video['query'], $string);
-					$newPost .= "<iframe width='520' height='315' src='http://www.youtube.com/embed/" . $string[v] . "' frameborder='0' allowfullscreen></iframe>";
-					break;
-				case 'vimeo.com':
-					$newPost .= "<iframe src='http://player.vimeo.com/video" . $video['path'] . "?badge=0&amp;color=ffffff' width='520' height='315' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
-				}
-				break;
-				break;
-			default:
-				if ($data['image']) {
-					$newPost .= "<div class='tags'>";
-					$newPost .= "<a href='" . $data['url'] . "'>";
-					$newPost .= "<img class='card_img' src='" . $data['image'] . "'/>";
-					$newPost .= "<h4>" . $data['title'] . "</h4>";
-					$newPost .= "<p>" . $data['description'] . "</p>";
-					$newPost .= "<br />";
-					$newPost .= "</a>";
-					$newPost .= "</div>";
-				}
-			}
-
+		} else {
+			echo "user has NOT voted";
+			// make their vote count.
+			$newvote = new Votes();
+			$newvote->setPostid($data['id']);
+			$newvote->setUserid($_SESSION['uid']);
+			$newvote->setValue('1');
+			$newvote->save();
 		}
-		echo json_encode($newPost, JSON_FORCE_OBJECT);
 	}
 
+	function downvote($data) {
+		// First check to see if a user has voted on this particular post before
+		$vote = VotesQuery::create()
+		->filterByPostid($data['id'])
+		->filterByUserid($_SESSION['uid'])
+		->findOne();
+		// if user has
+		if ($vote) {
+			echo "user has voted";
+			// check to see if that vote was NOT a downvote, and if it wasn't, then reverse the vote.
+			if ($vote->getValue() == 1) {
+				$vote->setValue('-1');
+				$vote->save();
+			}
+		} else {
+			echo "user has NOT voted";
+			// make their vote count.
+			$newvote = new Votes();
+			$newvote->setPostid($data['id']);
+			$newvote->setUserid($_SESSION['uid']);
+			$newvote->setValue('-1');
+			$newvote->save();
+		}
+	}
 
+	function urlinfo($url) {
+		$urls = explode('-', $url);
+		foreach ($urls as $urlid) {
+			if ($urlid !== '') {
+				$urldata = UrlQuery::create()->findOneByUrlid($urlid);
+				$urlhost = $urldata->getUrlhost();
+				$urlpath = $urldata->getUrlpath();
+				$type = $urldata->getContenttype();
+				$title = $urldata->getTitle();
+				$content = $urldata->getContent();
+				$img = $urldata->getContentimg();
+				$fullurl = "http://" . $urlhost . $urlpath;
+				
+				switch ($urlhost) {
+				case 'imgur.com':
+					$image = explode('/', $urlpath);
+					$newPost = "<img src='http://i.imgur.com/" . $image[2] . ".png' />";
+					break;
+				case 'trikl.com':
+					$image = explode('/', $urlpath);
+					$newPost = "<img src='/public/photos/" . $image[2] . "' />";
+					break;
+				default:
+					switch ($type) {
+					case  'video':
+						$video = parse_url($fullurl);
+						switch ($video['host']) {
+						case 'www.youtube.com':
+							parse_str($video['query'], $string);
+							$newPost .= "<iframe width='730' height='411' src='http://www.youtube.com/embed/" . $string[v] . "' frameborder='0' allowfullscreen></iframe>";
+							break;
+						case 'vimeo.com':
+							$newPost .= "<iframe src='http://player.vimeo.com/video" . $video['path'] . "?badge=0&amp;color=ffffff' width='520' height='315' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
+						}
+						break;
+						break;
+					default:
+						if ($img) {
+							$newPost .= "<div class='tags'>";
+							$newPost .= "<a href='" . $fullurl . "'>";
+							$newPost .= "<img class='card_img' src='" . $img . "'/>";
+							$newPost .= "<h4>" . $title . "</h4>";
+							$newPost .= "<p>" . $content . "</p>";
+							$newPost .= "<br />";
+							$newPost .= "</a>";
+							$newPost .= "</div>";
+						}
+					}
+
+				}
+				echo $newPost;
+				unset($newPost);
+
+			}
+		}
+	}
+	
+	function auto_link_text($text) {
+		$pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
+		$callback = create_function('$matches', '$url = array_shift($matches); return $url;');
+		$url = preg_replace_callback($pattern, $callback, $text);
+		
+		$urlinfo = parse_url($url);
+
+		if ($urlinfo ['query']) {
+			$query = $url['query'];
+		} else {
+			$query = ' ';
+		}
+
+		$urlquery = UrlQuery::create()
+		->filterByUrlhost($urlinfo ['host'])
+		->filterByUrlpath($urlinfo ['path'])
+		->filterByUrlquery($query)
+		->find();
+
+		foreach ($urlquery as $urltitle) {
+			$title = $urltitle->getTitle();
+			return "<a target='_blank' href='" . $url . "'>" . $title . "</a>";
+
+		}
+					
+		
+	}
 }

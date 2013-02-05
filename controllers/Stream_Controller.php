@@ -40,7 +40,16 @@ class Stream_Controller
 			$streamModel->comment($_POST);
 			break;
 		case 'geturl':
-			$streamModel->geturl($_POST['URL']);
+			$streamModel->urlinfo($_POST['URL']);
+			break;
+		case 'editpost':
+			$streamModel->edit_post($_POST['post']);
+			break;
+		case 'upvote':
+			$streamModel->upvote($_POST);
+			break;
+		case 'downvote':
+			$streamModel->downvote($_POST);
 			break;
 		default:
 			$view = new View_Model($this->template);

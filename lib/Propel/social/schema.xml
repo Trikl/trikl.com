@@ -87,4 +87,42 @@
     <column name="Content" type="varchar" size="500" required="true"/>
     <column name="Tier" defaultValue="0" type="integer" size="11" required="true"/>
   </table>
+<table name="message_users" phpName="UserMessage">
+	<column name="id" type="INTEGER" size="50" primaryKey="true" autoIncrement="true"/>
+	<column name="MessageID" type="INTEGER" size="50" />
+	<column name="UserID" type="INTEGER" size="50" />
+</table>
+<table name="message_contents" phpName="MessageContents">
+	<column name="MessageID" type="INTEGER" size="50" />
+	<column name="ThreadID" type="INTEGER" size="50" primaryKey="true" autoIncrement="true"/>
+	<column name="UserID" type="INTEGER" size="50" />
+	<column name="Content" type="VARCHAR" size="500" />
+	<column name="Date" type="timestamp"/>
+</table>
+<table name="messages">
+	<column name="MessageID" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="Date" type="timestamp" required="true"/>
+	<column name="Subject" type="VARCHAR" size="500" required="true"/>
+</table>
+<table name="votes">
+	<column name="voteid" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="postid" type="INTEGER" size="50" />
+	<column name="userid" type="INTEGER" size="50" />
+	<column name="value" type="INTEGER" size="50" />
+</table>
+<table name="url">
+	<column name="urlid" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="urlhost" type="VARCHAR" size="255" required="true"/>
+	<column name="urlpath" type="VARCHAR" size="255" required="true"/>
+	<column name="urlquery" type="VARCHAR" size="255" required="true"/>
+	<column name="contenttype" type="VARCHAR" size="255" required="true"/>
+	<column name="title" type="VARCHAR" size="255" required="true"/>
+	<column name="content" type="VARCHAR" size="255" required="true"/>
+	<column name="contentimg" type="VARCHAR" size="255" required="true"/>
+</table>
+<table name="post_url" phpName="PostUrl">
+	<column name="posturlid" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="urlid" type="INTEGER" size="50" />
+	<column name="postid" type="INTEGER" size="50" />
+</table>
 </database>

@@ -23,6 +23,10 @@ class Photo_Controller
 			$photoModel = new Photo_Model;
 			$photoModel->upload($_FILES);
 			break;
+		case "uploadavatar":
+			$photoModel = new Photo_Model;
+			$photoModel->upload($_FILES);
+			break;
 		case 'changealbum':
 			$photoModel = new Photo_Model;
 			$photoModel->changealbum($_POST['imageid']);

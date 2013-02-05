@@ -13,6 +13,8 @@
 				<script type="text/javascript" src="<?php echo 'public/js/jquery.autosize-min.js'?>"></script>
 				<script type="text/javascript" src="<?php echo 'public/js/trikl.js'?>"></script>
 				<script type="text/javascript" src="<?php echo 'public/js/jquery.form.js'?>"></script>
+				<head profile="http://www.w3.org/2005/10/profile">
+				<link rel="icon" type="image/png" href="http://trikl.com/public/favicon.ico">
 				<meta charset="UTF-8">
 		</head>
 			<?php if ($_SESSION['uid']) { ?>
