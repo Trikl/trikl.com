@@ -56,10 +56,10 @@
 			$("#avatardialog").dialog(function() {});
 		});
 		            
-		               	var bar = $('.bannbar');
+		    var bar = $('.bannbar');
 			var percent = $('.bannpercent');
 			var status = $('#bannstatus');
-			var options = {
+			var banneroptions = {
 				target: '#bannmessage',
 				url: '/photo',
 				beforeSend: function() {
@@ -78,7 +78,7 @@
 				}
 			};			
 			$('#bannupload').submit(function() {
-				$(this).ajaxSubmit(options);
+				$(this).ajaxSubmit(banneroptions);
 				return false;
 			});
 		$('#banner').click(function() {
