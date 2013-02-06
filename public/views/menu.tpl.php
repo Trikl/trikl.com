@@ -31,11 +31,11 @@
 						<span class="item"><img class="menu_icon" src="public/images/icons/home.png" /> Events</span>
 					</div>
 				</a>
-				<a href="settings">
+				<!-- <a href="settings"> -->
 					<div class="menu_item" id="settings">
 					    <span class="item"><img class="menu_icon" src="public/images/icons/settings_icon.png" /> Settings</span>
 					</div>
-				</a>
+				<!-- </a> -->
 				<a href="logout">
 					<div class="menu_item">
 					    <span class="item"><img class="menu_icon" src="public/images/icons/logout_icon.png" /> Logout</span>

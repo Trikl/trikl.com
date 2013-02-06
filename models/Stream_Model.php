@@ -184,6 +184,7 @@ class Stream_Model {
 				$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
 				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
 				$text = nl2br($text);
+				$textinfo = $text . $p->getStatus();
 
 				$datefrom = $p->getDate();
 				$date = $this->ago($datefrom);
@@ -216,7 +217,7 @@ class Stream_Model {
 					'date' => $date,
 					'pid' => $p->getPostid(),
 					'bucket' => $p->getBucketid(),
-					'text' => $text,
+					'text' => $textinfo,
 					'uid' => $p->getUserid(),
 					'url' => $this->get_url($p->getPostid()),
 					'comments' => $comments,

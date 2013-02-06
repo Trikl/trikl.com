@@ -2,7 +2,7 @@
 		</div>
 				<?php if ($_SESSION['uid']) { ?>
 	
-		 <div id="right_mouseline">
+<!--		 <div id="right_mouseline">
 	<div id="sidebar_right">
 		<div id="notifications"></div>
 		Messages <hr /> 
@@ -12,7 +12,7 @@
 		Who's Online <hr />
 		Trick <br /><br />
 	</div>
- </div>
+ </div> -->
  
  <script>
  	var intval = setInterval(function() {
@@ -28,7 +28,7 @@
 					"action": "getNotifications",
 				},
 				success: function(response){
-					$("#notifications").html(response)
+					$("#notifications").html(response).hide();
 				}
 			})
 	};

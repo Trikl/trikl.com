@@ -18,7 +18,8 @@ class Settings_Controller
     public function main()
     {
         $settingsModel = new Settings_Model;
-    	$view = new View_Model($this->template);
+        			$discard = 1;
+    	$view = new View_Model($this->template, $discard);
 		
         $view->assign('settings', $settingsModel->settings());					
 

@@ -79,18 +79,27 @@ class Photo_Model {
 
 			echo $name;
 
-			if ($_POST['action'] === "uploadavatar") {
+			switch ($_POST['action']):
+			case 'uploadavatar':
 				$user = UserQuery::create()->findPK($_SESSION['uid']);
 				$user->setAvatarFilename($name);
 				$user->save();
-			} else {
+				break;
+			case 'uploadbanner':
+				$user = UserQuery::create()->findPK($_SESSION['uid']);
+				$user->setBannerFilename($name);
+				$user->save();
+				break;
+			default:
 				$photo = new Photos();
 				$photo->setUserID($_SESSION['uid']);
 				$photo->setGalleryID('0');
 				$photo->setPhotoName($name);
 				$photo->setDate(date("r"));
 				$photo->save();
-			}
+				break;
+			endswitch;
+
 
 		}
 	}

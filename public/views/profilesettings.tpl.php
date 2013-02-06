@@ -16,6 +16,14 @@
 
 <?php } ?>
 
+<?php if ($settings['user']->getBannerFilename()) { ?>
+<h4> Change Banner: </h4><img id="banner" src="/public/banner/<?php echo $settings['user']->getBannerFilename(); ?>">
+
+<?php } else { ?>
+<h4> Change Banner: </h4><img id="banner" src="/public/avatars/">
+
+<?php } ?>
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -47,8 +55,40 @@
 		$('#avatar').click(function() {
 			$("#avatardialog").dialog(function() {});
 		});
-		        }); 
-			        function readURL(input) {
+		            
+		               	var bar = $('.bannbar');
+			var percent = $('.bannpercent');
+			var status = $('#bannstatus');
+			var options = {
+				target: '#bannmessage',
+				url: '/photo',
+				beforeSend: function() {
+					status.empty();
+					var percentVal = '0%';
+					bar.width(percentVal)
+					percent.html(percentVal);
+				},
+				data: {
+					"action": "uploadbanner",
+				},
+				uploadProgress: function(event, position, total, percentComplete) {
+					var percentVal = percentComplete + '%';
+					bar.width(percentVal)
+					percent.html(percentVal);
+				}
+			};			
+			$('#bannupload').submit(function() {
+				$(this).ajaxSubmit(options);
+				return false;
+			});
+		$('#banner').click(function() {
+			$("#bannerdialog").dialog(function() {});
+		});
+    
+		            
+ 		        }); 
+		        
+		    function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
@@ -60,8 +100,8 @@
                 reader.readAsDataURL(input.files[0]);
                 $('#imagepreview').show();
             }
-        }
-
+            
+            }
 
 
     </script>
@@ -82,6 +122,26 @@
     <div class="avaprogress">
         <div class="avabar"></div >
         <div class="avapercent">0%</div >
+    </div>
+</div>  
+
+<div id="bannerdialog" style="display:none;" title="Upload Avatar">
+		<div id=" imagepreview">
+		<h3>Avatar Preview</h3>
+	        <img id="bannerblah" src="#" alt="your image" />
+		</div>
+
+    <div id="bannmessage"></div>
+    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
+                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
+                <input type="submit" id="uploadFile" value="Upload File">
+    </form>
+    <div id="uploader"></div>
+    
+    
+    <div class="avaprogress">
+        <div class="bannbar"></div >
+        <div class="bannpercent">0%</div >
     </div>
 </div>   
         
@@ -113,8 +173,7 @@
 
 </div>
 
-
-<!---
+<!--
 <form method="post" id="usrimgform" enctype="multipart/form-data">
 	<input type="file" name="photo" id="usrimg">
 	<input type="submit" name="upload" value="upload avatar">

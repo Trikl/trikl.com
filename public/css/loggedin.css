@@ -68,8 +68,18 @@ body,html {
 }
 
 .contents {
-	margin:50px auto 0;
-	width:940px;
+	margin:120px auto 0;
+	width:840px;
+}
+
+.header {
+	background: #de7e1d;
+    height: 120px;
+    width: 840px;
+    top: 0;
+    position:fixed;
+    	z-index:99999;
+
 }
 
 .usr_bg {
@@ -86,10 +96,9 @@ body,html {
 #makePost {
 	position:fixed;
 	top:0;
-	z-index:99999;
 	min-height:42px;
 	max-height:200px;
-	width:940px;
+	width:840px;
 	text-align:center;
 }
 
@@ -115,9 +124,7 @@ body,html {
 
 #makePost input {
 	top:0;
-	width:40px;
 	height:100%;
-	background:#CCC url(/public/images/icons/profile.png) no-repeat center;
 }
 
 .makeComment {
@@ -177,7 +184,7 @@ body,html {
 
 .stream {
 	margin:auto;
-	width:740px;
+	width:840px;
 	background:rgba(0,0,0,0.07);
 }
 
@@ -296,8 +303,8 @@ body,html {
 }
 
 .ui-dialog { position: fixed; top: 0; left: 0; overflow: hidden; padding: .2em; width: auto !important; }
-.ui-dialog .ui-dialog-content { position: relative; overflow: auto; padding: .5em 1em; border: 0; background: none; background: #444; zoom: 1; }
-.ui-dialog .ui-dialog-titlebar { position: relative; padding: .4em 1em; height:20px; background:white; }
+.ui-dialog .ui-dialog-content { position: relative; overflow: auto; padding: .5em 1em; border: 0; background: #F7F4E2; zoom: 1; }
+.ui-dialog .ui-dialog-titlebar { position: relative; padding: .4em 1em; height:20px; background:#444; color:white; }
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; top: 50%; right: .3em; margin: -10px 0 0 0; padding: 1px; width: 19px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
@@ -430,16 +437,19 @@ select {
 }
 
 .notification {
-	height:90px;
+	height:50px;
 	margin-left:10px;
-	float:left;
 }
 
 .notification img {
-	float:left;
+	display:inline-block;
 }
 
 .notification_action {
-	display:none;
-	float:right;
+	display:inline-block;
+
+}
+
+.notification_action h3 {
+	display:inline-block;margin: 0;vertical-align: middle;height: 30px;margin-top: -30px;
 }
