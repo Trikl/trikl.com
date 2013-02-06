@@ -11,3 +11,6 @@ Thumbs.db
 public/avatars/*
 public/photos/*
 public/banner/*
+lib/Propel/social/build/classes/social/*
+lib/Propel/social/build/classes/social/om/*
+lib/Propel/social/build/classes/social/map/*
