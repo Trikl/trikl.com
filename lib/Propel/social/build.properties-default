@@ -18,6 +18,7 @@ propel.database = mysql
 #   sqlite::memory:
 #   pgsql:host=localhost;port=5432;dbname=testdb;user=bruce;password=mypass
 #   oci:dbname=//localhost:1521/mydb
+#	MAMP mysql.sock setting for database.url; unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock;
 propel.database.url = mysql:host=localhost;dbname=socss_trikl
 propel.database.user = socss_trikl
 propel.database.password = vLL69#e8
