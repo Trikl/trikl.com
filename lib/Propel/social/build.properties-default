@@ -1,5 +1,23 @@
-# Database driver
+# The name of your project.
+# This affects names of generated files, etc.
+propel.project = social
+
+# The Propel platform that will be used to determine how to build
+# the SQL DDL, the PHP classes, etc.
+# pgsql|mysql|sqlite|mssql|oracle
 propel.database = mysql
 
-# Project name
-propel.project = social
+# The database PDO connection settings at builtime.
+# This setting is required for the sql, reverse, and datasql tasks.
+# Note that some drivers (e.g. mysql, oracle) require that you specify the
+# username and password separately from the DSN, which is why they are
+# available as options.
+# Example PDO connection strings:
+#   mysql:host=localhost;port=3307;dbname=testdb
+#   sqlite:/opt/databases/mydb.sq3
+#   sqlite::memory:
+#   pgsql:host=localhost;port=5432;dbname=testdb;user=bruce;password=mypass
+#   oci:dbname=//localhost:1521/mydb
+propel.database.url = host=localhost;dbname=socss_trikl
+propel.database.user = socss_trikl
+propel.database.password = vLL69#e8
