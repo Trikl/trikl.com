@@ -8,6 +8,13 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# Project generated files #
+###########################
+.htaccess
+lib/include.php
+lib/Propel/social/build.properties
+lib/Propel/social/runtime-conf.xml
 public/avatars/*
 public/photos/*
 public/banner/*
