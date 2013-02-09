@@ -10,7 +10,6 @@ $showfriend = $userinfos['showfriend'];
 $notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
 ?>
-<head>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -85,9 +84,7 @@ $(document).ready(function(){
     </style>
 
     <title><?php echo $title?></title>
-</head>
 
-<body>
     <h2 align="center"><?php echo $title?></h2>
 
     <fieldset>
@@ -133,4 +130,3 @@ $(document).ready(function(){
             <input type="submit" name="submit" value="Friend Me!">
         </form><?php } ?><br>
     </fieldset>
-</body>
