@@ -47,6 +47,7 @@ class Friends_Model
 							"username" => $myfriend->getUsername(),
 							"firstname" => $myfriend->getFirstname(),
 							"lastname" => $myfriend->getLastname(),
+							"avatar" => $myfriend->getAvatarFileName(),
 						);
 						
 				
