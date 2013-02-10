@@ -1,8 +1,6 @@
 <?php
 	unset($urlinfo);
-foreach ($post['url'] as $url) {
-	$urlinfo .= $url . "-";
-}
+if(is_array($post['url'])) foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; }
  ?>
 		<div class="post" id="<?php echo $post['pid']; ?>">
 			<div class="postvotes">
