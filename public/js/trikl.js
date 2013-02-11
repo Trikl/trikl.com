@@ -213,7 +213,7 @@ $(document).ready(function() {
 	newPosts();
 	
 	var current_content = $(".LoginButn").html();
-	$("#register").click(function(e) {
+	$("#registerbtn").click(function(e) {
 		e.preventDefault();
 		$.ajax({
 			url: 'public/views/register.tpl.php',
