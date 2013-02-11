@@ -1,3 +1,4 @@
+
 <script type="text/javascript" src="public/js/jquery-validation/jquery.validate.js"></script>
 <script type="text/javascript">
 jQuery.validator.setDefaults({
@@ -74,3 +75,4 @@ $.validator.addMethod('passreq', function(value, element) {
 	<input class="reg" id="lastname" placeholder="Last Name" type='text' name='lastname' size='30'><br />
 	<input type='submit' name="register" value="Submit">
 </form>
+
