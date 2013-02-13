@@ -241,13 +241,15 @@ class Stream_Model {
 			$post->setDate(date("r"));
 			$post->save();
 
-			foreach ($urls as $url) {
-				$urlid = $this->write_url($url);
-
-				$post_url = new PostUrl();
-				$post_url->setUrlid($urlid);
-				$post_url->setPostid($post->getPostid());
-				$post_url->save();
+			if (is_array($urls)) {
+				foreach ($urls as $url) {
+					$urlid = $this->write_url($url);
+	
+					$post_url = new PostUrl();
+					$post_url->setUrlid($urlid);
+					$post_url->setPostid($post->getPostid());
+					$post_url->save();
+				}
 			}
 		}
 	}
