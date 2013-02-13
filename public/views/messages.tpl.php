@@ -48,7 +48,7 @@
 
 						<?php 
 						
-							foreach ($messages as $message) {
+							if (is_array($messages)) { foreach ($messages as $message) {
 								echo "<div class='message'>";
 								echo "<a href='/messages/" . $message['thread']->getMessageID() . "'>";
 								echo $message['thread']->getDate() . " ";
@@ -61,6 +61,7 @@
 								}
 								echo "<br /><br />";
 								echo "</div>";
+							}
 							}
 						
 						}
