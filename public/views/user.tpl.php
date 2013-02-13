@@ -26,6 +26,16 @@
 								        <div class="percent">0%</div>
 								    </div>						
 							    </div>
+							    <div id="blog" style="display:none;" title="Update Status">
+								<form id="makeBlog" action="/stream" method="post">
+									<textarea id="makeBlogtextbox" placeholder="Whats Trikling Through Your Mind?"  class="posttextarea" name="post"></textarea>
+									<div id="fullsizeopt">
+										<li id="blogimage"> Upload Picture</li>
+										<li id="blogpost"> Post </li>
+										<li> Search [incomplete] </li>
+									</div>
+								</form>							    </div>
+
 							</div>
 										<div id="newposts"></div>
 
@@ -36,17 +46,7 @@
 							
 
 						
-					<!--	<script>
-						$(document).scroll(function(){
-							    if ($(this).scrollTop()>0){
-							        $('.header').stop().animate({ 'height': 45 },1);
-							        $('.contents').css("margin-top", "45px");
-							        $("#notifications").hide();
-							    } else {
-							        $('.header').stop().animate({ 'height': 120 },0);
-							        $('.contents').css("margin-top", "120px");
-							    }
-						    }); 
+						<script>
 						    
 						    		$('.notif').toggle(function() {
 								        $("#notifications").show();
@@ -59,7 +59,7 @@
 	
 									   		
  
-					    </script> --> 
+					    </script>
 						
 												</div>
 
