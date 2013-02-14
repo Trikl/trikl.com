@@ -1,7 +1,8 @@
 				<?php $user = UserQuery::create()->findPK($_SESSION['uid']); ?>
-
-						<div class="header" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>');">
-						<div id="omnibox"> 
+						<!-- I really fucking hate the user banner idea, it takes away from clean simplicity, so ill leave this here for now: 
+						<div class="header" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>');"> -->
+						<div class="header" style="height:34px;">
+						<div id="omnibox">
 							<?php include 'views/menu.tpl.php'; ?>
 
 							<div id="omnitext">
@@ -39,20 +40,27 @@
 							</div>
 										<div id="newposts"></div>
 
-										<div style="display:inline-block;color:red;font-size:45px;line-height:36px;" class="notif"> ! </div>
 										<br />
-										<div style="background:#CCC;display:hidden !important" id="notifications"></div>
+										<div style="background:#444;display:hidden !important;margin-top:24px;border-top:1px solid #3584D8;" id="notifications"></div>
 							</div>
 							
 
 						
 						<script>
-						    
+						    		// make the ! alert clickable
 						    		$('.notif').toggle(function() {
 								        $("#notifications").show();
 								    }, function() {
 								        $("#notifications").hide();
 								    });
+								    
+								    // make the whole bar clickable
+								    $('#omnibox').toggle(function() {
+								        $("#notifications").show();
+								    }, function() {
+								        $("#notifications").hide();
+								    });
+
 								    
 								    
 

@@ -2,17 +2,6 @@
 		</div>
 				<?php if ($_SESSION['uid']) { ?>
 	
-<!--		 <div id="right_mouseline">
-	<div id="sidebar_right">
-		<div id="notifications"></div>
-		Messages <hr /> 
-		<div id="messages">
-		messages here 
-		</div>
-		Who's Online <hr />
-		Trick <br /><br />
-	</div>
- </div> -->
  
  <script>
  	var intval = setInterval(function() {

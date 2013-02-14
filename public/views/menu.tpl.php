@@ -5,6 +5,8 @@
 <li id="profile"><a  href="profile"> Profile</a></li>
 <li ><a id="settings"> Settings</a></li>
 <li id="logout"><a  href="Logout"> Logout</a></li>
+										<li style="color:red;width:0px;margin-left:10px;font-size:18px;margin-top:-2px;" class="notif"> ! </li>
+
 				</ul>
 
 

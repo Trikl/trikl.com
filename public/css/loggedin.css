@@ -5,7 +5,9 @@ body,html {
 #omnibox {
 	width:940px;
 	height:42px;
-	background:#13375d;
+	//background:#13375d;
+	background:#444;
+
 	position:fixed;
 	top: 0;
 	z-index:999999;
@@ -30,6 +32,8 @@ body,html {
 
 #omnilinks #trikl {
 	color:#3584D8;
+	width:0px;
+	margin: 0 45px 0 15px;
 }
 
 #omnilinks {
@@ -57,7 +61,8 @@ body,html {
 
 #makePost textarea {
 	width:450px;
-	border:1px solid #CCC!important;
+	border:none !important;
+	height:38px;
 	background:rgba(0,0,0,0.80);
 	color:#FFF;
 	font-size:16px;
@@ -194,7 +199,7 @@ body,html {
 
 .post .postcontents {
 	padding: 5px;
-	width:680px;
+	width:875px;
 	display:inline-block;
 	margin-left:40px;
 }

@@ -134,10 +134,10 @@ $(document).ready(function() {
 			} else {
 				$('#options').hide();
 			}
-			if ($(posttext).css('height') > '37') {
+			if ($(posttext).css('height') > '39px') {
 				$("#makeBlogtextbox").html($(posttext).val());
 				$(posttext).val('');
-				$(posttext).css('height', '36px');
+				$(posttext).css('height', '38px');
 				$('#options').stop(true, true).hide("slide", {
 					direction: "up"
 				}, 700);
@@ -146,7 +146,7 @@ $(document).ready(function() {
 		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
-			$(posttext).css('height', '36px');
+			$(posttext).css('height', '38px');
 			$('#options').stop(true, true).hide("slide", {
 				direction: "up"
 			}, 700);
