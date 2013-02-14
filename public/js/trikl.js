@@ -103,6 +103,7 @@ $(document).ready(function() {
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
+		var posttext = '#makePostTextbox';
 		var streamphoto = {
 			url: '/photo',
 			beforeSend: function() {
@@ -120,11 +121,10 @@ $(document).ready(function() {
 				percent.html(percentVal);
 			},
 			success: function(response) {
-				$('#makePostTextbox').val($('#makePostTextbox').val() + ' http://trikl.com/photo/' + response);
+				$(posttext).val($(posttext).val() + ' http://trikl.com/photo/' + response);
 				$("#dialog").dialog('close');
 			}
 		};
-		var posttext = '#makePostTextbox';
 		$('#makePost').ajaxForm(commentoptions);
 		$('#makeBlog').ajaxForm(commentoptions);
 		$(posttext).autosize().on("keyup", function() {
@@ -146,7 +146,10 @@ $(document).ready(function() {
 		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
-
+			$(posttext).css('height', '36px');
+			$('#options').stop(true, true).hide("slide", {
+				direction: "up"
+			}, 700);
 		});
 		
 		$('#blogpost').click(function() {
