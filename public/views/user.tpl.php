@@ -8,11 +8,7 @@
 							<div id="omnitext">
 								<form id="makePost" action="/stream" method="post">
 									<textarea id="makePostTextbox" placeholder="Whats Trikling Through Your Mind?"  class="posttextarea" name="post"></textarea>
-									<div id="options">
-										<li id="subimage"> Upload Picture</li>
-										<li id="subpost"> Post </li>
-										<li> Search [incomplete] </li>
-									</div>
+
 								</form>
 								<div id="dialog" style="display:none;" title="Upload Image">
 								    <div id="message"></div>
@@ -38,27 +34,32 @@
 								</form>							    </div>
 
 							</div>
-										<div id="newposts"></div>
 
 										<br />
-										<div style="background:#444;display:hidden !important;margin-top:24px;border-top:1px solid #3584D8;" id="notifications"></div>
+										<div id="notification">
+											<ul id="options">
+												<li id="subpost"> Post </li>
+												<li id="subimage"> Upload Picture</li>
+												<li> Search [incomplete] </li>
+											</ul>
+											<div id="friendreq"></div>
+											<div id="newmessages"></div>
+											
+										</div>
+										
+																				<div id="newposts"></div>
+
 							</div>
 							
 
 						
 						<script>
-						    		// make the ! alert clickable
-						    		$('.notif').toggle(function() {
-								        $("#notifications").show();
-								    }, function() {
-								        $("#notifications").hide();
-								    });
 								    
 								    // make the whole bar clickable
 								    $('#omnibox').toggle(function() {
-								        $("#notifications").show();
+								        $("#friendreq").show();
 								    }, function() {
-								        $("#notifications").hide();
+								        $("#friendreq").hide();
 								    });
 
 								    
