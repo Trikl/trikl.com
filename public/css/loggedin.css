@@ -5,9 +5,7 @@ body,html {
 #omnibox {
 	width:940px;
 	height:42px;
-	//background:#13375d;
 	background:#444;
-
 	position:fixed;
 	top: 0;
 	z-index:999999;
@@ -27,7 +25,6 @@ body,html {
 		width:50px;
 			height:21px;
 
-
 }
 
 #omnilinks #trikl {
@@ -35,6 +32,52 @@ body,html {
 	width:0px;
 	margin: 0 45px 0 15px;
 }
+
+
+#options {
+	display:none;
+	width: 940px;height: 50px;border-bottom: 1px solid;margin-top: 0;
+	padding:0px;
+	margin-bottom:5px;
+}
+
+#subpost {
+	margin-right:20px;
+}
+
+#options li {
+	list-style-type:none;
+	float:right;
+	text-align:right;
+	width:75px;
+	color: white;	
+}
+
+.friendreqs {
+	height:50px;
+	margin-left:10px;
+}
+
+.friendreqs img {
+	display:inline-block;
+}
+
+.notification_action {
+	display:inline-block;
+}
+
+.notification_action h3 {
+	display:inline-block;margin: 0;vertical-align: middle;height: 30px;margin-top: -30px;color:white;font-weight:100;
+}
+
+.notification_action input {
+	display:inline-block;vertical-align: middle;height: 30px;margin:-40px 0 0 25px;
+}
+
+#notification {
+	background:#444;display:hidden !important;margin-top:24px;border-top:1px solid #3584D8;
+}
+
 
 #omnilinks {
 	color: #ffffff;
@@ -50,6 +93,11 @@ body,html {
 
 #omnitext {
 	float:right;
+}
+
+#friendreq {
+	margin-top:12px;
+	padding-bottom:10px;
 }
 
 #makePost {
@@ -253,16 +301,6 @@ body,html {
 	text-align:justify;
 }
 
-#options {
-	display:none;
-	margin:-4px auto 0;
-	padding-left:5px;
-	width:450px;
-	background:#444;
-	color:#fff;
-	list-style:none;
-	text-align:left;
-}
 
 
 
@@ -435,20 +473,3 @@ select {
 	text-align:center;
 }
 
-.notification {
-	height:50px;
-	margin-left:10px;
-}
-
-.notification img {
-	display:inline-block;
-}
-
-.notification_action {
-	display:inline-block;
-
-}
-
-.notification_action h3 {
-	display:inline-block;margin: 0;vertical-align: middle;height: 30px;margin-top: -30px;
-}

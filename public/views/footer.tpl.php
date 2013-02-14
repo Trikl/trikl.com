@@ -17,7 +17,7 @@
 					"action": "getNotifications",
 				},
 				success: function(response){
-					$("#notifications").html(response).hide();
+					$("#friendreq").html(response).hide();
 				}
 			})
 	};
