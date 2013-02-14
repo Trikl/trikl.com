@@ -18,10 +18,11 @@ class Global_Controller
 			break;
 	    case 'getMessages':
 			$discard = 1;
-			$page = 'friendrequests';
+			$page = 'messages';
 			$view = new View_Model($page, $discard);
-			$globalModel = new Global_Model;
-			$view->assign('userpanel', $globalModel->notifications());
+			$messagesModel = new Messages_Model;
+			$view->assign('list', $messagesModel->messagelist());
+			$view->assign('contents', $messagesModel->messagecontents());
 			break;
 	    }
     }
