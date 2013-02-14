@@ -89,6 +89,7 @@ $(document).ready(function() {
 			})
 		});
 	};
+
 	function omnibar() {
 		var commentoptions = {
 			resetForm: true,
@@ -143,9 +144,19 @@ $(document).ready(function() {
 				}, 700);
 				$('#blog').dialog();
 			}
-					$("a").click(function(e) {
+		});
+		$("li").click(function(e) {
+			e.stopPropagation();
+		})
+		$('#omnibox').toggle(function() {
+			$("#friendreq").show();
+			$("#newmessages").show();
+			$("a").click(function(e) {
 				e.stopPropagation();
 			})
+		}, function() {
+			$("#friendreq").hide();
+			$("#newmessages").hide();
 		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
@@ -154,10 +165,8 @@ $(document).ready(function() {
 				direction: "up"
 			}, 700);
 		});
-		
 		$('#blogpost').click(function() {
 			$('#makeBlog').submit();
-
 		});
 		$('#subimage').click(function() {
 			$("#dialog").dialog(function() {
@@ -168,6 +177,7 @@ $(document).ready(function() {
 			});
 		});
 	};
+
 	function morePosts() {
 		var c = 1;
 		$("#page").click(function() {
@@ -186,12 +196,14 @@ $(document).ready(function() {
 			})
 		});
 	};
+
 	function newPosts() {
 		function streamInt() {
 			var intval = setInterval(function() {
 				streamUpdates()
 			}, 15000);
 		};
+
 		function streamUpdates() {
 			$.ajax({
 				type: "POST",
@@ -224,12 +236,10 @@ $(document).ready(function() {
 		});
 		streamInt();
 	};
-	
 	omnibar();
 	postView();
 	morePosts();
 	newPosts();
-	
 	var current_content = $(".LoginButn").html();
 	$("#registerbtn").click(function(e) {
 		e.preventDefault();
@@ -249,24 +259,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-//	$('#left_mouseline').hover(function() {
-//		$('#sidebar_left').stop(true, true).show("slide", {
-//			direction: "left"
-//		}, 500);
-//	}, function() {
-//		$('#sidebar_left').stop(true, true).hide("slide", {
-//			direction: "left"
-//		}, 500);
-//	});
-//	$('#right_mouseline').hover(function() {
-//		$('#sidebar_right').stop(true, true).show("slide", {
-//			direction: "right"
-//		}, 500);
-//	}, function() {
-//		$('#sidebar_right').stop(true, true).hide("slide", {
-//			direction: "right"
-//		}, 500);
-//	});
 	var bar = $('.photobar');
 	var percent = $('.photopercent');
 	var status = $('#photostatus');
@@ -291,5 +283,56 @@ $(document).ready(function() {
 	$('#photoupload').submit(function() {
 		$(this).ajaxSubmit(options);
 		return false;
+	});
+	var intval = setInterval(function() {
+		notificationUpdates()
+	}, 300000);
+	notificationUpdates()
+	messageUpdates()
+
+	function notificationUpdates() {
+		$.ajax({
+			type: "POST",
+			url: "/global",
+			data: {
+				"action": "getNotifications",
+			},
+			success: function(response) {
+				$("#friendreq").html(response).hide();
+			}
+		})
+	};
+
+	function messageUpdates() {
+		$.ajax({
+			type: "POST",
+			url: "/global",
+			data: {
+				"action": "getMessages",
+			},
+			success: function(response) {
+				$("#newmessages").html(response).hide();
+			}
+		})
+	};
+	$('#settings').click(function() {
+		$.ajax({
+			type: "POST",
+			url: "/settings",
+			data: {
+				"URL": $(this).attr('url'),
+				"action": "geturl",
+			},
+			success: function(response) {
+				//alert(response);
+				$('#hey').html(response).hide().dialog(function() {});
+				$('#blackout').show();
+				$('body').css("overflow", "hidden");
+			}
+		})
+		$('div#hey').bind('dialogclose', function(event) {
+			$('#blackout').hide();
+			$('body').css("overflow", "scroll");
+		});
 	});
 });
