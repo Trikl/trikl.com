@@ -16,6 +16,13 @@ class Global_Controller
 			$globalModel = new Global_Model;
 			$view->assign('userpanel', $globalModel->notifications());
 			break;
+	    case 'getMessages':
+			$discard = 1;
+			$page = 'friendrequests';
+			$view = new View_Model($page, $discard);
+			$globalModel = new Global_Model;
+			$view->assign('userpanel', $globalModel->notifications());
+			break;
 	    }
     }
 }

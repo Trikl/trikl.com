@@ -143,6 +143,9 @@ $(document).ready(function() {
 				}, 700);
 				$('#blog').dialog();
 			}
+					$("a").click(function(e) {
+				e.stopPropagation();
+			})
 		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
