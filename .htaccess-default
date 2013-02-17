@@ -17,4 +17,4 @@ php_value upload_max_filesize 32M
 php_value post_max_size 32M
 
 
-php_value include_path ".:/usr/local/lib/php:/home/socss/domains/trikl.com/public_html/lib:/home/socss/domains/trikl.com/public_html/models:/home/socss/domains/trikl.com/public_html/controllers" 
+php_value include_path ".:/usr/local/lib/php:/home/socss/domains/trikl.com/public_html/lib:/home/socss/domains/trikl.com/public_html/models:/home/socss/domains/trikl.com/public_html/controllers:/Users/designgears/trikl/classes" 
