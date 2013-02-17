@@ -1,10 +1,13 @@
 <?php
+
+include_once('pageLoader.class.php');
+
 if ($page === '' || !$_SESSION['uid']) {
 	$page = 'login';
 }
 $target = SERVER_ROOT . '/controllers/' . ucfirst($page) . '_Controller.php';
 if (file_exists($target)) {
-	spl_autoload_register(function ($class) { require_once $class . '.php'; });
+	spl_autoload_register(array('TriklAutoLoad', 'loadPage'));
 	$class = ucfirst($page) . '_Controller';
 	if (class_exists($class)) {
 		$controller = new $class;
@@ -14,5 +17,4 @@ if (file_exists($target)) {
 } else {
 	die('page does not exist!');
 }
-spl_autoload_register(function ($classes) { require_once $classes . '.php'; });
 $controller->main($subpage);
