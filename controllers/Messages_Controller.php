@@ -6,7 +6,7 @@ class Messages_Controller
 	 * This template variable will hold the 'view' portion of our MVC for this
 	 * controller
 	 */
-	public $template = 'messages';
+	public $template = 'allmessages';
 
 	/**
 	 * This is the default function that will be called by router.php
@@ -16,21 +16,18 @@ class Messages_Controller
 	public function main()
 	{
 			$messagesModel = new Messages_Model;
-			
-			switch($_POST['action']) {
-			case 'createmessage':
-				$discard = 1;
-				$messagesModel->createmessage();				
-				break;
-			case 'replymessage':
-				$messagesModel->replymessage($data);
-				break;
-			default:
+			$params = explode( "/", $_GET['p'] );
+			$page = $params['0'];
+			$subpage = $params['1'];
+			if ($subpage) {
+				$page = 'singlemessage';
+				$view = new View_Model($page);
+				$view->assign('contents', $messagesModel->messagecontents());
+			} else {
 				$view = new View_Model($this->template);
 				$view->assign('list', $messagesModel->messagelist());
-				$view->assign('contents', $messagesModel->messagecontents());
-				break;
 			}
 
+	
 	}
 }

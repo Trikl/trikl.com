@@ -8,33 +8,31 @@ class Global_Controller
 	// There is no "view" for this controller, it simply handles ajax calls.
     public function main()
     {
+    	$globalModel = new Global_Model;
 	    switch($_POST['action']) {
 	    case 'getNotifications':
 			$discard = 1;
 			$page = 'friendrequests';
 			$view = new View_Model($page, $discard);
-			$globalModel = new Global_Model;
 			$view->assign('userpanel', $globalModel->notifications());
 			break;
 		case 'acceptfriend':
-			$globalModel = new Global_Model;
 			$globalModel->acceptfriend();
 			break;
 		case 'createmessage':
-			$messagesModel = new Global_Model;
-			$messagesModel->createmessage();				
+			$globalModel->createmessage();				
 			break;
 		case 'replymessage':
-		//	var_dump($_POST);
-			$messagesModel = new Global_Model;
-			$messagesModel->replymessage();
+			$globalModel->replymessage();
+			break;
+		case 'archivemessage':
+			$globalModel->archivemessage();
 			break;
 	    case 'getMessages':
 			$discard = 1;
 			$page = 'messages';
 			$view = new View_Model($page, $discard);
-			$messagesModel = new Global_Model;
-			$view->assign('list', $messagesModel->messagelist());
+			$view->assign('list', $globalModel->messagelist());
 			break;
 	    }
     }

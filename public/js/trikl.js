@@ -274,10 +274,9 @@ $(document).ready(function() {
 		$(this).ajaxSubmit(options);
 		return false;
 	});
-	notificationUpdates()
-	messageUpdates()
 
-	function notificationUpdates() {
+
+	function friendUpdates() {
 		$.ajax({
 			type: "POST",
 			url: "/global",
@@ -302,8 +301,11 @@ $(document).ready(function() {
 			}
 		})
 	};
-	// stuff
-	//work in progress
+	
+	friendUpdates();
+	messageUpdates();
+
+
 	$('#settings').toggle(function() {
 		$.ajax({
 			type: "POST",
@@ -355,6 +357,9 @@ $(document).ready(function() {
 			};
 			$('#sendmessage').ajaxForm(newmessage);
 			$('#sendmessage').show()
+				$("#sendmessage").click(function(e) {
+		e.stopPropagation();
+	})	
 		}, function() {
 			$('#sendmessage').hide();
 		});
@@ -376,6 +381,21 @@ $(document).ready(function() {
 			$('#newmessages .toggledown').toggleClass('toggledown', false)
 			$("#expandedmessage").click(function(e) {
 				e.stopPropagation();
+			})
+			$('.archive').click(function(event) {
+				event.preventDefault();
+				var id = $(this).attr('id');
+				$.ajax({
+					type: "POST",
+					url: "/global",
+					data: {
+						"messageid": id,
+						"action": "archivemessage",
+					},
+					success: function(response) {
+						alert(response);
+					}
+				})
 			})
 			$(".replybutton").toggle(function() {
 				event.preventDefault();
