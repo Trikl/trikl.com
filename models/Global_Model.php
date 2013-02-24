@@ -36,6 +36,8 @@ class Global_Model {
 			if ($messagearchive == NULL) {
 					$info[] = $k->getMessageid();
 				} else { 
+					echo $messagearchive->getThreadId();
+					echo $msgstuff->getThreadID();
 					if ($messagearchive->getThreadId() < $msgstuff->getThreadID()) {
 						$info[] = $k->getMessageid();
 					}
@@ -73,7 +75,10 @@ class Global_Model {
 	
 	function archivemessage() {
 		$msgall = MessageContentsQuery::create()->filterbyMessageID($_POST['messageid'])->orderByDate('desc')->findOne();
-		$archive = new MessageArchive();
+		$archive = MessageArchiveQuery::create()->filterbyMessageID($_POST['messageid'])->findOne();
+		if ($archive == NULL) {
+			$archive = new MessageArchive();
+		}
 		$archive->setMessageId($_POST['messageid']);
 		$archive->setThreadId($msgall->getThreadId());
 		$archive->setUserId($_SESSION['uid']);

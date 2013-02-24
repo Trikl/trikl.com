@@ -21,7 +21,7 @@
 				$thread = $message['thread'];
 				$users = $message['users'];
 				$senderid = $contents->getUserID();
-				echo "<div class='message'>";
+				echo "<div id='" . $thread->getMessageId() . "' class='message'>";
 					foreach ($users as $user) {
 						if ($senderid === $user->getID()) { 
 							$senderid = NULL;
