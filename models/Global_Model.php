@@ -36,8 +36,6 @@ class Global_Model {
 			if ($messagearchive == NULL) {
 					$info[] = $k->getMessageid();
 				} else { 
-					echo $messagearchive->getThreadId();
-					echo $msgstuff->getThreadID();
 					if ($messagearchive->getThreadId() < $msgstuff->getThreadID()) {
 						$info[] = $k->getMessageid();
 					}
@@ -48,6 +46,8 @@ class Global_Model {
 			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->findOne();
 			$msgall = MessageContentsQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
 			$msgusers = UserMessageQuery::create()->filterbyMessageID($messs)->find();
+			$count = MessagesQuery::create()->filterbyMessageID($messs)->count();
+
 			foreach ($msgusers as $users) {
 				$user[] = UserQuery::create()->findPK($users->getUserID());
 			}
@@ -55,6 +55,7 @@ class Global_Model {
 				'thread' => $messagethread,
 				'contents' => $msgall,
 				'users' => $user,
+				'count' => $count,
 			);
 			unset($user);
 		}
