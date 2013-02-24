@@ -65,7 +65,7 @@
              		</div>
              		
              		<script>
-             				var friendaccept = {
+           var friendaccept = {
 		url: "/global",
 		data: {
 			"action": "acceptfriend",

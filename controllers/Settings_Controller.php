@@ -18,36 +18,23 @@ class Settings_Controller
     public function main()
     {
         $settingsModel = new Settings_Model;
-        			$discard = 1;
-    	$view = new View_Model($this->template, $discard);
-		
-        $view->assign('settings', $settingsModel->settings());					
-
-		$profile = $settingsModel->settings();
-		
-        if ($_POST['profile']) {
-	        if ($profile['profile']) {
-		        $settingsModel->saveProfile();
-	        } else {
-		        $settingsModel->createProfile();
-	        }
+		switch($_POST['action']) {
+	    case 'createsettings':
+		    $settingsModel->createProfile();
+			break;
+		case 'updatesettings':
+			$settingsModel->saveProfile();
+			break;
+		case 'changeprivacy':
+			$settingsModel->privacy();
+			break;
+		default:
+			$discard = 1;
+	    	$view = new View_Model($this->template, $discard);
+	        $view->assign('settings', $settingsModel->settings());					
+			$profile = $settingsModel->settings();
+			break;
 	    }
-
-		if ($_POST['banner']) {
-		    $settingsModel->banner();
-		}
-		if ($_POST['create_bucket']) {
-		    $settingsModel->createBucket();
-		}
-		if ($_POST['delete_bucket']) {
-		    $settingsModel->deleteBucket();
-		}
-		if ($_POST['assign_bucket']) {
-		    $settingsModel->assignBucket();
-		}
-		if ($_POST['submit_privacy']) {
-		    $settingsModel->privacy();
-		}
 
     }
 }

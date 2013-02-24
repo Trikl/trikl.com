@@ -9,7 +9,7 @@ class Global_Model {
 		);
 		return $reqarray;
 	}
-
+	
 	function acceptfriend() {
 		$friend = new Friend();
 		$friend->setUserid($_POST['friendid']);

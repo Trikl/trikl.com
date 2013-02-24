@@ -1,4 +1,3 @@
-where all messages will go...this is gonna be messy till i get to it.
 	<?php 
 		$firstmessage = $data['list'];
 			foreach ($firstmessage as $message) {
@@ -16,7 +15,7 @@ where all messages will go...this is gonna be messy till i get to it.
 							echo "<img class='usr_img' src='/public/avatars/" . $user->getAvatarFilename() . "'/ >";
 						}
 					}
-					echo "<p class='subject'><a href='/profile/" . $username . "'>" . $firstname . " " . $lastname . "</a> - " . $thread->getSubject() . "</p>";
+					echo "<p class='subject'><a href='/profile/" . $username . "'>" . $firstname . " " . $lastname . "</a> - <a href='/messages/" . $thread->getMessageID() . "'>" . $thread->getSubject() . "</a></p>";
 					echo "<p class='date'>" . $contents->getDate() . "</p>";
 					echo "<p class='content'>" . $contents->getContent() . "</p>";
 					echo "<div class='recipients'>";
@@ -27,7 +26,7 @@ where all messages will go...this is gonna be messy till i get to it.
 						<form class="replyform">
 							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
 							<input class="buttonleft" type="submit" value="Add Recipient" />
-							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Archive" />
+							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="All" />
 							<input class="buttonright" type="submit" value="Delete" />
 						</form>
 					</div>

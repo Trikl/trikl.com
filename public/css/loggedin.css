@@ -35,9 +35,9 @@
 
 #expandedmessage {
 	border-top:1px solid #3584D8;
+	cursor:default;
 	display:none;
 	padding-top:5px;
-	cursor:default;
 }
 
 #friendreq {
@@ -120,10 +120,10 @@
 
 #omnilinks a {
 	color:inherit;
+	cursor:pointer;
 	height:21px;
 	text-decoration:none;
 	width:50px;
-	cursor: pointer;
 }
 
 #omnilinks li {
@@ -169,8 +169,16 @@
 	background:#444;
 }
 
+#sendmessage {
+	display:none;
+}
+
 #subpost {
 	margin-right:20px;
+}
+
+#supercompose {
+	cursor:pointer;
 }
 
 .LoginButn {
@@ -197,6 +205,11 @@
 	width:650px;
 }
 
+.contents {
+	margin:0 auto;
+	width:940px;
+}
+
 .contractednotif {
 	line-height:39px;
 }
@@ -209,7 +222,6 @@
 .date {
 	float:right;
 	margin-right:5px!important;
-	
 }
 
 .downvote {
@@ -407,13 +419,13 @@
 .post .date {
 	color:rgba(0,0,0,0.43);
 	float:right;
-	line-height: 30px;
+	line-height:30px;
 }
 
 .post .postcontents {
 	display:inline-block;
 	margin-left:40px;
-	padding: 0 5px;
+	padding:0 5px;
 	width:875px;
 }
 
@@ -459,6 +471,10 @@
 	margin-left:5px;
 }
 
+.replybutton {
+	cursor:pointer;
+}
+
 .replyform {
 	display:inline-block;
 	float:right;
@@ -470,6 +486,19 @@
 	background:#3584D8;
 	border:1px solid #3584D8!important;
 	color:#fff;
+}
+
+.replymessage {
+	border-top:1px solid #3584D8;
+	display:none;
+	display:none;
+	padding-top:5px;
+}
+
+.replymessage #messagecontents {
+	height:60px;
+	margin:10px 10px 10px 60px;
+	width:800px;
 }
 
 .requestform {
@@ -721,32 +750,4 @@ select {
 textarea {
 	border:1px solid #CCC!important;
 	font-size:14px;
-}
-
-#sendmessage {
-	display:none;
-}
-
-.replymessage {
-	display:none;
-	border-top:1px solid #3584D8;
-	display:none;
-	padding-top:5px;
-}
-
-.replymessage #messagecontents {
-	margin: 10px 10px 10px 60px;
-	width:800px;
-	height:60px;
-}
-
-#supercompose {
-	cursor:pointer;
-}
-
-.replybutton {
-	cursor: pointer;
-}
-
-.replymessage input {
 }
