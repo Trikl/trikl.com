@@ -1,22 +1,4 @@
-<?php							
- ?>
-	
-
-<div class="contractednotif">
-	<h3 class="toggledown"></h3>
-	<h3 class="messagecenter">Message Center</h3>
-	<form class="replyform">
-		<input class="buttonleft" type="submit" id="supercompose" value="Compose" />
-		<a class="buttonleft" href="/messages" value="View All Messages">View All Messages</a>
-	</form>
-</div>
-<form id="sendmessage" method="post">
-	to:<input type=text name="to" />
-	subject:<input type=text name="subject" />
-	contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
-	<input type="submit" />
-</form>
-<div id="expandedmessage">
+where all messages will go...this is gonna be messy till i get to it.
 	<?php 
 		$firstmessage = $data['list'];
 			foreach ($firstmessage as $message) {
@@ -56,5 +38,3 @@
 					</form>
 				</div>
 			<?php } ?>
-</div>
-

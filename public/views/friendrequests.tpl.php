@@ -1,5 +1,5 @@
 <?php $info = $data['userpanel']; 
-	if ($info['count']; > 0) {
+	if ($info['count'] > 0) {
 	
 	
 ?>

@@ -2,26 +2,25 @@
 class Messages_Model {
 	function messagelist() {
 		$messageid = UserMessageQuery::create()->filterbyUserID($_SESSION['uid'])->find();
-		foreach ($messageid as $mesid) {
-			$infos = UserMessageQuery::create()->filterbyMessageID($mesid->getMessageID())->find();
-			foreach ($infos as $userid) {
-				$userinfo = UserQuery::create()->findPK($userid->getUserID());
-				$userinfos[] = $userinfo;
-			}
-			$messagethread = MessagesQuery::create()->filterbyMessageID($mesid->getMessageID())->find();
-			foreach ($messagethread as $thread) {
-				$threads[] = array(
-					'thread' => $thread,
-					'userinfo' => $userinfos,
-				);
-				unset($userinfos);
-
-			}
+		foreach ($messageid as $id => $k) {
+				$info[] = $k->getMessageid();
 		}
-		return $threads;
-
+		foreach ($info as $messs) {
+			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->findOne();
+			$msgall = MessageContentsQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
+			$msgusers = UserMessageQuery::create()->filterbyMessageID($messs)->find();
+			foreach ($msgusers as $users) {
+				$user[] = UserQuery::create()->findPK($users->getUserID());
+			}
+			$messagecontents[] = array(
+				'thread' => $messagethread,
+				'contents' => $msgall,
+				'users' => $user,
+			);
+			unset($user);
+		}
+		return $messagecontents;
 	}
-
 
 	function messagecontents() {
 		$params = explode( "/", $_GET['p'] );
@@ -31,8 +30,8 @@ class Messages_Model {
 			if ($messageid) {
 				$msgcontents = MessageContentsQuery::create()->filterbyMessageID($subpage)->find();
 				foreach ($msgcontents as $userid) {
-					$usermsg = UserQuery::create()->findPK($userid->getUserID());
-					$usrmsg[] = $usermsg;
+					$usermsg = UserQuery::create()->filterbyId($userid->getUserID())->findOne();
+					$usrmsg = $usermsg;
 					$messagereturn[] = array(
 						'msgcontents' => $userid,
 						'usrinfo' => $usrmsg,
@@ -44,14 +43,7 @@ class Messages_Model {
 		}
 	}
 
-
-
-
-
 	function replymessage($stuff) {
-		$params = explode( "/", $_GET['p'] );
-		$subpage = $params['1'];
-
 		if ($_POST['content']) {
 			$content = new MessageContents();
 			$content->setMessageID($subpage);

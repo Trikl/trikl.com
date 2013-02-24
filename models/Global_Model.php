@@ -30,8 +30,13 @@ class Global_Model {
 	function messagelist() {
 		$messageid = UserMessageQuery::create()->filterbyUserID($_SESSION['uid'])->find();
 		foreach ($messageid as $id => $k) {
-			$info[] = $k->getMessageid();
+			$thatthing = $k->getMessageid();
+			$messagearchive = MessageArchiveQuery::create()->filterbyUserID($_SESSION['uid'])->filterbyMessageId($thatthing)->findOne();
+			if ($messagearchive === NULL) {
+				$info[] = $k->getMessageid();
+			}
 		}
+		if (is_array($info)) {
 		foreach ($info as $messs) {
 			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->findOne();
 			$msgall = MessageContentsQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
@@ -46,6 +51,7 @@ class Global_Model {
 			);
 			unset($user);
 		}
+		}
 		return $messagecontents;
 	}
 	
@@ -58,6 +64,15 @@ class Global_Model {
 			$content->setDate(date('r'));
 			$content->save();
 		}
+	}
+	
+	function archivemessage() {
+		$msgall = MessageContentsQuery::create()->filterbyMessageID($_POST['messageid'])->orderByDate('desc')->findOne();
+		$archive = new MessageArchive();
+		$archive->setMessageId($_POST['messageid']);
+		$archive->setThreadId($msgall->getThreadId());
+		$archive->setUserId($_SESSION['uid']);
+		$archive->save();
 	}
 
 	
