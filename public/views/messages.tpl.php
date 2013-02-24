@@ -1,97 +1,56 @@
-						<?php 
-						$params = explode( "/", $_GET['p'] );
-						$subpage = $params['1'];
-							$messages = $data['list'];
-
-						if ($subpage) {
-							if ($data['contents']) {
-							$msgcontent = $data['contents'];
-							foreach ($messages as $message) {
-								if ($message['thread']->getMessageID() == $subpage)
-								echo "<h1 style='text-align:center;'>" . $message['thread']->getSubject() . "</h1>";
-							}
-							echo "<div class='messages'>";
-
-							foreach ($msgcontent as $content) {
-									$date = $content['msgcontents']->getDate();
-									$msg = $content['msgcontents']->getContent();
-									foreach ($content['usrinfo'] as $user) {
-									$usravatar = $user->getAvatarFilename();
-									$usrusername = $user->getUsername();
-									$usrname = $user->getFirstName() . " " . $user->getLastName();
-									}
-
-									include 'individualmsg.tpl.php';
-
-
-						}    
-						
-							echo "</div>";
-						?>
-
-						<form id="replymessage" action="#" method="post">
-							Reply: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
-							<input type="submit" />
-						</form>	
-						
-						<?php } else { echo "Ah ah ah, you didn't say the magic word!"; }} else { ?>
-
-						<form id="sendmessage" action="/messages" method="post">
-							to:<input type=text name="to" />
-							subject:<input type=text name="subject" />
-							contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
-							<input type="submit" />
-						</form>	
-						
-						<hr />
-												<div style="width:200px;">
-
-						<?php 
-						
-							if (is_array($messages)) { foreach ($messages as $message) {
-								echo "<div class='message'>";
-								echo "<a href='/messages/" . $message['thread']->getMessageID() . "'>";
-								echo $message['thread']->getDate() . " ";
-								echo $message['thread']->getSubject();
-								echo "</a><br /><br />";
-								foreach ($message as $userinfos) {
-									foreach ($userinfos as $userinfo) {
-										echo "<img height=40 width=40 src='/public/avatars/" . $userinfo->getAvatarFilename() . "' />";
-									}
-								}
-								echo "<br /><br />";
-								echo "</div>";
-							}
-							}
-						
+<div class="contractednotif">
+	<h3 class="toggledown"></h3>
+	<h3 class="messagecenter">Message Center</h3>
+	<form class="replyform">
+		<input class="buttonleft" type="submit" id="supercompose" value="Compose" />
+		<input class="buttonleft" type="submit" value="View All Messages" />
+	</form>
+</div>
+<form id="sendmessage" method="post">
+	to:<input type=text name="to" />
+	subject:<input type=text name="subject" />
+	contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
+	<input type="submit" />
+</form>
+<div id="expandedmessage">
+	<?php 
+		$firstmessage = $data['list'];
+			foreach ($firstmessage as $message) {
+				$contents = $message['contents'];
+				$thread = $message['thread'];
+				$users = $message['users'];
+				$senderid = $contents->getUserID();
+				echo "<div class='message'>";
+					foreach ($users as $user) {
+						if ($senderid === $user->getID()) { 
+							$senderid = NULL;
+							$firstname = $user->getFirstName();
+							$lastname = $user->getLastName();
+							$username = $user->getUsername();
+							echo "<img class='usr_img' src='/public/avatars/" . $user->getAvatarFilename() . "'/ >";
 						}
-						?>
-						
-						<script>
-							var messages = {
-								resetForm: true,
-								clearForm: true,
-								data: {
-									"action": "createmessage",
-								},
-								success: function(response) {
-									alert(response);
-								}
-							};
-							$('#sendmessage').ajaxForm(messages);
-							
-							var reply = {
-								resetForm: true,
-								clearForm: true,
-								data: {
-									"action": "replymessage",
-								},
-								success: function(response) {
-									alert(response);
-								}
-							};
-							$('#replymessage').ajaxForm(reply);
-
-						</script>
-												</div>
+					}
+					echo "<p class='subject'><a href='/profile/" . $username . "'>" . $firstname . " " . $lastname . "</a> - " . $thread->getSubject() . "</p>";
+					echo "<p class='date'>" . $contents->getDate() . "</p>";
+					echo "<p class='content'>" . $contents->getContent() . "</p>";
+					echo "<div class='recipients'>";
+						foreach ($users as $user) {
+							echo "<img height=40 width=40 src='/public/avatars/" . $user->getAvatarFilename() . "'/ >";
+						}
+	?>
+						<form class="replyform">
+							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
+							<input class="buttonleft" type="submit" value="Add Recipient" />
+							<input class="buttonleft" type="submit" value="Archive" />
+							<input class="buttonright" type="submit" value="Delete" />
+						</form>
+					</div>
+					<form id="<?php echo $thread->getMessageId(); ?>" class="replymessage" method="post">
+						<textarea id="messagecontents" class="posttextarea" name="content"></textarea>
+						<input type="hidden" name="messageid" value="<?php echo $thread->getMessageId(); ?>" />
+						<input type="submit" value="Send" />
+					</form>
+				</div>
+			<?php } ?>
+</div>
 

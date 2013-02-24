@@ -148,16 +148,6 @@ $(document).ready(function() {
 		$("li").click(function(e) {
 			e.stopPropagation();
 		})
-		$('#omnibox').toggle(function() {
-			$("#friendreq").show();
-			$("#newmessages").show();
-			$("a").click(function(e) {
-				e.stopPropagation();
-			})
-		}, function() {
-			$("#friendreq").hide();
-			$("#newmessages").hide();
-		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
 			$(posttext).css('height', '38px');
@@ -284,9 +274,6 @@ $(document).ready(function() {
 		$(this).ajaxSubmit(options);
 		return false;
 	});
-	var intval = setInterval(function() {
-		notificationUpdates()
-	}, 300000);
 	notificationUpdates()
 	messageUpdates()
 
@@ -315,7 +302,9 @@ $(document).ready(function() {
 			}
 		})
 	};
-	$('#settings').click(function() {
+	// stuff
+	//work in progress
+	$('#settings').toggle(function() {
 		$.ajax({
 			type: "POST",
 			url: "/settings",
@@ -324,15 +313,107 @@ $(document).ready(function() {
 				"action": "geturl",
 			},
 			success: function(response) {
-				//alert(response);
-				$('#hey').html(response).hide().dialog(function() {});
-				$('#blackout').show();
-				$('body').css("overflow", "hidden");
+				$("#friendreq").hide();
+				$("#newmessages").hide();
+				$('#hey').html(response).show()
 			}
 		})
-		$('div#hey').bind('dialogclose', function(event) {
-			$('#blackout').hide();
-			$('body').css("overflow", "scroll");
+	}, function() {
+		$('#hey').hide()
+	});
+	$("#makePostTextbox").click(function(e) {
+		e.stopPropagation();
+	})
+	$("#hey").click(function(e) {
+		e.stopPropagation();
+	})
+	$('#omnibox').toggle(function() {
+		$(".settings").click(function(e) {
+			e.stopPropagation();
+		})
+		$('#hey').hide();
+		$("#friendreq").show();
+		$("#newmessages").show();
+		$("a").click(function(e) {
+			e.stopPropagation();
+		})
+		$(".replyform").click(function(e) {
+			e.stopPropagation();
+		})
+		$('#supercompose').toggle(function() {
+			event.preventDefault();
+			var newmessage = {
+				resetForm: true,
+				clearForm: true,
+				url: "/global",
+				data: {
+					"action": "createmessage",
+				},
+				success: function(response) {
+					alert(response);
+				}
+			};
+			$('#sendmessage').ajaxForm(newmessage);
+			$('#sendmessage').show()
+		}, function() {
+			$('#sendmessage').hide();
 		});
+		$("#friendreq").toggle(function() {
+			$("#friendreq .expandnotif").show();
+			$('#friendreq .toggledown').toggleClass('toggleup')
+			$('#friendreq .toggledown').toggleClass('toggledown', false)
+			$("form").click(function(e) {
+				e.stopPropagation();
+			});
+		}, function() {
+			$("#friendreq .expandnotif").hide();
+			$('#friendreq .toggleup').toggleClass('toggledown')
+			$('#friendreq .toggleup').toggleClass('toggleup', false)
+		});
+		$("#newmessages").toggle(function() {
+			$("#newmessages #expandedmessage").show();
+			$('#newmessages .toggledown').toggleClass('toggleup')
+			$('#newmessages .toggledown').toggleClass('toggledown', false)
+			$("#expandedmessage").click(function(e) {
+				e.stopPropagation();
+			})
+			$(".replybutton").toggle(function() {
+				event.preventDefault();
+				var id = "#" + $(this).attr('id') + ".replymessage";
+				$(id).show();
+				var reply = {
+					resetForm: true,
+					clearForm: true,
+					url: "/global",
+					data: {
+						"action": "replymessage",
+					},
+					success: function(response) {
+						alert(response);
+					}
+				};
+				$('.replymessage').ajaxForm(reply);
+			}, function() {
+				$(".replymessage").hide();
+			});
+		}, function() {
+			$("#newmessages #expandedmessage").hide();
+			$('#newmessages .toggleup').toggleClass('toggledown')
+			$('#newmessages .toggleup').toggleClass('toggleup', false)
+		});
+	}, function() {
+		$("#friendreq").hide();
+		$("#newmessages").hide();
+		$("#newmessages #expandedmessage").hide();
+		$("#friendreq .expandnotif").hide();
+	});
+	$('body').click(function(event) {
+		if (!$(event.target).is('#omnibox')) {
+			$("#friendreq").hide();
+			$("#newmessages").hide();
+			$("#hey").hide();
+			$("#newmessages #expandedmessage").hide();
+			$("#friendreq .expandnotif").hide();
+		}
 	});
 });

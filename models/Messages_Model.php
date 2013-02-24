@@ -39,42 +39,13 @@ class Messages_Model {
 					);
 					unset($usrmsg);
 				}
-
 				return $messagereturn;
 			}
 		}
-
 	}
 
 
-	function createmessage() {
-		$message = new Messages();
-		$message->setDate(date('r'));
-		$message->setSubject($_POST['subject']);
-		$message->save();
 
-		$messageid = $message->getMessageID();
-
-		$user = new UserMessage();
-		$user->setMessageID($messageid);
-		$user->setUserID($_POST['to']);
-		$user->save();
-
-		if ($_POST['to'] !== $_SESSION['uid']) {
-			$me = new UserMessage();
-			$me->setMessageID($messageid);
-			$me->setUserID($_SESSION['uid']);
-			$me->save();
-		}
-
-
-		$content = new MessageContents();
-		$content->setMessageID($messageid);
-		$content->setUserID($_SESSION['uid']);
-		$content->setContent($_POST['content']);
-		$content->setDate(date('r'));
-		$content->save();
-	}
 
 
 	function replymessage($stuff) {
