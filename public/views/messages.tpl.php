@@ -1,5 +1,7 @@
 <div class="contractednotif">
+<?php if ($data['count'] < 0) { ?>
 	<h3 class="toggledown"></h3>
+	<?php } ?>
 	<h3 class="messagecenter">Message Center</h3>
 	<form class="replyform">
 		<input class="buttonleft" type="submit" id="supercompose" value="Compose" />
@@ -12,6 +14,8 @@
 	contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
 	<input type="submit" />
 </form>
+<?php if ($data['count'] < 0) { ?>
+
 <div id="expandedmessage">
 	<?php 
 		$firstmessage = $data['list'];
@@ -55,3 +59,4 @@
 			<?php } }?>
 </div>
 
+	<?php } ?>
