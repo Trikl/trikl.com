@@ -275,7 +275,6 @@ $(document).ready(function() {
 		return false;
 	});
 
-
 	function friendUpdates() {
 		$.ajax({
 			type: "POST",
@@ -301,11 +300,8 @@ $(document).ready(function() {
 			}
 		})
 	};
-	
 	friendUpdates();
 	messageUpdates();
-
-
 	$('#settings').toggle(function() {
 		$.ajax({
 			type: "POST",
@@ -318,6 +314,27 @@ $(document).ready(function() {
 				$("#friendreq").hide();
 				$("#newmessages").hide();
 				$('#hey').html(response).show()
+				var createsettings = {
+					url: "/settings",
+					data: {
+						"action": "createsettings",
+					}
+				};
+				$('#createsettings').ajaxForm(createsettings);
+				var changeprivacy = {
+					url: "/settings",
+					data: {
+						"action": "changeprivacy",
+					}
+				};
+				$('#changeprivacy').ajaxForm(changeprivacy);
+				var updatesettings = {
+					url: "/settings",
+					data: {
+						"action": "updatesettings",
+					}
+				};
+				$('#updatesettings').ajaxForm(updatesettings);
 			}
 		})
 	}, function() {
@@ -357,9 +374,9 @@ $(document).ready(function() {
 			};
 			$('#sendmessage').ajaxForm(newmessage);
 			$('#sendmessage').show()
-				$("#sendmessage").click(function(e) {
-		e.stopPropagation();
-	})	
+			$("#sendmessage").click(function(e) {
+				e.stopPropagation();
+			})
 		}, function() {
 			$('#sendmessage').hide();
 		});
