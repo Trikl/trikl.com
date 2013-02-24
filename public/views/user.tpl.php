@@ -37,11 +37,11 @@
             </ul>
             <div id="friendreq"></div>
             <div id="newmessages"></div>
+            <div id="hey" style="display:none;"></div>
         </div>
         <div id="newposts"></div>
     </div>
 </div>
 
 <div class="contents">
-    <div id="hey" title="Settings"></div>
 </div>

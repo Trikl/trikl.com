@@ -33,9 +33,15 @@
 	width:450px;
 }
 
+#expandedmessage {
+	border-top:1px solid #3584D8;
+	display:none;
+	padding-top:5px;
+	cursor:default;
+}
+
 #friendreq {
-	margin-top:12px;
-	padding-bottom:10px;
+	cursor:pointer;
 }
 
 #imagepreview {
@@ -43,8 +49,7 @@
 }
 
 #makePost {
-	max-height:200px;
-	min-height:42px;
+	height:40px;
 	text-align:right;
 	top:0;
 }
@@ -59,10 +64,14 @@
 	border:none!important;
 	color:#FFF;
 	font-size:16px;
-	height:38px;
+	height:38px!important;
 	line-height:18px;
 	resize:none;
 	width:450px;
+}
+
+#newmessages {
+	cursor:pointer;
 }
 
 #newposts {
@@ -78,9 +87,9 @@
 
 #notification {
 	background:#444;
-	border-top:1px solid #3584D8;
-	display:hidden!important;
+	color:#fff;
 	margin-top:42px;
+	padding-top:2px;
 }
 
 #omnibox {
@@ -98,9 +107,8 @@
 	-webkit-padding-start:0;
 	color:#fff;
 	float:left;
-	height:42px;
+	line-height:42px;
 	margin:0;
-	padding-top:12px;
 	text-align:left;
 }
 
@@ -115,6 +123,7 @@
 	height:21px;
 	text-decoration:none;
 	width:50px;
+	cursor: pointer;
 }
 
 #omnilinks li {
@@ -181,6 +190,28 @@
 	margin:10px 25px 0 100px;
 }
 
+.content {
+	margin-left:10px!important;
+	margin-top:10px!important;
+	min-height:65px;
+	width:650px;
+}
+
+.contractednotif {
+	line-height:39px;
+}
+
+.contractednotif h3 {
+	display:inline-block;
+	margin:0;
+}
+
+.date {
+	float:right;
+	margin-right:5px!important;
+	
+}
+
 .downvote {
 	border-left:20px solid transparent;
 	border-right:20px solid transparent;
@@ -190,6 +221,12 @@
 	width:0;
 }
 
+.expandnotif {
+	border-top:1px solid #3584D8;
+	display:none;
+	margin-top:2px;
+}
+
 .friendreqs {
 	height:50px;
 	margin-left:10px;
@@ -197,6 +234,45 @@
 
 .friendreqs img {
 	display:inline-block;
+}
+
+.friendrequest {
+	border-bottom:1px solid rgba(0,0,0,0.0980392);
+	margin:0 5px;
+	min-height:89px;
+	padding-top:5px;
+}
+
+.friendrequest .date {
+	color:rgba(0,0,0,0.43);
+	float:right;
+}
+
+.friendrequest .postcontents {
+	display:inline-block;
+	margin-left:40px;
+	padding:5px;
+	width:875px;
+}
+
+.friendrequest .postvotes {
+	display:inline-block;
+	margin-top:15px;
+	padding:5px;
+	position:absolute;
+}
+
+.friendrequest a {
+	color:#3584D8;
+	text-decoration:none;
+}
+
+.friendrequest p {
+	margin:0;
+}
+
+.friendrequests {
+	margin-left:10px!important;
 }
 
 .header {
@@ -254,6 +330,25 @@
 	text-decoration:none;
 }
 
+.message {
+	border-bottom:1px solid rgba(0,0,0,0.0980392);
+	min-height:100px;
+	width:940px;
+}
+
+.message .usr_img {
+	float:left;
+}
+
+.message p {
+	display:inline-block;
+	margin:0;
+}
+
+.messagecenter {
+	margin-left:10px!important;
+}
+
 .messages {
 	background:rgba(0,0,0,0.07);
 	margin:auto;
@@ -265,7 +360,7 @@
 	font-size:18px;
 	margin-left:10px;
 	margin-top:-2px;
-	width:0 !important;
+	width:0!important;
 }
 
 .notification_action {
@@ -278,7 +373,7 @@
 	font-weight:100;
 	height:30px;
 	margin:0;
-	margin-top:-30px;
+	margin-top:-64px!important;
 	vertical-align:middle;
 }
 
@@ -312,13 +407,18 @@
 .post .date {
 	color:rgba(0,0,0,0.43);
 	float:right;
+	line-height: 30px;
 }
 
 .post .postcontents {
 	display:inline-block;
 	margin-left:40px;
-	padding:5px;
+	padding: 0 5px;
 	width:875px;
+}
+
+.post .postcontents a {
+	line-height:25px;
 }
 
 .post .postvotes {
@@ -353,6 +453,32 @@
 
 .proset {
 	text-align:center;
+}
+
+.recipients {
+	margin-left:5px;
+}
+
+.replyform {
+	display:inline-block;
+	float:right;
+	line-height:45px;
+	margin-right:5px;
+}
+
+.replyform input {
+	background:#3584D8;
+	border:1px solid #3584D8!important;
+	color:#fff;
+}
+
+.requestform {
+	display:inline-block;
+	float:right;
+}
+
+.requestinfo {
+	margin-top:8px;
 }
 
 .settings {
@@ -390,6 +516,10 @@
 	width:720px;
 }
 
+.subject a {
+	color:#3584D8;
+}
+
 .tags {
 	margin-top:10px;
 }
@@ -412,6 +542,33 @@
 .tags p {
 	margin:0 20px 0 165px;
 	text-align:justify;
+}
+
+.tinyavatars {
+	display:inline-block;
+	float:right;
+	height:40px;
+	margin-right:10px;
+}
+
+.toggledown {
+	border-left:5px solid transparent;
+	border-right:5px solid transparent;
+	border-top:5px solid #3584D8;
+	cursor:pointer;
+	height:0;
+	margin-left:10px!important;
+	width:0;
+}
+
+.toggleup {
+	border-bottom:5px solid #fff;
+	border-left:5px solid transparent;
+	border-right:5px solid transparent;
+	cursor:pointer;
+	height:0;
+	margin-left:10px!important;
+	width:0;
 }
 
 .ui-dialog {
@@ -506,11 +663,10 @@
 }
 
 .usr_img {
-	border-radius:5px;
 	float:left;
-	height:80px;
-	margin:5px;
-	width:80px;
+	height:95px;
+	margin:0 5px;
+	width:95px;
 }
 
 .votes {
@@ -565,4 +721,32 @@ select {
 textarea {
 	border:1px solid #CCC!important;
 	font-size:14px;
+}
+
+#sendmessage {
+	display:none;
+}
+
+.replymessage {
+	display:none;
+	border-top:1px solid #3584D8;
+	display:none;
+	padding-top:5px;
+}
+
+.replymessage #messagecontents {
+	margin: 10px 10px 10px 60px;
+	width:800px;
+	height:60px;
+}
+
+#supercompose {
+	cursor:pointer;
+}
+
+.replybutton {
+	cursor: pointer;
+}
+
+.replymessage input {
 }

@@ -125,4 +125,10 @@
 	<column name="urlid" type="INTEGER" size="50" />
 	<column name="postid" type="INTEGER" size="50" />
 </table>
+<table name="message_archive" phpName="MessageArchive">
+	<column name="archive_id" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true"/>
+	<column name="message_id" type="INTEGER" size="50" />
+	<column name="thread_id" type="INTEGER" size="50" />
+	<column name="user_id" type="INTEGER" size="50" />
+</table>
 </database>
