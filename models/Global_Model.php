@@ -32,9 +32,14 @@ class Global_Model {
 		foreach ($messageid as $id => $k) {
 			$thatthing = $k->getMessageid();
 			$messagearchive = MessageArchiveQuery::create()->filterbyUserID($_SESSION['uid'])->filterbyMessageId($thatthing)->findOne();
-			if ($messagearchive === NULL) {
-				$info[] = $k->getMessageid();
-			}
+			$msgstuff = MessageContentsQuery::create()->filterbyMessageID($thatthing)->orderByThreadID('desc')->findOne();
+			if ($messagearchive == NULL) {
+					$info[] = $k->getMessageid();
+				} else { 
+					if ($messagearchive->getThreadId() < $msgstuff->getThreadID()) {
+						$info[] = $k->getMessageid();
+					}
+				}
 		}
 		if (is_array($info)) {
 		foreach ($info as $messs) {
@@ -74,7 +79,6 @@ class Global_Model {
 		$archive->setUserId($_SESSION['uid']);
 		$archive->save();
 	}
-
 	
 	function createmessage() {
 		$message = new Messages();
