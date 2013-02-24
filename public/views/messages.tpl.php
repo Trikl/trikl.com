@@ -1,7 +1,3 @@
-<?php							
- ?>
-	
-
 <div class="contractednotif">
 	<h3 class="toggledown"></h3>
 	<h3 class="messagecenter">Message Center</h3>
@@ -19,6 +15,7 @@
 <div id="expandedmessage">
 	<?php 
 		$firstmessage = $data['list'];
+			if (is_array($firstmessage)) {
 			foreach ($firstmessage as $message) {
 				$contents = $message['contents'];
 				$thread = $message['thread'];
@@ -45,8 +42,8 @@
 						<form class="replyform">
 							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
 							<input class="buttonleft" type="submit" value="Add Recipient" />
-							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Archive" />
 							<input class="buttonright" type="submit" value="Delete" />
+							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Clear" />
 						</form>
 					</div>
 					<form id="<?php echo $thread->getMessageId(); ?>" class="replymessage" method="post">
@@ -55,6 +52,6 @@
 						<input type="submit" value="Send" />
 					</form>
 				</div>
-			<?php } ?>
+			<?php } }?>
 </div>
 
