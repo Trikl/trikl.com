@@ -50,19 +50,22 @@ class Profile_Model
 							"firstname" => $myfriend->getFirstname(),
 							"lastname" => $myfriend->getLastname(),
 						);
-						
-				
-					if ($_SESSION['uid']) {
-						if ($aFriend === $_SESSION['uid'] || $user->getId() === $_SESSION['uid']) {
-							$showfriend = 1;
-						}
-					}
 				}
 			}
 		} else {
 			$notfound = 1;
 		}
 		
+		if ($_SESSION['uid']) {
+			if ($user->getId() !== $_SESSION['uid']) {
+				$requestinmotion = RequestsQuery::create()->filterByUserid($_SESSION['uid'])->filterByFriendid($user->getId())->findOne();
+					if (!$requestinmotion) {
+						$showfriend = 1;
+					} else {
+						$showfriend = NULL;
+					}
+			}
+		}
 		$info = array (
 			"user" => $user,
 			"profile" => $profile,

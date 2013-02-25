@@ -3,10 +3,10 @@ class Messages_Model {
 	function messagelist() {
 		$messageid = UserMessageQuery::create()->filterbyUserID($_SESSION['uid'])->find();
 		foreach ($messageid as $id => $k) {
-				$info[] = $k->getMessageid();
+			$info[] = $k->getMessageid();
 		}
 		foreach ($info as $messs) {
-			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->findOne();
+			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
 			$msgall = MessageContentsQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
 			$msgusers = UserMessageQuery::create()->filterbyMessageID($messs)->find();
 			foreach ($msgusers as $users) {
@@ -41,6 +41,13 @@ class Messages_Model {
 				return $messagereturn;
 			}
 		}
+	}
+
+	function messagetitle() {
+		$params = explode( "/", $_GET['p'] );
+		$subpage = $params['1'];
+		$messagethread = MessagesQuery::create()->filterbyMessageID($subpage)->findOne();
+		return $messagethread;
 	}
 
 	function replymessage($stuff) {

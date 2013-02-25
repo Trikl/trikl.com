@@ -1,11 +1,9 @@
 <div class="contractednotif">
-<?php if ($data['count'] < 0) { ?>
 	<h3 class="toggledown"></h3>
-	<?php } ?>
 	<h3 class="messagecenter">Message Center</h3>
 	<form class="replyform">
 		<input class="buttonleft" type="submit" id="supercompose" value="Compose" />
-		<a class="buttonleft" href="/messages" value="View All Messages">View All Messages</a>
+		<input class="buttonleft" onclick="window.location='/messages';" type='button' value="View All Messages" />
 	</form>
 </div>
 <form id="sendmessage" method="post">
@@ -14,7 +12,6 @@
 	contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
 	<input type="submit" />
 </form>
-<?php if ($data['count'] < 0) { ?>
 
 <div id="expandedmessage">
 	<?php 
@@ -45,7 +42,6 @@
 	?>
 						<form class="replyform">
 							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
-							<input class="buttonleft" type="submit" value="Add Recipient" />
 							<input class="buttonright" type="submit" value="Delete" />
 							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Clear" />
 						</form>
@@ -58,5 +54,3 @@
 				</div>
 			<?php } }?>
 </div>
-
-	<?php } ?>
