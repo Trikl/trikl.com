@@ -12,58 +12,60 @@ class Profile_Model
 		} else {
 			$user = UserQuery::create()->findPK($_SESSION['uid']);
 		}
-		
+
 		if ($user) {
 			$profile = ProfileQuery::create()->findPK($user->getId());
 			$nbFriends = FriendQuery::create()->filterByUserid($user->getId())->count($con);
-		
+
 			if ($userid != $user->getId() && $userid && $user->getId()) {
 				$friends = FriendQuery::create()
 				->filterByUserid($_SESSION['uid'])
 				->filterByFriendid($user->getId())
 				->findOne();
-		
+
 				if ($friends) {
-				$bucket = FriendBucketQuery::create()
-				->filterByUserid($friends->getUserid())
-				->findOne();
+					$bucket = FriendBucketQuery::create()
+					->filterByUserid($friends->getUserid())
+					->findOne();
 				}
 			}
 			if ($nbFriends > 0) {
 				$friendslist = FriendQuery::create()
-					->filterByUserid($user->getId())
-					->find();
-							
+				->filterByUserid($user->getId())
+				->find();
+
 				// Load friends Userid's into array, include logged in user.
 				foreach ($friendslist as $friendlist) {
 					$friendid = $friendlist->getFriendid();
 					$groupid = $friendlist->getGroupid();
 					$aFriends[$groupid] = $friendid;
 				}
-				
+
 				foreach ($aFriends as $aFriend) {
 					$myfriend = UserQuery::create()
-						->findPK($aFriend);
-										
-						$friendList[] = array (
-							"username" => $myfriend->getUsername(),
-							"firstname" => $myfriend->getFirstname(),
-							"lastname" => $myfriend->getLastname(),
-						);
+					->findPK($aFriend);
+
+					$friendList[] = array (
+						"username" => $myfriend->getUsername(),
+						"firstname" => $myfriend->getFirstname(),
+						"lastname" => $myfriend->getLastname(),
+					);
 				}
 			}
 		} else {
 			$notfound = 1;
 		}
-		
+
 		if ($_SESSION['uid']) {
-			if ($user->getId() !== $_SESSION['uid']) {
-				$requestinmotion = RequestsQuery::create()->filterByUserid($_SESSION['uid'])->filterByFriendid($user->getId())->findOne();
+			if (is_array($user)) {
+				if ($user->getId() !== $_SESSION['uid']) {
+					$requestinmotion = RequestsQuery::create()->filterByUserid($_SESSION['uid'])->filterByFriendid($user->getId())->findOne();
 					if (!$requestinmotion) {
 						$showfriend = 1;
 					} else {
 						$showfriend = NULL;
 					}
+				}
 			}
 		}
 		$info = array (

@@ -1,11 +1,13 @@
 <?php 
+$notfound = $userinfos['notfound'];
+if ($notfound !== NULL) {
 $userinfos = $data['userinfos'];
 $user = $userinfos['user'];
 $profile = $userinfos['profile'];
 $friendList = $userinfos['friendlist'];
 $showfriend = $userinfos['showfriend'];
-$notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
+
  ?>
  
 <style>
@@ -68,7 +70,6 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
  </style>
  
 <div class="profile" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>')">
-<?php if (!$notfound) { ?>
 	<img class="profile_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>" />
 	<h1 class="profile_un"><?php echo $title; ?></h1>
 </div>
