@@ -38,8 +38,8 @@
             <div id="friendreq"></div>
             <div id="newmessages"></div>
             <div id="hey" style="display:none;"></div>
+            <div id="newposts"></div>
         </div>
-        <div id="newposts"></div>
     </div>
 </div>
 

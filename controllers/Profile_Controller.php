@@ -19,9 +19,9 @@ class Profile_Controller
         $profileModel = new Profile_Model;
         $streamModel = new Stream_Model;
         $stuff = $profileModel->profile();
-        $singleuser = $stuff['user']->getId();
+        if (is_array($stuff['user'])) { $singleuser = $stuff['user']->getId(); }
     	$view = new View_Model($this->template);
-        $view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
+        if (is_array($stuff['user'])) $view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
         $view->assign('userinfos', $profileModel->profile());
                         
         if ($_POST['submit']) {
