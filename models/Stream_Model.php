@@ -110,7 +110,7 @@ class Stream_Model {
 		return $res;
 	}
 
-	function stream($subpage = false, $postpage = false, $postid = false) {
+	function stream($subpage = false, $postpage = false, $postid = false, $singleuser = false) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
 
 		// Load friends Userid's into array, include logged in user.
@@ -168,11 +168,19 @@ class Stream_Model {
 				->find();
 
 			} else {
-				$posts = StatusQuery::create()
-				->filterByUserid($aFriends)
-				->filterByBucketid($aBucket)
-				->orderByDate('desc')
-				->paginate($stuff, $rowsPerPage = 50);
+				if ($singleuser) {
+					$posts = StatusQuery::create()
+					->filterByUserid($singleuser)
+					->filterByBucketid($aBucket)
+					->orderByDate('desc')
+					->paginate($stuff, $rowsPerPage = 50);
+				} else {
+					$posts = StatusQuery::create()
+					->filterByUserid($aFriends)
+					->filterByBucketid($aBucket)
+					->orderByDate('desc')
+					->paginate($stuff, $rowsPerPage = 50);
+				}
 			}
 
 

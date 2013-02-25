@@ -23,6 +23,7 @@ class Messages_Controller
 				$page = 'singlemessage';
 				$view = new View_Model($page);
 				$view->assign('contents', $messagesModel->messagecontents());
+				$view->assign('title', $messagesModel->messagetitle());
 			} else {
 				$view = new View_Model($this->template);
 				$view->assign('list', $messagesModel->messagelist());

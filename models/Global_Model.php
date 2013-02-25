@@ -29,6 +29,7 @@ class Global_Model {
 
 	function messagelist() {
 		$messageid = UserMessageQuery::create()->filterbyUserID($_SESSION['uid'])->find();
+
 		foreach ($messageid as $id => $k) {
 			$thatthing = $k->getMessageid();
 			$messagearchive = MessageArchiveQuery::create()->filterbyUserID($_SESSION['uid'])->filterbyMessageId($thatthing)->findOne();
@@ -46,8 +47,8 @@ class Global_Model {
 			$messagethread = MessagesQuery::create()->filterbyMessageID($messs)->findOne();
 			$msgall = MessageContentsQuery::create()->filterbyMessageID($messs)->orderByDate('desc')->findOne();
 			$msgusers = UserMessageQuery::create()->filterbyMessageID($messs)->find();
-			$count = MessagesQuery::create()->filterbyMessageID($messs)->count();
-
+			$count = count($info);
+			
 			foreach ($msgusers as $users) {
 				$user[] = UserQuery::create()->findPK($users->getUserID());
 			}

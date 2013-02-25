@@ -25,8 +25,6 @@
 	?>
 						<form class="replyform">
 							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
-							<input class="buttonleft" type="submit" value="Add Recipient" />
-							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="All" />
 							<input class="buttonright" type="submit" value="Delete" />
 						</form>
 					</div>

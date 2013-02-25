@@ -1,5 +1,4 @@
 <?php 
-
 $userinfos = $data['userinfos'];
 $user = $userinfos['user'];
 $profile = $userinfos['profile'];
@@ -9,21 +8,35 @@ $notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
  ?>
  
- <style>
+<style>
  .profile {
  	margin:auto;
-	width:540px;
-	 background: rgba(0, 0, 0, 0.07);
 	 height: 150px;
-	 padding:10px;
+	 padding:10px 0 0 10px;
 	 border: 1px solid rgba(0, 0, 0, 0.0980392);
  }
  .profile li {
 	 display:block;
  }
  .profile_bio {
-	 float:right;
+	float:right;
+	text-shadow:
+		-1px -1px 0 #000,  
+	    1px -1px 0 #000,
+	    -1px 1px 0 #000,
+	    1px 1px 0 #000;
+	color: white;
+	letter-spacing: 1px;
+	background: rgba(0, 0, 0, 0.5);
+	padding: 19px;
+	display:none;
  }
+ 
+ .profile_bio ul {
+	  -webkit-padding-start: 0px;
+    margin: 0;
+ }
+ 
  .profile_img {
  	float:left;
 	 width:80px;
@@ -38,12 +51,70 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 .profile_friends {
 	float:left;
 }
+
+.profile .profile_un {
+	text-shadow:
+		-1px -1px 0 #000,  
+	    1px -1px 0 #000,
+	    -1px 1px 0 #000,
+	    1px 1px 0 #000;
+	letter-spacing: 2px;
+	color: #FFF;
+}
+
+#friendme {
+	float:right;
+}
  </style>
  
-<div class="profile">
+<div class="profile" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>')">
 <?php if (!$notfound) { ?>
 	<img class="profile_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>" />
-	<h1 class="profile_un"><?=$title?></h1>
+	<h1 class="profile_un"><?php echo $title; ?></h1>
+</div>
+<div id="profilebox">
+	<ul id="profilelinks">
+    <li id='userposts'>
+        Posts
+    </li>
+    <li id="userphotos">
+        <a href="photo">Photos</a>
+    </li>
+    <li id="userbio">
+        Bio
+    </li>
+    <li id="userevents">
+        <a href="profile">Events</a>
+    </li>
+    <li id="userfriends">
+        <a href="profile">Friends</a>
+    </li>
+    <?php if ($showfriend) { ?>
+		<li id="friendme">
+			<form method="post" action="">
+				<input type="Submit" name="submit" value="Friend Me!">
+			</form>
+		</li>
+	<?php } ?>
+
+</ul>
+</div>
+
+<script>
+$('#userbio').click(function() {
+	$('.stream').hide();
+	$('.profile_bio').show();
+
+});
+$('#userposts').click(function() {
+	$('.profile_bio').hide();
+	$('.stream').show();
+
+});
+</script>
+
+
+
 	<?php if ($profile) {  ?>
 		<div class="profile_bio">
 			<ul>
@@ -62,23 +133,14 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 				<?php } ?>
 			</ul>
 		</div>
-	<?php } if (!$showfriend) { ?>
-		<form method="post" action="">
-			<input type="Submit" name="submit" value="Friend Me!">
-		</form>
 	<?php } ?>
+
+<div class="stream" id="streamlist">
+
+<?php include 'views/postpage.tpl.php'; ?>
 </div>
-<!--
-	<br />
-	<div class="profile_friends">
-	<span> Friends: </span> <br />
-	<?php foreach($friendList as $profriend) {
-		echo '<a href="/profile/'.$profriend['username'].'">';
-		echo $profriend['firstname']." ".$profriend['lastname'];
-		echo '</a>';
-		echo '<br />';
-	} ?>
-	</div>
+
+
 <?php } else { ?>
 	<h1>User Not Found: </h1>
 	<br />
@@ -88,4 +150,4 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 	<br />
 	<br />
 	
-<?php  } ?> -->
+<?php  } ?>
