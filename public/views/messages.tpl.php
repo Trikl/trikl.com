@@ -7,10 +7,10 @@
 	</form>
 </div>
 <form id="sendmessage" method="post">
-	to:<input type=text name="to" />
-	subject:<input type=text name="subject" />
-	contents: <textarea id="messagecontents" class="posttextarea" name="content"></textarea>
-	<input type="submit" />
+	<input type=text name="to" placeholder="To [USER ID]"/><br />
+	<input type=text name="subject" placeholder="Subject"/><br />
+	<textarea id="messagecontents" class="posttextarea" name="content"></textarea>
+	<input class="messagesubmit" type="submit" />
 </form>
 
 <div id="expandedmessage">
@@ -42,7 +42,8 @@
 	?>
 						<form class="replyform">
 							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
-							<input class="buttonright" type="submit" value="Delete" />
+							<!-- <input class="buttonright" type="submit" value="Delete" /> -->
+							<input class="buttonright msgfullview" type="submit" value="View Full Thread" />
 							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Clear" />
 						</form>
 					</div>
@@ -52,5 +53,33 @@
 						<input type="submit" value="Send" />
 					</form>
 				</div>
+				<script>
+					$(".msgfullview").click(function(e) {
+						e.preventDefault();
+						window.location = '/messages/<?php echo $thread->getMessageID(); ?>';
+					});
+				</script>
 			<?php } }?>
 </div>
+
+<script>
+	$(".replybutton").toggle(function(e) {
+		e.preventDefault();
+		var id = "#" + $(this).attr('id') + ".replymessage";
+		$(id).show();
+		var reply = {
+			resetForm: true,
+			clearForm: true,
+			url: "/global",
+			data: {
+				"action": "replymessage",
+			},
+			success: function(response) {
+				alert(response);
+			}
+		};
+		$('.replymessage').ajaxForm(reply);
+	}, function() {
+		$(".replymessage").hide();
+	});
+</script>

@@ -346,25 +346,6 @@ $(document).ready(function() {
 	$("#hey").click(function(e) {
 		e.stopPropagation();
 	})
-	$(".replybutton").toggle(function() {
-		event.preventDefault();
-		var id = "#" + $(this).attr('id') + ".replymessage";
-		$(id).show();
-		var reply = {
-			resetForm: true,
-			clearForm: true,
-			url: "/global",
-			data: {
-				"action": "replymessage",
-			},
-			success: function(response) {
-				alert(response);
-			}
-		};
-		$('.replymessage').ajaxForm(reply);
-	}, function() {
-		$(".replymessage").hide();
-	});
 	$('#omnibox').toggle(function() {
 		$(".settings").click(function(e) {
 			e.stopPropagation();
