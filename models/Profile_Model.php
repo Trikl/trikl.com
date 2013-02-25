@@ -52,7 +52,6 @@ class Profile_Model
 					);
 				}
 			}
-		} else {
 			$notfound = 1;
 		}
 
@@ -75,7 +74,6 @@ class Profile_Model
 			"showfriend" => $showfriend,
 			"notfound" => $notfound,
 		);
-
 		return $info;
 	}
 	function friendme() {
