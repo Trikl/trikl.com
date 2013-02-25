@@ -18,11 +18,11 @@ class Profile_Controller
     {
         $profileModel = new Profile_Model;
         $streamModel = new Stream_Model;
+        $view = new View_Model($this->template);
         $stuff = $profileModel->profile();
-        if (is_array($stuff['user'])) { $singleuser = $stuff['user']->getId(); }
-    	$view = new View_Model($this->template);
-        if (is_array($stuff['user'])) $view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
-        $view->assign('userinfos', $profileModel->profile());
+        if ($stuff['user']) { $singleuser = $stuff['user']->getId(); }
+    	$view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
+        $view->assign('userinfos', $stuff);
                         
         if ($_POST['submit']) {
         	$profileModel->friendme();
