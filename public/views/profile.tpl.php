@@ -1,7 +1,7 @@
 <?php 
+$userinfos = $data['userinfos'];
 $notfound = $userinfos['notfound'];
 if ($notfound !== NULL) {
-$userinfos = $data['userinfos'];
 $user = $userinfos['user'];
 $profile = $userinfos['profile'];
 $friendList = $userinfos['friendlist'];
