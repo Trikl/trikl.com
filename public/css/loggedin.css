@@ -40,6 +40,10 @@
 	padding-top:5px;
 }
 
+#friendme {
+	float:right;
+}
+
 #friendreq {
 	cursor:pointer;
 }
@@ -101,13 +105,6 @@
 	z-index:999999;
 }
 
-#profilebox {
-	background:#444;
-	height:42px;
-	width:940px;
-	z-index:999999;
-}
-
 #omnilinks {
 	-webkit-margin-after:0;
 	-webkit-margin-before:0;
@@ -117,32 +114,6 @@
 	line-height:42px;
 	margin:0;
 	text-align:left;
-}
-
-#profilelinks {
-	-webkit-margin-after:0;
-	-webkit-margin-before:0;
-	-webkit-padding-start:0;
-	color:#fff;
-	float:left;
-	line-height:42px;
-	margin:0;
-	text-align:left;
-}
-
-#profilelinks a {
-	color:inherit;
-	cursor:pointer;
-	height:21px;
-	text-decoration:none;
-	width:50px;
-}
-
-#profilelinks li {
-	float:left;
-	list-style-type:none;
-	text-align:center;
-	width:100px;
 }
 
 #omnilinks #trikl {
@@ -200,6 +171,39 @@
 
 #photobar {
 	background:#444;
+}
+
+#profilebox {
+	background:#444;
+	height:42px;
+	width:940px;
+	z-index:999999;
+}
+
+#profilelinks {
+	-webkit-margin-after:0;
+	-webkit-margin-before:0;
+	-webkit-padding-start:0;
+	color:#fff;
+	float:left;
+	line-height:42px;
+	margin:0;
+	text-align:left;
+}
+
+#profilelinks a {
+	color:inherit;
+	cursor:pointer;
+	height:21px;
+	text-decoration:none;
+	width:50px;
+}
+
+#profilelinks li {
+	float:left;
+	list-style-type:none;
+	text-align:center;
+	width:100px;
 }
 
 #sendmessage {
@@ -494,6 +498,67 @@
 
 .privacyfields {
 	border-top:none;
+}
+
+.profile {
+	border:1px solid rgba(0,0,0,0.0980392);
+	height:150px;
+	margin:auto;
+	padding:10px 0 0 10px;
+}
+
+.profile .profile_un {
+	color:#FFF;
+	letter-spacing:2px;
+	text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+
+.profile li {
+	display:block;
+}
+
+.profile_bio {
+	display:none;
+}
+
+#sendmessage input {
+    width: 925px;
+    margin-left: 5px;
+}
+
+#sendmessage textarea {
+	width: 923px; height: 50px; resize: vertical; 
+    margin-left: 5px;
+    margin-top:2px;
+}
+
+#sendmessage .messagesubmit {
+	width: auto;
+}
+
+.profilefriends {
+	display:none;
+}
+
+.profile_bio ul {
+	-webkit-padding-start:0;
+	margin:0;
+}
+
+.profile_friends {
+	float:left;
+}
+
+.profile_img {
+	border-radius:5px;
+	float:left;
+	height:80px;
+	width:80px;
+}
+
+.profile_un {
+	margin-left:85px;
+	margin-top:0;
 }
 
 .proset {
