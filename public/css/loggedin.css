@@ -243,9 +243,25 @@
 }
 
 .comment {
-	margin:10px 25px 0 100px;
+	margin:0 110px;
 	-webkit-margin-after:0;
 	-webkit-margin-before: 0;
+}
+
+.postcontentsactive {
+	background: rgba(0,0,0,0.10);
+}
+
+.postactive {
+	border-bottom: 1px solid #3584D8 !important;
+}
+
+#makeBlogtextbox {
+	width: 924px;
+	margin-left:5px;
+	height: 100px;
+	resize: vertical;
+	margin-top:10px;
 }
 
 .content {
@@ -708,6 +724,7 @@ padding-left:45px;
 	height:0;
 	margin-left:10px!important;
 	width:0;
+	border-top:0;
 }
 
 .ui-dialog {
