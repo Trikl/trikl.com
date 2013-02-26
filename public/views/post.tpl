@@ -19,7 +19,6 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 				<div class="share" id="<?php echo $post['pid']; ?>"> 
 					<form>
 						<input type="submit" value="Full Post" />
-						<!-- kill the bucket for now <input type="submit" value="Bucket: <?php echo $post['bucket']; ?>" /> -->
 						<?php if ($_SESSION['uid'] === $post['uid']) { ?>
 						<input type="submit" value="Delete" />
 						<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
@@ -49,7 +48,4 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 					<input type='submit' value="Comment">
 				</form>	
 			</div>
-			 
-
-			 
 		</div>

@@ -195,6 +195,18 @@
 		});
 		$('#subpost').click(function() {
 			$('#makePost').submit();
+			$('#options,.submitbar,#upload').hide();
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"PID": $(".post").attr('id'),
+					"action": "new",
+				},
+				success: function(response) {
+					$('#streamlist.stream').prepend(response);
+				}
+			})
 		});
 		$('#blogpost').click(function() {
 			$('#makeBlog').submit();
@@ -286,12 +298,12 @@
 	};
 
 	function newPosts() {
+
 		function streamInt() {
 			var intval = setInterval(function() {
 				streamUpdates()
 			}, 15000);
 		};
-
 		function streamUpdates() {
 			$.ajax({
 				type: "POST",
@@ -316,7 +328,9 @@
 					"action": "new",
 				},
 				success: function(response) {
-					$(response).prependTo("#streamlist"), clearInterval(intval), $("#newposts").hide()
+					//alert(response);
+					$('#streamlist.stream').prepend(response), $("#newposts").hide()
+					clearInterval(intval);
 					streamInt();
 					postView();
 				}
