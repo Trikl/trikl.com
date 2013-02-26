@@ -186,12 +186,11 @@ class Stream_Model {
 			foreach ($posts as $p) {
 				$text = $p->getStatus();
 				$text = strip_tags($text);
-				$text = $this->auto_link_text($text);
+				//$text = $this->auto_link_text($text);
 				$url = $this->link_parse($text);
 				$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
 				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
-				$text = nl2br($text);
-				$textinfo = $text . $p->getStatus();
+				$textinfo = nl2br($text);
 
 				$datefrom = $p->getDate();
 				$date = $this->ago($datefrom);
@@ -437,20 +436,25 @@ class Stream_Model {
 		}
 	}
 
-	function urlinfo($url) {
+	function urlinfo() {
+		$url = $_POST['URL'];
 		$urls = explode('-', $url);
 		foreach ($urls as $urlid) {
 			if ($urlid !== '') {
 				$urldata = UrlQuery::create()->findOneByUrlid($urlid);
 				$urlhost = $urldata->getUrlhost();
 				$urlpath = $urldata->getUrlpath();
+				$urlquery = $urldata->getUrlquery();
 				$type = $urldata->getContenttype();
 				$title = $urldata->getTitle();
 				$content = $urldata->getContent();
 				$img = $urldata->getContentimg();
 				$fullurl = "http://" . $urlhost . $urlpath;
-				
 				switch ($urlhost) {
+				case 'i.imgur.com':
+					$image = explode('/', $urlpath);
+					$newPost = "<img src='http://i.imgur.com/" . $image[1] . "' />";
+					break;
 				case 'imgur.com':
 					$image = explode('/', $urlpath);
 					$newPost = "<img src='http://i.imgur.com/" . $image[2] . ".png' />";
@@ -459,21 +463,13 @@ class Stream_Model {
 					$image = explode('/', $urlpath);
 					$newPost = "<img src='/public/photos/" . $image[2] . "' />";
 					break;
+				case 'www.youtube.com':
+					$image = explode('=', $urlquery);
+					$newPost .= "<iframe width='940' height='705' src='http://www.youtube.com/embed/" . $image['1'] . "' frameborder='0' allowfullscreen></iframe>";
+					break;
+				case 'vimeo.com':
+					$newPost .= "<iframe src='http://player.vimeo.com/video" . $video['path'] . "?badge=0&amp;color=ffffff' width='520' height='315' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
 				default:
-					switch ($type) {
-					case  'video':
-						$video = parse_url($fullurl);
-						switch ($video['host']) {
-						case 'www.youtube.com':
-							parse_str($video['query'], $string);
-							$newPost .= "<iframe width='730' height='411' src='http://www.youtube.com/embed/" . $string[v] . "' frameborder='0' allowfullscreen></iframe>";
-							break;
-						case 'vimeo.com':
-							$newPost .= "<iframe src='http://player.vimeo.com/video" . $video['path'] . "?badge=0&amp;color=ffffff' width='520' height='315' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
-						}
-						break;
-						break;
-					default:
 						if ($img) {
 							$newPost .= "<div class='tags'>";
 							$newPost .= "<a href='" . $fullurl . "'>";
@@ -491,7 +487,7 @@ class Stream_Model {
 				unset($newPost);
 
 			}
-		}
+	
 	}
 	
 	function auto_link_text($text) {

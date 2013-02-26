@@ -22,9 +22,6 @@ class Photo_Model {
 
 		$target = SERVER_ROOT . "/public/avatars";
 
-
-
-
 		foreach ($selectfiles as $file) {
 			foreach ($file['name'] as $key => $name) {
 				$files[$key] = array(

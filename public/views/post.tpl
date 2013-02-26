@@ -21,49 +21,32 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 						<input type="submit" value="Full Post" />
 						<!-- kill the bucket for now <input type="submit" value="Bucket: <?php echo $post['bucket']; ?>" /> -->
 						<?php if ($_SESSION['uid'] === $post['uid']) { ?>
-	
 						<input type="submit" value="Delete" />
 						<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
 						
-
 						<?php } ?>
-	
-					<!-- <a href="/post/<?php echo $post['pid']; ?>">Full Post</a>
-					<span>Bucket: <?php echo $post['bucket']; ?></span> 
-	
-					<span>Delete</span>
-					<span id="editpost-<?php echo $post['pid']; ?>">Edit</span>-->
-								 
-				
-				
+					</form>								 
 				</div>
-
-				
 			</div>
-				<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
-			<div class="comments" style="display:none;margin-left:20px;margin-right:20px;" id="<?php echo $post['pid']; ?>">
-
+			<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
+			<div class="comments" id="<?php echo $post['pid']; ?>">
 			<?php
-				
 				if (is_array($post['comments'])) {
 					foreach ($post['comments'] as $comments) {
-
-				?>
+			?>
 						<div class="commentcontents">
 							<img class="usr_img" style="width:60px;height:60px;" src="public/avatars/<?php echo $comments['user']->getAvatarFilename(); ?>" />
 							<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $comments['user']->getFirstName()." ".$comments['user']->getLastName(); ?></a>
 							<span class='date'> <?php echo $comments['date']; ?> </span>
 							<p class="comment more"><?php echo $comments['content']; ?></p>
 						</div>
-					<?php
-
+			<?php
 					}
 				}
-				
 				?>
 				<form class="makeComment" method="post">
-					<textarea class="makeCommentTextbox" placeholder="Comment..." name="comment"></textarea>
-					<input type=submit value="">
+					<textarea class="makeCommentTextbox" placeholder="Comment..." name="comment"></textarea><br />
+					<input type='submit' value="Comment">
 				</form>	
 			</div>
 			 
