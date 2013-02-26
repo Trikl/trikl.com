@@ -10,17 +10,6 @@ $(document).ready(function() {
 			var share = '#' + $(this).attr('id') + '.share';
 			var comments = '#' + thispostid + '.comments';
 			var urldata = '#' + thispostid + '.urldata';
-			var editoptions = {
-				resetForm: true,
-				clearForm: true,
-				data: {
-					"action": "editpost",
-					"id": $('#editPost').attr('post'),
-				},
-				success: function() {
-					$(posteditor).dialog('close');
-				}
-			};
 			var commentoptions = {
 				resetForm: true,
 				clearForm: true,
@@ -32,10 +21,31 @@ $(document).ready(function() {
 					alert(response);
 				},
 			};
-			$(thispostedit).click(function() {
-				$('#editPost').ajaxForm(editoptions);
-				$(posteditor).dialog(function() {});
-			});
+			$(thispostedit).click(function(e) {
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"action": "loadedit",
+						"id": thispostid,
+					},
+					success: function(response) {
+						$('#editpost').html(response).show();
+						var editoptions = {
+							url: "/stream",
+							data: {
+								"action": "editpost",
+								"id": $('#saveEdit').attr('post'),
+							},
+							success: function(response) {
+								$('#editpost').hide();
+							}
+						};
+						$('#saveEdit').ajaxForm(editoptions);		
+					}
+				})
+			});			
 			$(thispostupvote).click(function() {
 				$.ajax({
 					type: "POST",
@@ -56,11 +66,8 @@ $(document).ready(function() {
 					}
 				})
 			});
-			$(thispost).mouseover(function() {
-				$(share).hide().show();
-			});
-			$('.post').mouseleave(function() {
-				$(share).hide();
+			$(".share").click(function(e) {
+				e.stopPropagation();
 			})
 			$(thispost).toggle(function() {
 				$(thispost).css("background", "rgba(0,0,0,0.10)");
@@ -72,13 +79,13 @@ $(document).ready(function() {
 						"action": "geturl",
 					},
 					success: function(response) {
-						//alert(response);
 						$(urldata).html(response).show();
 					}
 				})
 				$(comments).show();
 				$('.makeComment').ajaxForm(commentoptions);
 				$('.makeCommentTextbox').autosize();
+
 			}, function() {
 				$(urldata).hide();
 				$(comments).hide();
@@ -346,6 +353,9 @@ $(document).ready(function() {
 	$("#hey").click(function(e) {
 		e.stopPropagation();
 	})
+	$("#editpost").click(function(e) {
+			e.stopPropagation();
+	})
 	$('#omnibox').toggle(function() {
 		$(".settings").click(function(e) {
 			e.stopPropagation();
@@ -356,6 +366,7 @@ $(document).ready(function() {
 		$("a").click(function(e) {
 			e.stopPropagation();
 		})
+
 		$(".replyform").click(function(e) {
 			e.stopPropagation();
 		})
