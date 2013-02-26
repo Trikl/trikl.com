@@ -42,6 +42,12 @@ class Stream_Controller
 		case 'geturl':
 			$streamModel->urlinfo($_POST['URL']);
 			break;
+		case 'loadedit':
+			$discard = 1;
+			$page = 'postedit';
+			$view = new View_Model($page, $discard);
+			$view->assign('status', $streamModel->stream($_POST['id']));
+			break;
 		case 'editpost':
 			$streamModel->edit_post($_POST['post']);
 			break;

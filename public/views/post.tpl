@@ -1,6 +1,6 @@
 <?php
 	unset($urlinfo);
-if(is_array($post['url'])) foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; }
+if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; } }
  ?>
 		<div class="post" id="<?php echo $post['pid']; ?>">
 			<div class="postvotes">
@@ -15,14 +15,38 @@ if(is_array($post['url'])) foreach ($post['url'] as $url) { $urlinfo .= $url . "
 				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName(); ?></a>
 				<span class='date'> <?php echo $post['date']; ?> </span>
 				<p class="comment"><?php echo $post['text']; ?></p>
+				
+				<div class="share" id="<?php echo $post['pid']; ?>"> 
+					<form>
+						<input type="submit" value="Full Post" />
+						<!-- kill the bucket for now <input type="submit" value="Bucket: <?php echo $post['bucket']; ?>" /> -->
+						<?php if ($_SESSION['uid'] === $post['uid']) { ?>
+	
+						<input type="submit" value="Delete" />
+						<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
+						
+
+						<?php } ?>
+	
+					<!-- <a href="/post/<?php echo $post['pid']; ?>">Full Post</a>
+					<span>Bucket: <?php echo $post['bucket']; ?></span> 
+	
+					<span>Delete</span>
+					<span id="editpost-<?php echo $post['pid']; ?>">Edit</span>-->
+								 
+				
+				
+				</div>
+
+				
 			</div>
 				<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
 			<div class="comments" style="display:none;margin-left:20px;margin-right:20px;" id="<?php echo $post['pid']; ?>">
 
 			<?php
 				
-				if(is_array($post['comments'])){
-					foreach ($post['comments'] as $comments):
+				if (is_array($post['comments'])) {
+					foreach ($post['comments'] as $comments) {
 
 				?>
 						<div class="commentcontents">
@@ -33,7 +57,7 @@ if(is_array($post['url'])) foreach ($post['url'] as $url) { $urlinfo .= $url . "
 						</div>
 					<?php
 
-					endforeach;
+					}
 				}
 				
 				?>
@@ -42,28 +66,6 @@ if(is_array($post['url'])) foreach ($post['url'] as $url) { $urlinfo .= $url . "
 					<input type=submit value="">
 				</form>	
 			</div>
-			<div class="share" id="<?php echo $post['pid']; ?>"> 
-				
-				<a href="/post/<?php echo $post['pid']; ?>">Full Post</a>
-				<span>Bucket: <?php echo $post['bucket']; ?></span>
-
-				<?php if ($_SESSION['uid'] === $post['uid']) { ?>
-				<span>Delete</span>
-				<span id="editpost-<?php echo $post['pid']; ?>">Edit</span>
-							 
-			 			<div id="editor-<?php echo $post['pid']; ?>" style="display:none;" title="Edit Post">
-			 				<form id="editPost" action="/stream" method="post" post="<?php echo $post['pid']; ?>">
-						    <textarea id="editPostBox" name="edit"><?php 
-						    $result = preg_replace('#(<a[^>]*>).*?(</a>)#', '$1$2', $post['text']);
-						    $result .= " " . $post['url'];
-						    echo strip_tags($result); ?></textarea>
-						    <input type="submit" value="edit" />
-						    </form>
-					    </div>
-				
-				<?php } ?>
-				
-			 </div>
 			 
 
 			 

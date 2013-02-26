@@ -139,7 +139,6 @@ class Stream_Model {
 			->findOne();
 
 			$text = $posts->getStatus();
-			$text = $this->auto_link_text($text);
 			$url = $this->link_parse($text);
 			$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
 			$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
@@ -333,13 +332,12 @@ class Stream_Model {
 			return $urldata;
 	}
 	
-	function edit_post($contents) {
-		$contents = strip_tags($_POST['edit']);
-		if ($contents) {
+	function edit_post() {
+		if ($_POST['edit']) {
 			$post = StatusQuery::create()
 			->filterByPostid($_POST['id'])
 			->findOne();
-			$post->setStatus($contents);
+			$post->setStatus($_POST['edit']);
 			$post->save();
 		}
 	}

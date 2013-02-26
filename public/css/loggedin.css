@@ -24,13 +24,19 @@
 }
 
 #editPostBox {
-	background:rgba(0,0,0,0.80);
-	border:1px solid #CCC!important;
-	color:#FFF;
-	font-size:16px;
-	line-height:18px;
-	resize:none;
-	width:450px;
+	resize:vertical;
+	width:924px;
+	margin-left: 5px;
+}
+
+#editpost input {
+	float:right;
+	margin-right: 5px;
+}
+
+#editpost {
+	display:none;
+	padding-bottom: 35px;
 }
 
 #expandedmessage {
@@ -233,6 +239,8 @@
 
 .comment {
 	margin:10px 25px 0 100px;
+	-webkit-margin-after:0;
+	-webkit-margin-before: 0;
 }
 
 .content {
@@ -449,7 +457,6 @@
 
 .post {
 	border-bottom:1px solid rgba(0,0,0,0.0980392);
-	margin:0 5px;
 	min-height:95px;
 }
 
@@ -461,9 +468,8 @@
 
 .post .postcontents {
 	display:inline-block;
-	margin-left:40px;
-	padding:0 5px;
-	width:875px;
+padding-left:45px;
+	width:895px;
 }
 
 .post .postcontents a {
@@ -634,13 +640,8 @@
 }
 
 .stream .post .share {
-	background:#444;
-	color:#000;
-	display:none;
-	margin:0 auto;
-	padding:5px;
-	text-align:center;
-	width:720px;
+	float:right;
+	margin-top:-18px;
 }
 
 .subject a {
