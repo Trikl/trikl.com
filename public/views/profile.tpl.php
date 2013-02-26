@@ -29,7 +29,7 @@ if ($notfound !== NULL) {
 	    <li id="userfriends">
 	       Friends
 	    </li>
-	    <?php if ($showfriend) { ?>
+	    <?php if (!$showfriend) { ?>
 			<li id="friendme">
 				<form method="post" action="">
 					<input type="Submit" name="submit" value="Friend Me!">

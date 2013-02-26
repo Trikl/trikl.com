@@ -5,18 +5,6 @@
             <form id="makePost" action="/stream" method="post">
                 <textarea id="makePostTextbox" placeholder="Whats Trikling Through Your Mind?" class="posttextarea" name="post"></textarea>
             </form>
-            <div id="blog" style="display:none;" title="Update Status">
-                <form id="makeBlog" action="/stream" method="post">
-                    <textarea id="makeBlogtextbox" placeholder="Whats Trikling Through Your Mind?" class="posttextarea" name="post"></textarea>
-                    <div id="fullsizeopt">
-                        <ul>
-                            <li id="blogimage">Upload Picture</li>
-                            <li id="blogpost">Post</li>
-                            <li>Search [incomplete]</li>
-                        </ul>
-                    </div>
-                </form>
-            </div>
         </div>
         <div id="notification">
         	<div class="submitbar">
@@ -32,6 +20,18 @@
 		           </div>
 		        </form>
 	        </div>
+	        <div id="blog" style="display:none;" title="Update Status">
+                <form id="makeBlog" action="/stream" method="post">
+                    <textarea id="makeBlogtextbox" placeholder="Whats Trikling Through Your Mind?" class="posttextarea" name="post" ></textarea>
+                    <div id="fullsizeopt">
+                        <ul>
+                            <li id="blogimage">Upload Picture</li>
+                            <li id="blogpost">Post</li>
+                            <li>Search [incomplete]</li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
             <div id="friendreq"></div>
             <div id="newmessages"></div>
             <div id="hey" style="display:none;"></div>
