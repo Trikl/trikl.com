@@ -5,9 +5,9 @@
 				<base href="<?PHP echo SITE_ROOT; ?>">
 				<script type="text/javascript" src="<?php echo 'public/js/jquery-1.9.1.min.js'?>"></script>
 				<script type="text/javascript" src="<?php echo 'public/js/jquery-ui-1.9.2.custom.min.js'?>"></script>
-				<script type="text/javascript" src="<?php echo 'public/js/jquery.autosize-min.js'?>"></script>
+				<!-- <script type="text/javascript" src="<?php echo 'public/js/jquery.autosize-min.js'?>"></script> -->
 				<script type="text/javascript" src="<?php echo 'public/js/trikl-1.9.1.js'?>"></script>
-				<script type="text/javascript" src="<?php echo 'public/js/jquery.form.js'?>"></script>
+				<script type="text/javascript" src="<?php echo 'public/js/jquery.form-3.27.0.js'?>"></script>
 				<?php if ($_SESSION['uid']) { ?>
 						<link rel="stylesheet" type="text/css" href="public/css/loggedin.css" />
 				<?php } else { ?>
