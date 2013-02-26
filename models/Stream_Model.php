@@ -157,13 +157,12 @@ class Stream_Model {
 			);
 
 		} else {
-
-			if ($postid) {
+			if ($_POST['PID']) {
 				$posts = StatusQuery::create()
 				->filterByUserid($aFriends)
 				->filterByBucketid($aBucket)
 				->orderByPostid('desc')
-				->filterByPostid($postid, \Criteria::GREATER_THAN)
+				->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
 				->find();
 
 			} else {

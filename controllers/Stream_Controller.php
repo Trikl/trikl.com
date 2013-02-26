@@ -22,7 +22,7 @@ class Stream_Controller
 			$discard = 1;
 			$page = 'postpage';
 			$view = new View_Model($page, $discard);
-			$view->assign('status', $streamModel->stream(NULL, NULL, $_POST['pid']));
+			$view->assign('status', $streamModel->stream(NULL, NULL, $_POST['pid'], NULL));
 			break;
 		case 'more':
 			$discard = 1;
