@@ -380,9 +380,19 @@ class Stream_Model {
 			$comment->setContent($commentcon['comment']);
 			$comment->setDate(date("r"));
 			$comment->save();
+			
+			$originalpost = StatusQuery::create()->filterByPostid($commentcon['post'])->findOne();
+			//$poster = UserQuery::create()->findPK();
+			
+			$noti = new Notification();
+			$noti->setUserid($originalpost->getUserid());
+			$noti->setTriggerid($_SESSION['uid']);
+			$noti->setType('comment');
+			$noti->setContent($commentcon['comment']);
+			$noti->setRefid($originalpost->getPostid());
+			$noti->save();
+			
 		}
-
-		echo "saved!";
 	}
 
 	function upvote($data) {

@@ -68,6 +68,9 @@
 					data: {
 						post: thispostid,
 						"action": "comment",
+					},
+					success: function(response) {
+						alert(response);
 					}
 				};
 				if (!$.trim($(urldata).html()).length) {
@@ -134,6 +137,16 @@
 			},
 			success: function(response) {
 				$("#friendreq").html(response).hide();
+			}
+		})
+		$.ajax({
+			type: "POST",
+			url: "/global",
+			data: {
+				"action": "generalNotifications",
+			},
+			success: function(response) {
+				$("#general").html(response).hide();
 			}
 		})
 		$.ajax({
@@ -222,11 +235,34 @@
 			e.preventDefault();
 		})
 		$('#omnibox').click(function() {
-			$("#settings,#newmessages,#friendreq,a,.replyform").click(function(e) {
+			$("#settings,#newmessages,#friendreq,a,.replyform,#general").click(function(e) {
 				e.stopPropagation();
 			})
-			$('#friendreq,#newmessages').toggle();
+			$('#friendreq,#newmessages,#general').toggle();
 			$("#newmessages #expandedmessage,#hey").hide();
+			$('.notification').click(function(e) {
+				window.location.href = '/post/' + $(this).attr('id');
+			});
+			
+			$('.buttonclear').click(function(e) {
+				e.preventDefault();
+				var id = $(this).attr('id');
+								
+				$.ajax({
+					type: "POST",
+					url: "/global",
+					data: {
+						"messageid": id,
+						"action": "clearnotification",
+					},
+					success: function(response) {
+						alert(response)
+					}
+				})
+
+			});
+			
+			
 			$('#supercompose').click(function(e) {
 				e.preventDefault();
 				var newmessage = {
@@ -253,7 +289,7 @@
 			});
 			$('body').click(function(event) {
 				if (!$(event.target).is('#omnibox')) {
-					$("#friendreq,#newmessages,#hey").hide();
+					$("#friendreq,#newmessages,#hey,#general").hide();
 				}
 			});
 			$("#newmessages").click(function() {
@@ -391,10 +427,26 @@
 
 	$(document).ready(function() {
 		jQuery.fx.off = true;
-		omnibar();
-		postView();
-		morePosts();
-		newPosts();
-		frontpage();
-		photoupload();
+		var pathname = window.location.pathname;
+		switch (pathname) {
+			case '/':
+				frontpage();
+				break;
+			case '/login':
+				frontpage();
+				break;
+			case '/photo':
+				photoupload();
+				omnibar();
+				postView();
+				morePosts();
+				newPosts();
+				break;
+			default:
+				omnibar();
+				postView();
+				morePosts();
+				newPosts();
+				break;
+		}
 	});
