@@ -37,6 +37,7 @@
             <div id="hey" style="display:none;"></div>
             <div id="newposts"></div>
             <div id="editpost"></div>
+            <div id="general"></div>
         </div>
     </div>
 </div>

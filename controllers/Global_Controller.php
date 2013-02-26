@@ -28,6 +28,15 @@ class Global_Controller
 		case 'archivemessage':
 			$globalModel->archivemessage();
 			break;
+		case 'generalNotifications':
+			$discard = 1;
+			$page = 'globalnotes';
+			$view = new View_Model($page, $discard);
+			$view->assign('global', $globalModel->getNotifications());
+			break;
+		case 'clearnotification':
+			$globalModel->clearnotification();
+			break;
 	    case 'getMessages':
 			$discard = 1;
 			$page = 'messages';

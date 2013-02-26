@@ -15,7 +15,7 @@ class Stream_Controller
 	 */
 	public function main()
 	{
-			$streamModel = new Stream_Model;
+		$streamModel = new Stream_Model;
 
 		switch($_POST['action']) {
 		case 'new':

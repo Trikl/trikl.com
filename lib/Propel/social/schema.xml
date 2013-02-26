@@ -131,4 +131,12 @@
 	<column name="thread_id" type="INTEGER" size="50" phpName="threadid" />
 	<column name="user_id" type="INTEGER" size="50" phpName="userid" />
 </table>
+<table name="general_notifications" phpName="Notification">
+	<column name="notificationid" type="INTEGER" size="50" required="true" primaryKey="true" autoIncrement="true" />
+	<column name="userid" type="INTEGER" size="50"  />
+	<column name="triggerid" type="INTEGER" size="50"  />
+	<column name="type" type="varchar" size="50"  />
+	<column name="content" type="varchar" size="50" />
+	<column name="refid" type="INTEGER" size="50"  />
+</table>
 </database>

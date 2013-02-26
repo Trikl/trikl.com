@@ -115,6 +115,25 @@ class Global_Model {
 		$content->setDate(date('r'));
 		$content->save();
 	}
+	
+	function getNotifications() {
+		$notifications = NotificationQuery::create()->filterbyUserid($_SESSION['uid'])->find();
+		foreach ($notifications as $noti) {
+			$user = UserQuery::create()->findPK($noti->getTriggerid());
+			$global[] = array(
+				'user' => $user,
+				'notifications' => $noti,
+			);
+		}
+		return $global;
+	}
+	
+	
+	function clearnotification() {
+		$noti = NotificationQuery::create()->filterbyNotificationid($_POST['messageid'])->findOne();
+		$noti->delete();	
+	}
+	
 }
 
 
