@@ -3,6 +3,7 @@ $(document).ready(function() {
 		$(".postcontents").each(function() {
 			var thispost = '#' + $(this).attr('id') + '.postcontents';
 			var thispostid = $(this).attr('id');
+			var thispostpost = '#' + $(this).attr('id') + '.post';
 			var thispostedit = '#editpost-' + $(this).attr('id');
 			var posteditor = '#editor-' + thispostid;
 			var thispostdownvote = '#downvote-' + $(this).attr('id');
@@ -10,17 +11,7 @@ $(document).ready(function() {
 			var share = '#' + $(this).attr('id') + '.share';
 			var comments = '#' + thispostid + '.comments';
 			var urldata = '#' + thispostid + '.urldata';
-			var commentoptions = {
-				resetForm: true,
-				clearForm: true,
-				data: {
-					post: thispostid,
-					"action": "comment",
-				},
-				success: function(response) {
-					alert(response);
-				},
-			};
+
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
 				$.ajax({
@@ -43,6 +34,9 @@ $(document).ready(function() {
 							}
 						};
 						$('#saveEdit').ajaxForm(editoptions);		
+						$('.cancel').click(function(e) {
+							$('#editpost').hide();
+						})
 					}
 				})
 			});			
@@ -70,7 +64,19 @@ $(document).ready(function() {
 				e.stopPropagation();
 			})
 			$(thispost).toggle(function() {
+							var commentoptions = {
+				resetForm: true,
+				clearForm: true,
+				data: {
+					post: thispostid,
+					"action": "comment",
+				},
+				success: function(response) {
+					alert(response);
+				},
+			};
 				$(thispost).css("background", "rgba(0,0,0,0.10)");
+				if ( !$.trim( $(urldata).html() ).length ) {
 				$.ajax({
 					type: "POST",
 					url: "/stream",
@@ -82,13 +88,18 @@ $(document).ready(function() {
 						$(urldata).html(response).show();
 					}
 				})
+				} else {
+					$(urldata).show();
+				}
 				$(comments).show();
+				$(thispostpost).css("border-bottom", "1px solid #3584D8");
 				$('.makeComment').ajaxForm(commentoptions);
 				$('.makeCommentTextbox').autosize();
-
+				
 			}, function() {
 				$(urldata).hide();
 				$(comments).hide();
+				$(thispostpost).css("border-bottom", "1px solid rgba(0,0,0,0.0980392)");
 				$(thispost).css("background", "rgba(0,0,0,0.00)");
 			});
 			$("a").click(function(e) {
@@ -111,7 +122,7 @@ $(document).ready(function() {
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
-		var posttext = '#makePostTextbox';
+		var posttext = '#makePostTextbox';	
 		var streamphoto = {
 			url: '/photo',
 			beforeSend: function() {
@@ -130,7 +141,7 @@ $(document).ready(function() {
 			},
 			success: function(response) {
 				$(posttext).val($(posttext).val() + ' http://trikl.com/photo/' + response);
-				$("#dialog").dialog('close');
+				$("#upload").hide();
 			}
 		};
 		$('#makePost').ajaxForm(commentoptions);
@@ -138,9 +149,12 @@ $(document).ready(function() {
 		$(posttext).autosize().on("keyup", function() {
 			var postdata = $(posttext).val().length;
 			if (postdata > 0) {
-				$('#options').show();
+				$('#options').css('display', 'inline-block');
+				$('.submitbar').show();
 			} else {
 				$('#options').hide();
+				$('.submitbar').hide();
+				$('#upload').hide();
 			}
 			if ($(posttext).css('height') > '39px') {
 				$("#makeBlogtextbox").html($(posttext).val());
@@ -152,9 +166,7 @@ $(document).ready(function() {
 				$('#blog').dialog();
 			}
 		});
-		$("li").click(function(e) {
-			e.stopPropagation();
-		})
+
 		$('#subpost').click(function() {
 			$('#makePost').submit();
 			$(posttext).css('height', '38px');
@@ -165,13 +177,15 @@ $(document).ready(function() {
 		$('#blogpost').click(function() {
 			$('#makeBlog').submit();
 		});
+		$("#upload").click(function(e) {
+			e.stopPropagation();
+		})
 		$('#subimage').click(function() {
-			$("#dialog").dialog(function() {
+			$("#upload").show();
 				$('#upload').submit(function() {
 					$(this).ajaxSubmit(streamphoto);
 					return false;
 				});
-			});
 		});
 	};
 
@@ -355,6 +369,10 @@ $(document).ready(function() {
 	})
 	$("#editpost").click(function(e) {
 			e.stopPropagation();
+	})
+	$("#options").click(function(e) {
+		e.stopPropagation();
+		e.preventDefault();
 	})
 	$('#omnibox').toggle(function() {
 		$(".settings").click(function(e) {

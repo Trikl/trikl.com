@@ -148,21 +148,30 @@
 }
 
 #options {
-	border-bottom:1px solid;
 	display:none;
-	height:50px;
-	margin-bottom:5px;
-	margin-top:0;
-	padding:0;
-	width:940px;
+	float:right;
 }
 
-#options li {
+.submitbar {
+	background: #444;
+	width: 940px;
+	height: 30px;
+	display:none;
+}
+
+#upload {
+	display:none;
+}
+
+#upload input {
+	float:left;
+}
+
+#options input {
 	color:#fff;
 	float:right;
 	list-style-type:none;
 	text-align:right;
-	width:75px;
 }
 
 #page {
@@ -214,10 +223,6 @@
 
 #sendmessage {
 	display:none;
-}
-
-#subpost {
-	margin-right:20px;
 }
 
 #supercompose {
@@ -339,6 +344,16 @@
 	width:940px;
 }
 
+#attachimage {
+	float: left !important;
+    width: 431px !important;
+    line-height: 45px;
+}
+
+#attachimage .progress {
+	display: inline-block;
+}
+
 .input-field {
 	height:80px;
 	margin:0 auto;
@@ -354,24 +369,20 @@
 .makeComment {
 	min-height:42px;
 	text-align:center;
-	width:500px;
+	padding-bottom:30px;
 }
 
 .makeComment input {
-	background:#CCC url(/public/images/icons/profile.png) no-repeat center;
-	position:absolute;
-	width:20px;
+	float:right;
+	margin-right: 5px;
 }
 
 .makeComment textarea {
-	background:rgba(0,0,0,0.80);
-	border:1px solid #CCC!important;
-	color:#FFF;
-	font-size:16px;
-	line-height:18px;
-	min-height:42px;
-	resize:none;
-	width:450px;
+	resize:vertical;
+	width:925px;
+}
+.comments {
+	display:none;
 }
 
 .menu {
