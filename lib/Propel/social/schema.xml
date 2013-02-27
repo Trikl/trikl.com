@@ -49,7 +49,7 @@
     <column name="bucketid" type="integer" size="50" required="true"/>
     <column name="date" type="timestamp" required="true"/>
     <column name="status" type="LONGVARCHAR" required="true"/>
-    <column name="drops" defaultValue="0" type="integer" size="11" required="true"/>
+    <column name="parentid" type="integer" size="50" required="true"/>
   </table>
   <table name="profile" phpName="Profile">
     <column name="userid" type="integer" size="50" required="true" primaryKey="true"/>

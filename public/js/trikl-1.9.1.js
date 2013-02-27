@@ -58,16 +58,34 @@
 					}
 				})
 			});
-			$(".share,a").click(function(e) {
+			$(".share,a,.pin").click(function(e) {
 				e.stopPropagation();
+			})
+			$(".pin").click(function(e) {
+				e.preventDefault();
+			})			
+			var pins = "#" + thispostid + ".pin";
+			$(pins).click(function(){
+					$.ajax({
+						type: "POST",
+						url: "/global",
+						data: {
+							"id": thispostid,
+							"action": "pinpost",
+						},
+						success: function(response) {
+							alert(response);
+						}
+					})
 			})
 			$(thispost).click(function() {
 				var commentoptions = {
 					resetForm: true,
 					clearForm: true,
+					url: "/stream",
 					data: {
-						post: thispostid,
-						"action": "comment",
+						"parentid": thispostid,
+						"action": "createpost",
 					},
 					success: function(response) {
 						alert(response);
@@ -102,6 +120,9 @@
 			clearForm: true,
 			data: {
 				"action": "createpost",
+			},
+			success: function(response) {
+				alert(response);
 			}
 		};
 		var bar = $('.bar');
