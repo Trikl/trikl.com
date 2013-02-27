@@ -138,7 +138,7 @@ abstract class BaseObject
     /**
      * Code to be run before persisting the object
      * @param  PropelPDO $con
-     * @return bloolean
+     * @return boolean
      */
     public function preSave(PropelPDO $con = null)
     {
@@ -155,7 +155,7 @@ abstract class BaseObject
 
     /**
      * Code to be run before inserting to database
-     * @param PropelPDO $con
+     * @param  PropelPDO $con
      * @return boolean
      */
     public function preInsert(PropelPDO $con = null)
@@ -173,7 +173,7 @@ abstract class BaseObject
 
     /**
      * Code to be run before updating the object in database
-     * @param PropelPDO $con
+     * @param  PropelPDO $con
      * @return boolean
      */
     public function preUpdate(PropelPDO $con = null)
@@ -191,7 +191,7 @@ abstract class BaseObject
 
     /**
      * Code to be run before deleting the object in database
-     * @param PropelPDO $con
+     * @param  PropelPDO $con
      * @return boolean
      */
     public function preDelete(PropelPDO $con = null)
@@ -208,9 +208,17 @@ abstract class BaseObject
     }
 
     /**
+     * Code to be run after object hydration
+     * @param PropelPDO $con
+     */
+    public function postHydrate($row, $startcol = 0, $rehydrate = false)
+    {
+    }
+
+    /**
      * Sets the modified state for the object to be false.
-     * @param      string $col If supplied, only the specified column is reset.
-     * @return     void
+     * @param  string $col If supplied, only the specified column is reset.
+     * @return void
      */
     public function resetModified($col = null)
     {
