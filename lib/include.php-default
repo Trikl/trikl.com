@@ -6,6 +6,7 @@
     session_start();
         
     define('SITE_ROOT' , 'http://trikl.com');
+    define('SERVER_ROOT' , '/home/socss/domains/trikl.com/public_html');
     
 	require_once 'Propel/runtime/lib/Propel.php';
 	Propel::init("Propel/social/build/conf/social-conf.php");
