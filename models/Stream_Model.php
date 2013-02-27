@@ -126,7 +126,7 @@ class Stream_Model {
 		case 'new':
 			$posts = StatusQuery::create()
 			->filterByUserid($aFriends)
-			->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
+			->filterByPostid($postid, \Criteria::GREATER_THAN)
 			->find();
 			break;
 		case 'profile':

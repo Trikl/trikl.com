@@ -19,7 +19,7 @@
 		$user = UserQuery::create()->findPK($friendid);
 ?>
 
-			            	<img class="tinyava" height="40" width="40" src="/public/avatars/<?php echo $user->getAvatarFilename(); ?>">
+			            	<img class="tinyava" height="40" width="40" src="/public/photos/<?php echo $user->getAvatarFilename(); ?>">
    
 	    			    
 <?php } ?>
@@ -39,7 +39,7 @@
 
             			<div class="friendrequest">
 			            <div class="requestcontents">
-			            	<img class="usr_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>">
+			            	<img class="usr_img" src="public/photos/<?php echo $user->getAvatarFilename(); ?>">
 							<a href="profile/<?php echo $user->getUsername(); ?>"><?php echo $user->getFirstName() . ' ' .  $user->getLastName(); ?></a>
 							<span class='date'> Today </span>
 							<div class="requestinfo">

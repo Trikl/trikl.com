@@ -42,33 +42,21 @@ class Photo_Model {
 			case 'image/jpeg':
 				$image = @imagecreatefromjpeg($photo['tmp']);
 			$name = $newname . ".jpg";
-			if ($_POST['action'] === "uploadavatar") {
-				$target = SERVER_ROOT . "/public/avatars/" . $name;
-			} else {
-				$target = SERVER_ROOT . "/public/photos/" . $name;
-			}
+			$target = SERVER_ROOT . "/public/photos/" . $name;
 			imagejpeg($image, $target);
 			imagedestroy($image);
 			break;
 		case 'image/png':
 			$image = @imagecreatefrompng($photo['tmp']);
 			$name = $newname . ".png";
-			if ($_POST['action'] === "uploadavatar") {
-				$target = SERVER_ROOT . "/public/avatars/" . $name;
-			} else {
-				$target = SERVER_ROOT . "/public/photos/" . $name;
-			}
+			$target = SERVER_ROOT . "/public/photos/" . $name;
 			imagepng($image, $target);
 			imagedestroy($image);
 			break;
 		case 'image/gif':
 			$image = @imagecreatefromgif($photo['tmp']);
 			$name = $newname . ".gif";
-			if ($_POST['action'] === "uploadavatar") {
-				$target = SERVER_ROOT . "/public/avatars/" . $name;
-			} else {
-				$target = SERVER_ROOT . "/public/photos/" . $name;
-			}
+			$target = SERVER_ROOT . "/public/photos/" . $name;
 			imagegif($image, $target);
 			imagedestroy($image);
 			break;

@@ -70,8 +70,8 @@ class Settings_Model
 		$file_target = $target."/".$filename;
 		move_uploaded_file($_FILES["photo"]["tmp_name"], $file_target);
 		$user = UserQuery::create()->findPK($_SESSION['uid']);
-			$user->setBannerFilename($filename);
-			$user->save();
+		$user->setBannerFilename($filename);
+		$user->save();
 
 	}
 	

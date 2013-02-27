@@ -457,11 +457,15 @@
 			morePosts();
 			newPosts();
 			break;
+		case '/stream':
+			omnibar();
+			postView();		
+			newPosts();
+			morePosts();
+			break;
 		default:
 			omnibar();
 			postView();
-			morePosts();
-			newPosts();
 			break;
 		}
 	});

@@ -11,7 +11,7 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 			</div>
 		
 			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>">
-				<img class="usr_img" src="public/avatars/<?php echo $post['user']->getAvatarFilename(); ?>" />
+				<img class="usr_img" src="public/photos/<?php echo $post['user']->getAvatarFilename(); ?>" />
 				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName();  ?></a> <?php if ($post['parentid'] != 0) { echo "- reply"; } ?>
 				<span class='date'> <?php echo $post['date']; ?> </span>
 				<p class="comment"><?php echo $post['text']; ?></p>
@@ -34,7 +34,7 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 					foreach ($post['comments'] as $comments) {
 			?>
 						<div class="commentcontents">
-							<img class="usr_img" style="width:60px;height:60px;" src="public/avatars/<?php echo $comments['user']->getAvatarFilename(); ?>" />
+							<img class="usr_img" style="width:60px;height:60px;" src="public/photos/<?php echo $comments['user']->getAvatarFilename(); ?>" />
 							<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $comments['user']->getFirstName()." ".$comments['user']->getLastName(); ?></a>
 							<span class='date'> <?php echo $comments['date']; ?> </span>
 							<p class="comment more"><?php echo $comments['content']; ?></p>

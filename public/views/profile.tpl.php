@@ -9,7 +9,7 @@ if ($notfound !== NULL) {
 	$title = $user->getFirstName() . ' ' . $user->getLastName();
 ?>
 <div class="profile" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>')">
-	<img class="profile_img" src="public/avatars/<?php echo $user->getAvatarFilename(); ?>" />
+	<img class="profile_img" src="public/photos/<?php echo $user->getAvatarFilename(); ?>" />
 	<h1 class="profile_un"><?php echo $title; ?></h1>
 </div>
 <div id="profilebox">
