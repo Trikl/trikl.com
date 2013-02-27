@@ -14,18 +14,18 @@ class Profile_Controller
      * 
      * @param array $getVars the GET variables posted to index.php
      */
-    public function main()
-    {
+    public function main($subpage)
+    {    
         $profileModel = new Profile_Model;
         $streamModel = new Stream_Model;
         $view = new View_Model($this->template);
-        $stuff = $profileModel->profile();
+        $stuff = $profileModel->profile($subpage);
         if ($stuff['user']) { $singleuser = $stuff['user']->getId(); }
     	$view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
         $view->assign('userinfos', $stuff);
                         
         if ($_POST['submit']) {
-        	$profileModel->friendme();
+        	$profileModel->friendme($subpage);
         }
 	}
 }

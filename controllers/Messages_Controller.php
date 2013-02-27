@@ -13,17 +13,14 @@ class Messages_Controller
 	 *
 	 * @param array $getVars the GET variables posted to index.php
 	 */
-	public function main()
+	public function main($subpage)
 	{
 			$messagesModel = new Messages_Model;
-			$params = explode( "/", $_GET['p'] );
-			$page = $params['0'];
-			$subpage = $params['1'];
 			if ($subpage) {
 				$page = 'singlemessage';
 				$view = new View_Model($page);
-				$view->assign('contents', $messagesModel->messagecontents());
-				$view->assign('title', $messagesModel->messagetitle());
+				$view->assign('contents', $messagesModel->messagecontents($subpage));
+				$view->assign('title', $messagesModel->messagetitle($subpage));
 			} else {
 				$view = new View_Model($this->template);
 				$view->assign('list', $messagesModel->messagelist());
