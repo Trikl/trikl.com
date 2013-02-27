@@ -195,18 +195,18 @@ class Stream_Model {
 
 				$datefrom = $p->getDate();
 				$date = $this->ago($datefrom);
-				
-				
+
+
 				$commentquery = StatusQuery::create()->filterByParentid($p->getPostid())->find();
 
 				foreach ($commentquery as $comment) {
-						$comdatefrom = $comment->getDate();
-						$comdate = $this->ago($comdatefrom);
-						$comments[] = array(
-							'user' => UserQuery::create()->findPK($comment->getUserid()),
-							'date' => $comdate,
-							'content' => $comment->getStatus(),
-						);
+					$comdatefrom = $comment->getDate();
+					$comdate = $this->ago($comdatefrom);
+					$comments[] = array(
+						'user' => UserQuery::create()->findPK($comment->getUserid()),
+						'date' => $comdate,
+						'content' => $comment->getStatus(),
+					);
 				}
 
 
@@ -250,14 +250,14 @@ class Stream_Model {
 			$post->setStatus($contents);
 			$post->setDate(date("r"));
 			if ($_POST['parentid']) {
-		
-			
-			$post->setParentid($_POST['parentid']);
+
+
+				$post->setParentid($_POST['parentid']);
 			} else {
-			$post->setParentid('0');
+				$post->setParentid('0');
 			}
 			$post->save();
-			
+
 			if ($_POST['parentid']) {
 				$noti = new Notification();
 				$noti->setUserid($post->getUserid());
@@ -271,33 +271,33 @@ class Stream_Model {
 			if (is_array($urls)) {
 				foreach ($urls as $url) {
 					$urlid = $this->write_url($url);
-	
+
 					$post_url = new PostUrl();
 					$post_url->setUrlid($urlid);
 					$post_url->setPostid($post->getPostid());
 					$post_url->save();
 				}
 			}
-			
-				preg_match_all("/(?!<\S)~(\w+\w)(?!\S)/i",  $contents, $usernames);
-				foreach ($usernames[0] as $user) {
-					$un = explode("~", $user);
-					$poster = UserQuery::create()->filterByUsername($un[1])->findOne();
-					if ($poster) {
-						$noti = new Notification();
-						$noti->setUserid($poster->getId());
-						$noti->setTriggerid($_SESSION['uid']);
-						$noti->setType('mention');
-						$noti->setContent($contents);
-						$noti->setRefid($post->getPostid());
-						$noti->save();
-					}
-		
+
+			preg_match_all("/(?!<\S)~(\w+\w)(?!\S)/i",  $contents, $usernames);
+			foreach ($usernames[0] as $user) {
+				$un = explode("~", $user);
+				$poster = UserQuery::create()->filterByUsername($un[1])->findOne();
+				if ($poster) {
+					$noti = new Notification();
+					$noti->setUserid($poster->getId());
+					$noti->setTriggerid($_SESSION['uid']);
+					$noti->setType('mention');
+					$noti->setContent($contents);
+					$noti->setRefid($post->getPostid());
+					$noti->save();
 				}
-			
+
+			}
+
 		}
-		
-		
+
+
 	}
 
 	function write_url($url) {
@@ -314,24 +314,24 @@ class Stream_Model {
 		->filterByUrlpath($url['path'])
 		->filterByUrlquery($query)
 		->findOne();
-		
+
 		$urldata = $this->urldata($url);
 
-	//	if ($urlquery) {
-	//		return $urlquery->getUrlid();
-	//	} else {
-			$urldb = new Url();
-			$urldb->setUrlhost($url['host']);
-			$urldb->setUrlpath($url['path']);
-			$urldb->setUrlquery($url['query']);
-			$urldb->setContenttype($urldata['type']);
-			$urldb->setTitle($urldata['title']);
-	//		$urldb->setContent($urldata['desc']);
-	//		$urldb->setContentimg($urldata['image']);
-			$urldb->save();
+		// if ($urlquery) {
+		//  return $urlquery->getUrlid();
+		// } else {
+		$urldb = new Url();
+		$urldb->setUrlhost($url['host']);
+		$urldb->setUrlpath($url['path']);
+		$urldb->setUrlquery($url['query']);
+		$urldb->setContenttype($urldata['type']);
+		$urldb->setTitle($urldata['title']);
+		//  $urldb->setContent($urldata['desc']);
+		//  $urldb->setContentimg($urldata['image']);
+		$urldb->save();
 
-			return $urldb->getUrlid();
-	//}
+		return $urldb->getUrlid();
+		//}
 
 	}
 
@@ -343,34 +343,34 @@ class Stream_Model {
 		}
 		return $urldata;
 	}
-	
+
 	function urldata($url) {
-			$fullurl = "http://" . $url['host'] . $url['path'] . $url['query'];
-			header('X-Frame-Options: GOFORIT');
-			require_once 'OpenGraph.php';
-			$graph = OpenGraph::fetch($fullurl);
-			foreach ($graph as $key => $value) {
-				$data[$key] = $value;
-			}
-			if ($data['title']) {
-				$title = $data['title'];
-				$type = $data['type'];
-			} else {
-				$twitter = get_meta_tags('http://imgur.com/gallery/mkt7y');
-				var_dump($twitter);
-				$title = $twitter['twitter:title'];
-				$type = $twitter['twitter:card'];
-			}
-			
-			$urldata = array(
-				"title" => $title,
-				"image" => $data['image'],
-				"desc" => $data['description'],
-				"type" => $type,
-			);
-			return $urldata;
+		$fullurl = "http://" . $url['host'] . $url['path'] . $url['query'];
+		header('X-Frame-Options: GOFORIT');
+		require_once 'OpenGraph.php';
+		$graph = OpenGraph::fetch($fullurl);
+		foreach ($graph as $key => $value) {
+			$data[$key] = $value;
+		}
+		if ($data['title']) {
+			$title = $data['title'];
+			$type = $data['type'];
+		} else {
+			$twitter = get_meta_tags('http://imgur.com/gallery/mkt7y');
+			var_dump($twitter);
+			$title = $twitter['twitter:title'];
+			$type = $twitter['twitter:card'];
+		}
+
+		$urldata = array(
+			"title" => $title,
+			"image" => $data['image'],
+			"desc" => $data['description'],
+			"type" => $type,
+		);
+		return $urldata;
 	}
-	
+
 	function edit_post() {
 		if ($_POST['edit']) {
 			$post = StatusQuery::create()
@@ -422,10 +422,10 @@ class Stream_Model {
 			$comment->setContent($commentcon['comment']);
 			$comment->setDate(date("r"));
 			$comment->save();
-			
+
 			$originalpost = StatusQuery::create()->filterByPostid($commentcon['post'])->findOne();
 			//$poster = UserQuery::create()->findPK();
-			
+
 		}
 	}
 
@@ -513,31 +513,31 @@ class Stream_Model {
 				case 'vimeo.com':
 					$newPost .= "<iframe src='http://player.vimeo.com/video" . $video['path'] . "?badge=0&amp;color=ffffff' width='520' height='315' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
 				default:
-						if ($img) {
-							$newPost .= "<div class='tags'>";
-							$newPost .= "<a href='" . $fullurl . "'>";
-							$newPost .= "<img class='card_img' src='" . $img . "'/>";
-							$newPost .= "<h4>" . $title . "</h4>";
-							$newPost .= "<p>" . $content . "</p>";
-							$newPost .= "<br />";
-							$newPost .= "</a>";
-							$newPost .= "</div>";
-						}
+					if ($img) {
+						$newPost .= "<div class='tags'>";
+						$newPost .= "<a href='" . $fullurl . "'>";
+						$newPost .= "<img class='card_img' src='" . $img . "'/>";
+						$newPost .= "<h4>" . $title . "</h4>";
+						$newPost .= "<p>" . $content . "</p>";
+						$newPost .= "<br />";
+						$newPost .= "</a>";
+						$newPost .= "</div>";
 					}
-
 				}
-				echo $newPost;
-				unset($newPost);
 
 			}
-	
+			echo $newPost;
+			unset($newPost);
+
+		}
+
 	}
-	
+
 	function auto_link_text($text) {
 		$pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
 		$callback = create_function('$matches', '$url = array_shift($matches); return $url;');
 		$url = preg_replace_callback($pattern, $callback, $text);
-		
+
 		$urlinfo = parse_url($url);
 
 		if ($urlinfo ['query']) {
@@ -557,7 +557,7 @@ class Stream_Model {
 			return "<a target='_blank' href='" . $url . "'>" . $title . "</a>";
 
 		}
-					
-		
+
+
 	}
 }

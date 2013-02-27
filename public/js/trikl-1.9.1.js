@@ -63,20 +63,20 @@
 			})
 			$(".pin").click(function(e) {
 				e.preventDefault();
-			})			
+			})
 			var pins = "#" + thispostid + ".pin";
-			$(pins).click(function(){
-					$.ajax({
-						type: "POST",
-						url: "/global",
-						data: {
-							"id": thispostid,
-							"action": "pinpost",
-						},
-						success: function(response) {
-							alert(response);
-						}
-					})
+			$(pins).click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/global",
+					data: {
+						"id": thispostid,
+						"action": "pinpost",
+					},
+					success: function(response) {
+						alert(response);
+					}
+				})
 			})
 			$(thispost).click(function() {
 				var commentoptions = {
@@ -264,11 +264,9 @@
 			$('.notification').click(function(e) {
 				window.location.href = '/post/' + $(this).attr('id');
 			});
-			
 			$('.buttonclear').click(function(e) {
 				e.preventDefault();
 				var id = $(this).attr('id');
-								
 				$.ajax({
 					type: "POST",
 					url: "/global",
@@ -280,10 +278,7 @@
 						alert(response)
 					}
 				})
-
 			});
-			
-			
 			$('#supercompose').click(function(e) {
 				e.preventDefault();
 				var newmessage = {
@@ -355,12 +350,12 @@
 	};
 
 	function newPosts() {
-
 		function streamInt() {
 			var intval = setInterval(function() {
 				streamUpdates()
 			}, 15000);
 		};
+
 		function streamUpdates() {
 			$.ajax({
 				type: "POST",
@@ -445,29 +440,28 @@
 			return false;
 		});
 	};
-
 	$(document).ready(function() {
 		jQuery.fx.off = true;
 		var pathname = window.location.pathname;
 		switch (pathname) {
-			case '/':
-				frontpage();
-				break;
-			case '/login':
-				frontpage();
-				break;
-			case '/photo':
-				photoupload();
-				omnibar();
-				postView();
-				morePosts();
-				newPosts();
-				break;
-			default:
-				omnibar();
-				postView();
-				morePosts();
-				newPosts();
-				break;
+		case '/':
+			frontpage();
+			break;
+		case '/login':
+			frontpage();
+			break;
+		case '/photo':
+			photoupload();
+			omnibar();
+			postView();
+			morePosts();
+			newPosts();
+			break;
+		default:
+			omnibar();
+			postView();
+			morePosts();
+			newPosts();
+			break;
 		}
 	});
