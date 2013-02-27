@@ -2,10 +2,19 @@
 <?php $settings = $data['settings'];?>
 
 <?php if ($settings['user']->getAvatarFilename()) { ?>
-<h4> Change Avatar: </h4><img id="avatar" src="/public/avatars/<?php echo $settings['user']->getAvatarFilename(); ?>">
+<h4> Change Avatar: </h4><img id="avatar" src="/public/photos/<?php echo $settings['user']->getAvatarFilename(); ?>">
 
 <?php } else { ?>
-<h4> Change Avatar: </h4><img id="avatar" src="/public/avatars/">
+<h4> Change Avatar: </h4><img id="avatar" src="/public/photos/">
+
+<?php } ?>
+
+
+<?php if ($settings['user']->getBannerFilename()) { ?>
+<h4> Change Banner: </h4><img style="width:120px;" id="banner" src="/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>">
+
+<?php } else { ?>
+<h4> Change Banner: </h4><img id="banner" src="/public/photos/">
 
 <?php } ?>
 

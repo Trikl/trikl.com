@@ -12,7 +12,7 @@
 							$firstname = $user->getFirstName();
 							$lastname = $user->getLastName();
 							$username = $user->getUsername();
-							echo "<img class='usr_img' src='/public/avatars/" . $user->getAvatarFilename() . "'/ >";
+							echo "<img class='usr_img' src='/public/photos/" . $user->getAvatarFilename() . "'/ >";
 						}
 					}
 					echo "<p class='subject'><a href='/profile/" . $username . "'>" . $firstname . " " . $lastname . "</a> - <a href='/messages/" . $thread->getMessageID() . "'>" . $thread->getSubject() . "</a></p>";
@@ -20,7 +20,7 @@
 					echo "<p class='content'>" . $contents->getContent() . "</p>";
 					echo "<div class='recipients'>";
 						foreach ($users as $user) {
-							echo "<img height=40 width=40 src='/public/avatars/" . $user->getAvatarFilename() . "'/ >";
+							echo "<img height=40 width=40 src='/public/photos/" . $user->getAvatarFilename() . "'/ >";
 						}
 	?>
 						<form class="replyform">

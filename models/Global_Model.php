@@ -107,9 +107,6 @@ class Global_Model {
 			$me->save();
 		}
 
-
-
-
 		$content = new MessageContents();
 		$content->setMessageID($messageid);
 		$content->setUserID($_SESSION['uid']);
