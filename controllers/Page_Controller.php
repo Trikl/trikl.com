@@ -11,7 +11,6 @@ class Page_Controller
 		if ($page == '' || !$_SESSION['uid']) {
 			$page = 'login';
 		}
-
 		$class = ucfirst($page) . '_Controller';
 		$target = SERVER_ROOT . '/controllers/' . $class . '.php';
 		if (file_exists($target)) {
@@ -28,8 +27,11 @@ class Page_Controller
 
 	}
 
-	public static function loadPage($class){
-		require_once $class . '.php';
+	function loadPage($class){
+			$propelignore = explode('\\', $class);
+			if ($propelignore[0] != 'map') {
+				require_once $class . '.php';
+			}
 	}
 
 	public static function fourohfour() {

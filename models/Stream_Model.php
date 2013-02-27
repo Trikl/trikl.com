@@ -116,7 +116,7 @@ class Stream_Model {
 			$aFriends[$friend->getGroupid()] = $friend->getFriendid();
 		}
 
-		switch ($streamtype) {
+		switch($streamtype) {
 		case 'single':
 			$posts = StatusQuery::create()
 			->filterByUserid($aFriends)
@@ -124,10 +124,12 @@ class Stream_Model {
 			->find();
 			break;
 		case 'new':
-			$posts = StatusQuery::create()
-			->filterByUserid($aFriends)
-			->filterByPostid($postid, \Criteria::GREATER_THAN)
-			->find();
+			if ($postid != NULL) {
+				$posts = StatusQuery::create()
+				->filterByUserid($aFriends)
+				->filterByPostid($postid, \Criteria::GREATER_THAN)
+				->find();
+			}
 			break;
 		case 'profile':
 			$posts = StatusQuery::create()
@@ -144,54 +146,53 @@ class Stream_Model {
 			->paginate($stuff, $rowsPerPage = 50);
 			break;
 		}
-		
-		foreach ($posts as $p => $k) {
-			$text = strip_tags($k->getStatus());
-			//$text = $this->auto_link_text($text);
-			$text = $this->link_parse($text);
-			$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
-			$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
-			$textinfo = nl2br($text);
-			$date = $this->ago($k->getDate());
-
-
-			$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
-
-			foreach ($commentquery as $comment) {
-				$comdatefrom = $comment->getDate();
-				$comdate = $this->ago($comdatefrom);
-				$comments[] = array(
-					'user' => UserQuery::create()->findPK($comment->getUserid()),
-					'date' => $comdate,
-					'content' => $comment->getStatus(),
-				);
-			}
-
-			$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
-			foreach ($votesquery as $vote) {
-				$votetally = $votetally+$vote->getValue();
-				if (is_int($votetally)) {
-					//kk
-				} else {
-					$votetally = 0;
+			foreach ($posts as $p => $k) {
+				$text = strip_tags($k->getStatus());
+				//$text = $this->auto_link_text($text);
+				$text = $this->link_parse($text);
+				$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
+				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
+				$textinfo = nl2br($text);
+				$date = $this->ago($k->getDate());
+	
+	
+				$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
+	
+				foreach ($commentquery as $comment) {
+					$comdatefrom = $comment->getDate();
+					$comdate = $this->ago($comdatefrom);
+					$comments[] = array(
+						'user' => UserQuery::create()->findPK($comment->getUserid()),
+						'date' => $comdate,
+						'content' => $comment->getStatus(),
+					);
 				}
+	
+				$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
+				foreach ($votesquery as $vote) {
+					$votetally = $votetally+$vote->getValue();
+					if (is_int($votetally)) {
+						//kk
+					} else {
+						$votetally = 0;
+					}
+				}
+	
+				$parsedPost[] = array(
+					'user' => UserQuery::create()->findPK($k->getUserid()),
+					'date' => $date,
+					'pid' => $k->getPostid(),
+					'bucket' => $k->getBucketid(),
+					'text' => $textinfo,
+					'uid' => $k->getUserid(),
+					'url' => $this->get_url($k->getPostid()),
+					'parentid' => $k->getParentid(),
+					'comments' => $comments,
+					'votetally' => $votetally,
+				);
+				unset($votetally);
+				unset($comments);
 			}
-
-			$parsedPost[] = array(
-				'user' => UserQuery::create()->findPK($k->getUserid()),
-				'date' => $date,
-				'pid' => $k->getPostid(),
-				'bucket' => $k->getBucketid(),
-				'text' => $textinfo,
-				'uid' => $k->getUserid(),
-				'url' => $this->get_url($k->getPostid()),
-				'parentid' => $k->getParentid(),
-				'comments' => $comments,
-				'votetally' => $votetally,
-			);
-			unset($votetally);
-			unset($comments);
-		}
 		return $parsedPost;
 	}
 
