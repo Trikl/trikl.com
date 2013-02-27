@@ -20,7 +20,7 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 					<form>
 						<input type="submit" value="Full Post" />
 						<input class="pin" id="<?php echo $post['pid']; ?>" type="submit" value="Pin" />
-						<?php if ($_SESSION['uid'] === $post['uid']) { ?>
+						<?php if ($_SESSION['uid'] === $post['user']->getId()) { ?>
 							<input type="submit" value="Delete" />
 							<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
 						<?php } ?>
