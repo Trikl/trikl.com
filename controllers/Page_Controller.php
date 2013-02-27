@@ -8,7 +8,7 @@ class Page_Controller
 		$page = $params['0'];
 		$subpage = $params['1'];
 
-		if (!$_SESSION['uid']) {
+		if ($page == '' || !$_SESSION['uid']) {
 			$page = 'login';
 		}
 

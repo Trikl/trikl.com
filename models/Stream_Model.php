@@ -1,15 +1,7 @@
 <?php
 class Stream_Model {
 
-
-	function link_parse($text) {
-		preg_match_all('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', $text, $link);
-		if ($link[0]) {
-			return $link[0];
-		}
-
-	}
-
+	//rewrite this.
 	function ago($datefrom, $dateto=-1) {
 		// Defaults and assume if 0 is passed in that
 		// its an error rather than the epoch
@@ -110,131 +102,95 @@ class Stream_Model {
 		return $res;
 	}
 
-	function stream($subpage = false, $postpage = false, $postid = false, $singleuser = false) {
+	function link_parse($text) {
+		$text = preg_replace('#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#', '<a href="$1" target="_blank">$1</a>', $text);
+		return $text;
+	}
+
+	function stream($subpage = false, $streamtype = false, $postpage = false, $postid = false, $singleuser = false) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
 
 		// Load friends Userid's into array, include logged in user.
 		$aFriends[0] = $_SESSION['uid'];
 		foreach ($friends as $friend) {
-			$friendid = $friend->getFriendid();
-			$groupid = $friend->getGroupid();
-			$aFriends[$groupid] = $friendid;
+			$aFriends[$friend->getGroupid()] = $friend->getFriendid();
 		}
 
-		$buckets = FriendBucketQuery::create()
-		->filterByUserid($_SESSION['uid'])
-		->find();
-
-		$aBucket[0] = "0";
-		foreach ($buckets as $bucket) {
-			$bucketid = $bucket->getBucketid();
-			$aBucket[$bucketid] = $bucketid;
-		}
-
-		$stuff = $postpage;
-
-		if ($subpage) {
+		switch ($streamtype) {
+		case 'single':
 			$posts = StatusQuery::create()
+			->filterByUserid($aFriends)
 			->filterByPostid($subpage)
-			->findOne();
-
-			$text = $posts->getStatus();
-			$url = $this->link_parse($text);
+			->find();
+			break;
+		case 'new':
+			$posts = StatusQuery::create()
+			->filterByUserid($aFriends)
+			->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
+			->find();
+			break;
+		case 'profile':
+			$posts = StatusQuery::create()
+			->filterByUserid($singleuser)
+			->filterByParentid('0')
+			->orderByDate('desc')
+			->paginate($stuff, $rowsPerPage = 50);
+			break;
+		default:
+			$posts = StatusQuery::create()
+			->filterByUserid($aFriends)
+			->filterByParentid('0')
+			->orderByDate('desc')
+			->paginate($stuff, $rowsPerPage = 50);
+			break;
+		}
+		
+		foreach ($posts as $p => $k) {
+			$text = strip_tags($k->getStatus());
+			//$text = $this->auto_link_text($text);
+			$text = $this->link_parse($text);
 			$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
 			$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
-			$text = nl2br($text);
-			$datefrom = $posts->getDate();
-			$date = $this->ago($datefrom);
-
-			$parsedPost = array(
-				'user' => UserQuery::create()->findPK($posts->getUserid()),
-				'date' => $date,
-				'pid' => $posts->getPostid(),
-				'bucket' => $posts->getBucketid(),
-				'text' => $text,
-				'uid' => $posts->getUserid(),
-				'url' => $this->get_url($posts->getPostid()),
-			);
-
-		} else {
-			if ($_POST['PID']) {
-				$posts = StatusQuery::create()
-				->filterByUserid($aFriends)
-				->filterByBucketid($aBucket)
-				->orderByPostid('desc')
-				->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
-				->find();
-
-			} else {
-				if ($singleuser) {
-					$posts = StatusQuery::create()
-					->filterByUserid($singleuser)
-					->filterByBucketid($aBucket)
-					->filterByParentid('0')
-					->orderByDate('desc')
-					->paginate($stuff, $rowsPerPage = 50);
-				} else {
-					$posts = StatusQuery::create()
-					->filterByUserid($aFriends)
-					->filterByBucketid($aBucket)
-					->filterByParentid('0')
-					->orderByDate('desc')
-					->paginate($stuff, $rowsPerPage = 50);
-				}
-			}
+			$textinfo = nl2br($text);
+			$date = $this->ago($k->getDate());
 
 
-			foreach ($posts as $p) {
-				$text = $p->getStatus();
-				$text = strip_tags($text);
-				//$text = $this->auto_link_text($text);
-				$url = $this->link_parse($text);
-				$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
-				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
-				$textinfo = nl2br($text);
+			$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
 
-				$datefrom = $p->getDate();
-				$date = $this->ago($datefrom);
-
-
-				$commentquery = StatusQuery::create()->filterByParentid($p->getPostid())->find();
-
-				foreach ($commentquery as $comment) {
-					$comdatefrom = $comment->getDate();
-					$comdate = $this->ago($comdatefrom);
-					$comments[] = array(
-						'user' => UserQuery::create()->findPK($comment->getUserid()),
-						'date' => $comdate,
-						'content' => $comment->getStatus(),
-					);
-				}
-
-
-				$votesquery = VotesQuery::create()->filterByPostID($p->getPostid())->find();
-				foreach ($votesquery as $vote) {
-					$votetally = $votetally+$vote->getValue();
-					if (is_int($votetally)) {
-						//kk
-					} else {
-						$votetally = 0;
-					}
-				}
-
-				$parsedPost[] = array(
-					'user' => UserQuery::create()->findPK($p->getUserid()),
-					'date' => $date,
-					'pid' => $p->getPostid(),
-					'bucket' => $p->getBucketid(),
-					'text' => $textinfo,
-					'uid' => $p->getUserid(),
-					'url' => $this->get_url($p->getPostid()),
-					'parentid' => $p->getParentid(),
-					'comments' => $comments,
-					'votetally' => $votetally,
+			foreach ($commentquery as $comment) {
+				$comdatefrom = $comment->getDate();
+				$comdate = $this->ago($comdatefrom);
+				$comments[] = array(
+					'user' => UserQuery::create()->findPK($comment->getUserid()),
+					'date' => $comdate,
+					'content' => $comment->getStatus(),
 				);
-				unset($votetally);
-				unset($comments);
 			}
+
+			$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
+			foreach ($votesquery as $vote) {
+				$votetally = $votetally+$vote->getValue();
+				if (is_int($votetally)) {
+					//kk
+				} else {
+					$votetally = 0;
+				}
+			}
+
+			$parsedPost[] = array(
+				'user' => UserQuery::create()->findPK($k->getUserid()),
+				'date' => $date,
+				'pid' => $k->getPostid(),
+				'bucket' => $k->getBucketid(),
+				'text' => $textinfo,
+				'uid' => $k->getUserid(),
+				'url' => $this->get_url($k->getPostid()),
+				'parentid' => $k->getParentid(),
+				'comments' => $comments,
+				'votetally' => $votetally,
+			);
+			unset($votetally);
+			unset($comments);
 		}
 		return $parsedPost;
 	}

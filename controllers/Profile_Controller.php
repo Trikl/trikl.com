@@ -21,7 +21,7 @@ class Profile_Controller
         $view = new View_Model($this->template);
         $stuff = $profileModel->profile($subpage);
         if ($stuff['user']) { $singleuser = $stuff['user']->getId(); }
-    	$view->assign('status', $streamModel->stream(NULL, NULL, NULL, $singleuser));
+    	$view->assign('status', $streamModel->stream('profile',NULL, NULL, NULL, $singleuser));
         $view->assign('userinfos', $stuff);
                         
         if ($_POST['submit']) {
