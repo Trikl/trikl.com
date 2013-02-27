@@ -1,6 +1,10 @@
 <?php
+
+	// get configs
 	require 'include.php';
-	require_once SERVER_ROOT . '/lib/htmlpurifier/library/HTMLPurifier.auto.php';
-	require_once('router.php');
+	
+	// BEGIN THE LOADING!!!
+	include('Page_Controller.php');
+	$loader = new Page_Controller();
 
 

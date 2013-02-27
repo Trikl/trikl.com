@@ -2,11 +2,7 @@
 class Profile_Model
 {
 	// Get general settings info and return to page
-	function profile() {
-		$params = explode( "/", $_GET['p'] );
-		$page = $params['0'];
-		$subpage = $params['1'];
-
+	function profile($subpage) {
 		if ($subpage) {
 			$user = UserQuery::create()->findOneByUsername(strtolower($subpage));
 		} else {
@@ -76,10 +72,7 @@ class Profile_Model
 		);
 		return $info;
 	}
-	function friendme() {
-		$params = explode( "/", $_GET['p'] );
-		$page = $params['0'];
-		$subpage = $params['1'];
+	function friendme($subpage) {
 		$user = UserQuery::create()->findOneByUsername(strtolower($subpage));
 		$request = new Requests();
 		$request->setUserid($_SESSION['uid']);

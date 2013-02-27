@@ -22,9 +22,7 @@ class Messages_Model {
 		return $messagecontents;
 	}
 
-	function messagecontents() {
-		$params = explode( "/", $_GET['p'] );
-		$subpage = $params['1'];
+	function messagecontents($subpage) {
 		if ($subpage) {
 			$messageid = UserMessageQuery::create()->filterbyMessageID($subpage)->filterbyUserID($_SESSION['uid'])->findOne();
 			if ($messageid) {
@@ -43,9 +41,7 @@ class Messages_Model {
 		}
 	}
 
-	function messagetitle() {
-		$params = explode( "/", $_GET['p'] );
-		$subpage = $params['1'];
+	function messagetitle($subpage) {
 		$messagethread = MessagesQuery::create()->filterbyMessageID($subpage)->findOne();
 		return $messagethread;
 	}
