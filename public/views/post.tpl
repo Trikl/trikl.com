@@ -12,17 +12,17 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 		
 			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>">
 				<img class="usr_img" src="public/avatars/<?php echo $post['user']->getAvatarFilename(); ?>" />
-				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName(); ?></a>
+				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName();  ?></a> <?php if ($post['parentid'] != 0) { echo "- reply"; } ?>
 				<span class='date'> <?php echo $post['date']; ?> </span>
 				<p class="comment"><?php echo $post['text']; ?></p>
 				
 				<div class="share" id="<?php echo $post['pid']; ?>"> 
 					<form>
 						<input type="submit" value="Full Post" />
+						<input class="pin" id="<?php echo $post['pid']; ?>" type="submit" value="Pin" />
 						<?php if ($_SESSION['uid'] === $post['uid']) { ?>
-						<input type="submit" value="Delete" />
-						<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
-						
+							<input type="submit" value="Delete" />
+							<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
 						<?php } ?>
 					</form>								 
 				</div>
@@ -44,7 +44,7 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 				}
 				?>
 				<form class="makeComment" method="post">
-					<textarea class="makeCommentTextbox" placeholder="Comment..." name="comment"></textarea><br />
+					<textarea class="makeCommentTextbox" placeholder="Comment..." name="post"></textarea><br />
 					<input type='submit' value="Comment">
 				</form>	
 			</div>

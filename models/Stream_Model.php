@@ -170,12 +170,14 @@ class Stream_Model {
 					$posts = StatusQuery::create()
 					->filterByUserid($singleuser)
 					->filterByBucketid($aBucket)
+					->filterByParentid('0')
 					->orderByDate('desc')
 					->paginate($stuff, $rowsPerPage = 50);
 				} else {
 					$posts = StatusQuery::create()
 					->filterByUserid($aFriends)
 					->filterByBucketid($aBucket)
+					->filterByParentid('0')
 					->orderByDate('desc')
 					->paginate($stuff, $rowsPerPage = 50);
 				}
@@ -193,17 +195,18 @@ class Stream_Model {
 
 				$datefrom = $p->getDate();
 				$date = $this->ago($datefrom);
-				$commentquery = CommentsQuery::create()->filterByPostID($p->getPostid())->find();
+				
+				
+				$commentquery = StatusQuery::create()->filterByParentid($p->getPostid())->find();
 
 				foreach ($commentquery as $comment) {
-					$comdatefrom = $comment->getDate();
-					$comdate = $this->ago($comdatefrom);
-					$comments[] = array(
-						'user' => UserQuery::create()->findPK($comment->getUserid()),
-						'date' => $comdate,
-						'content' => $comment->getContent(),
-						'tier' => $comment->getTier(),
-					);
+						$comdatefrom = $comment->getDate();
+						$comdate = $this->ago($comdatefrom);
+						$comments[] = array(
+							'user' => UserQuery::create()->findPK($comment->getUserid()),
+							'date' => $comdate,
+							'content' => $comment->getStatus(),
+						);
 				}
 
 
@@ -225,6 +228,7 @@ class Stream_Model {
 					'text' => $textinfo,
 					'uid' => $p->getUserid(),
 					'url' => $this->get_url($p->getPostid()),
+					'parentid' => $p->getParentid(),
 					'comments' => $comments,
 					'votetally' => $votetally,
 				);
@@ -237,6 +241,7 @@ class Stream_Model {
 
 	function post($contents) {
 		$contents = strip_tags($contents);
+
 		$urls = $this->link_parse($contents);
 		if ($contents) {
 			$post = new Status();
@@ -244,7 +249,24 @@ class Stream_Model {
 			$post->setBucketid('0');
 			$post->setStatus($contents);
 			$post->setDate(date("r"));
+			if ($_POST['parentid']) {
+		
+			
+			$post->setParentid($_POST['parentid']);
+			} else {
+			$post->setParentid('0');
+			}
 			$post->save();
+			
+			if ($_POST['parentid']) {
+				$noti = new Notification();
+				$noti->setUserid($post->getUserid());
+				$noti->setTriggerid($_SESSION['uid']);
+				$noti->setType('comment');
+				$noti->setContent($contents);
+				$noti->setRefid($post->getPostid());
+				$noti->save();
+			}
 
 			if (is_array($urls)) {
 				foreach ($urls as $url) {
@@ -256,7 +278,26 @@ class Stream_Model {
 					$post_url->save();
 				}
 			}
+			
+				preg_match_all("/(?!<\S)~(\w+\w)(?!\S)/i",  $contents, $usernames);
+				foreach ($usernames[0] as $user) {
+					$un = explode("~", $user);
+					$poster = UserQuery::create()->filterByUsername($un[1])->findOne();
+					if ($poster) {
+						$noti = new Notification();
+						$noti->setUserid($poster->getId());
+						$noti->setTriggerid($_SESSION['uid']);
+						$noti->setType('mention');
+						$noti->setContent($contents);
+						$noti->setRefid($post->getPostid());
+						$noti->save();
+					}
+		
+				}
+			
 		}
+		
+		
 	}
 
 	function write_url($url) {
@@ -364,6 +405,7 @@ class Stream_Model {
 		$posts = StatusQuery::create()
 		->filterByUserid($aFriends)
 		->filterByBucketid($aBucket)
+		->filterByParentid('0')
 		->filterByPostid($lastpost, \Criteria::GREATER_THAN)
 		->count();
 
@@ -383,14 +425,6 @@ class Stream_Model {
 			
 			$originalpost = StatusQuery::create()->filterByPostid($commentcon['post'])->findOne();
 			//$poster = UserQuery::create()->findPK();
-			
-			$noti = new Notification();
-			$noti->setUserid($originalpost->getUserid());
-			$noti->setTriggerid($_SESSION['uid']);
-			$noti->setType('comment');
-			$noti->setContent($commentcon['comment']);
-			$noti->setRefid($originalpost->getPostid());
-			$noti->save();
 			
 		}
 	}

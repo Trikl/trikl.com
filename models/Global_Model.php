@@ -134,6 +134,16 @@ class Global_Model {
 		$noti->delete();	
 	}
 	
+	function pinpost() {
+		if ($_SESSION['postpin'] === NULL) {
+			$_SESSION['postpin'][] = $_POST['id'];		
+		} else {
+			array_push($_SESSION['postpin'], $_POST['id']);
+		}
+
+		var_dump($_SESSION['postpin']);
+	}
+	
 }
 
 

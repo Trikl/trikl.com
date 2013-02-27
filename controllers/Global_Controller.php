@@ -37,7 +37,10 @@ class Global_Controller
 		case 'clearnotification':
 			$globalModel->clearnotification();
 			break;
-	    case 'getMessages':
+		case 'pinpost':
+			$globalModel->pinpost();
+			break;
+		case 'getMessages':
 			$discard = 1;
 			$page = 'messages';
 			$view = new View_Model($page, $discard);
