@@ -146,6 +146,7 @@ class Stream_Model {
 			->paginate($stuff, $rowsPerPage = 50);
 			break;
 		}
+		
 			foreach ($posts as $p => $k) {
 				$text = strip_tags($k->getStatus());
 				//$text = $this->auto_link_text($text);
@@ -154,19 +155,24 @@ class Stream_Model {
 				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
 				$textinfo = nl2br($text);
 				$date = $this->ago($k->getDate());
+
+					$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
+					foreach ($commentquery as $comment) {
+						$comdatefrom = $comment->getDate();
+						$comdate = $this->ago($comdatefrom);
+						$comtext = strip_tags($comment->getStatus());
+						$comtext = $this->link_parse($comtext);
+						$comtext = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $comtext );
+						$comtext = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $comtext);
+						$comtextinfo = nl2br($comtext);
 	
-	
-				$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
-	
-				foreach ($commentquery as $comment) {
-					$comdatefrom = $comment->getDate();
-					$comdate = $this->ago($comdatefrom);
-					$comments[] = array(
-						'user' => UserQuery::create()->findPK($comment->getUserid()),
-						'date' => $comdate,
-						'content' => $comment->getStatus(),
-					);
-				}
+						$comments[] = array(
+							'user' => UserQuery::create()->findPK($comment->getUserid()),
+							'date' => $comdate,
+							'content' => $comtext,
+							'id' => $comment->getPostid(),
+						);
+					}
 	
 				$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
 				foreach ($votesquery as $vote) {
@@ -384,6 +390,29 @@ class Stream_Model {
 			//$poster = UserQuery::create()->findPK();
 
 		}
+	}
+	
+	function newcomments() {
+			$comment = StatusQuery::create()
+			->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
+			->findOne();
+			
+			$comdatefrom = $comment->getDate();
+			$comdate = $this->ago($comdatefrom);
+			$comtext = strip_tags($comment->getStatus());
+			$comtext = $this->link_parse($comtext);
+			$comtext = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $comtext );
+			$comtext = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $comtext);
+			$comtextinfo = nl2br($comtext);
+	
+			$comments = array(
+				'user' => UserQuery::create()->findPK($comment->getUserid()),
+				'date' => $comdate,
+				'content' => $comtext,
+				'id' => $comment->getPostid(),
+			);
+			
+			return $comments;
 	}
 
 	function upvote($data) {

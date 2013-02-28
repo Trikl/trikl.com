@@ -24,11 +24,16 @@
                 <form id="makeBlog" action="/stream" method="post">
                     <textarea id="makeBlogtextbox" placeholder="Whats Trikling Through Your Mind?" class="posttextarea" name="post" ></textarea>
                     <div id="fullsizeopt">
-                        <ul>
-                            <li id="blogimage">Upload Picture</li>
-                            <li id="blogpost">Post</li>
-                            <li>Search [incomplete]</li>
-                        </ul>
+		                <form id="options">
+			                <input id="blogpost" type="submit" value="Post" />
+			                <input id="blogimage" type="submit" value="Upload Image" />
+			            </form>
+			            <form id="upload" action="#" method="post" enctype="multipart/form-data">
+				           <input type="file" name="files[]" id="fileToUpload" multiple> <input type="submit" id="uploadFile" value="Upload File">
+				           <div class="progress">
+					           <div class="percent">0%</div>
+				           </div>
+				        </form>
                     </div>
                 </form>
             </div>

@@ -9,6 +9,26 @@
 
 <?php } ?>
 
+<div id="avatardialog" style="display:none;" title="Upload Avatar">
+		<div id="imagepreview">
+		<h3>Avatar Preview</h3>
+	        <img id="blah" src="#" alt="your image" />
+		</div>
+
+    <div id="avamessage"></div>
+    <form name="avaupload" id="avaupload" method="POST" enctype="multipart/form-data">
+                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
+                <input type="submit" id="uploadFile" value="Upload File">
+    </form>
+    <div id="uploader"></div>
+    
+    
+    <div class="avaprogress">
+        <div class="avabar"></div >
+        <div class="avapercent">0%</div >
+    </div>
+</div> 
+
 
 <?php if ($settings['user']->getBannerFilename()) { ?>
 <h4> Change Banner: </h4><img style="width:120px;" id="banner" src="/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>">
@@ -18,8 +38,42 @@
 
 <?php } ?>
 
+
+<div id="bannerdialog" style="display:none;" title="Upload Avatar">
+		<div id=" imagepreview">
+		<h3>Avatar Preview</h3>
+	        <img id="bannerblah" src="#" alt="your image" />
+		</div>
+
+    <div id="bannmessage"></div>
+    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
+                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
+                <input type="submit" id="uploadFile" value="Upload File">
+    </form>
+    <div id="uploader"></div>
+    
+    
+    <div class="avaprogress">
+        <div class="bannbar"></div >
+        <div class="bannpercent">0%</div >
+    </div>
+</div>   
+
+
     <script type="text/javascript">
         $(document).ready(function() {
+        
+        
+        	$("#avatardialog").click(function(e) {
+				e.stopPropagation();
+			});
+			$("#bannerdialog").click(function(e) {
+				e.stopPropagation();
+			});
+			$("#updatesettings").click(function(e) {
+				e.stopPropagation();
+			});			
+        
 			var bar = $('.avabar');
 			var percent = $('.avapercent');
 			var status = $('#avastatus');
@@ -43,10 +97,11 @@
 			};			
 			$('#avaupload').submit(function() {
 				$(this).ajaxSubmit(options);
+				$("#avatardialog").toggle();
 				return false;
 			});
 		$('#avatar').click(function() {
-			$("#avatardialog").dialog(function() {});
+			$("#avatardialog").toggle();
 		});
 		            
 		    var bar = $('.bannbar');
@@ -72,10 +127,12 @@
 			};			
 			$('#bannupload').submit(function() {
 				$(this).ajaxSubmit(banneroptions);
+							$("#bannerdialog").toggle();
+
 				return false;
 			});
 		$('#banner').click(function() {
-			$("#bannerdialog").dialog(function() {});
+			$("#bannerdialog").toggle();
 		});
     
 		            
@@ -98,45 +155,8 @@
 
 
     </script>
-<div id="avatardialog" style="display:none;" title="Upload Avatar">
-		<div id="imagepreview">
-		<h3>Avatar Preview</h3>
-	        <img id="blah" src="#" alt="your image" />
-		</div>
+ 
 
-    <div id="avamessage"></div>
-    <form name="avaupload" id="avaupload" method="POST" enctype="multipart/form-data">
-                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
-                <input type="submit" id="uploadFile" value="Upload File">
-    </form>
-    <div id="uploader"></div>
-    
-    
-    <div class="avaprogress">
-        <div class="avabar"></div >
-        <div class="avapercent">0%</div >
-    </div>
-</div>  
-
-<div id="bannerdialog" style="display:none;" title="Upload Avatar">
-		<div id=" imagepreview">
-		<h3>Avatar Preview</h3>
-	        <img id="bannerblah" src="#" alt="your image" />
-		</div>
-
-    <div id="bannmessage"></div>
-    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
-                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
-                <input type="submit" id="uploadFile" value="Upload File">
-    </form>
-    <div id="uploader"></div>
-    
-    
-    <div class="avaprogress">
-        <div class="bannbar"></div >
-        <div class="bannpercent">0%</div >
-    </div>
-</div>   
         
        <?php if (!$settings['profile']) { ?>
 	<form id="createsettings" method='post' style="text-align:center;">

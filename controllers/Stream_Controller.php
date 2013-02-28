@@ -39,6 +39,12 @@ class Stream_Controller
 		case 'comment':
 			$streamModel->comment($_POST);
 			break;
+		case 'newcomment':
+			$discard = 1;
+			$page = 'comments';
+			$view = new View_Model($page, $discard);
+			$view->assign('comments', $streamModel->newcomments());
+			break;
 		case 'geturl':
 			$streamModel->urlinfo($_POST['URL']);
 			break;

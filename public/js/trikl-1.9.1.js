@@ -9,6 +9,7 @@
 			var thispostupvote = '#upvote-' + $(this).attr('id');
 			var share = '#' + $(this).attr('id') + '.share';
 			var comments = '#' + thispostid + '.comments';
+			var commentslast = '#' + thispostid + '.comments:last-child';
 			var urldata = '#' + thispostid + '.urldata';
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
@@ -88,8 +89,18 @@
 						"action": "createpost",
 					},
 					success: function(response) {
-						alert(response);
-					}
+						$.ajax({
+							type: "POST",
+							url: "/stream",
+							data: {
+								"PID": $(".commentcontents.last-child").attr('id'),
+								"action": "newcomment",
+							},
+							success: function(response) {
+								$('.commentlist').append(response);
+							}
+						})
+				}
 				};
 				if (!$.trim($(urldata).html()).length) {
 					$.ajax({
@@ -106,6 +117,7 @@
 				} else {
 					$(urldata).toggle();
 				}
+				$('.commentlist :last-child').addClass("last-child");
 				$(comments).toggle();
 				$('.makeComment').ajaxForm(commentoptions);
 				$(thispost).toggleClass('postcontentsactive');
