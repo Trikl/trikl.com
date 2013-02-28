@@ -127,6 +127,7 @@ class Stream_Model {
 			if ($postid != NULL) {
 				$posts = StatusQuery::create()
 				->filterByUserid($aFriends)
+				->filterByParentid('0')
 				->filterByPostid($postid, \Criteria::GREATER_THAN)
 				->find();
 			}

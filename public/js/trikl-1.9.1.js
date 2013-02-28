@@ -301,7 +301,7 @@
 					data: {
 						"action": "createmessage",
 					},
-					success: function(response) {
+					success: function() {
 						$('#sendmessage').toggle()
 					}
 				};

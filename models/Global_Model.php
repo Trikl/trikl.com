@@ -88,6 +88,11 @@ class Global_Model {
 	}
 
 	function createmessage() {
+	
+		$user = UserQuery::create()->filterByUsername($_POST['to'])->findOne();
+		$id = $user->getId();
+	
+	
 		$message = new Messages();
 		$message->setDate(date('r'));
 		$message->setSubject($_POST['subject']);
@@ -97,10 +102,10 @@ class Global_Model {
 
 		$user = new UserMessage();
 		$user->setMessageID($messageid);
-		$user->setUserID($_POST['to']);
+		$user->setUserID($id);
 		$user->save();
 
-		if ($_POST['to'] !== $_SESSION['uid']) {
+		if ($id != $_SESSION['uid']) {
 			$me = new UserMessage();
 			$me->setMessageID($messageid);
 			$me->setUserID($_SESSION['uid']);
