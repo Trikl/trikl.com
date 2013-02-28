@@ -303,11 +303,11 @@
 					e.stopPropagation();
 				});
 			});
-			$('body').click(function(event) {
-				if (!$(event.target).is('#omnibox')) {
-					$("#friendreq,#newmessages,#hey,#general").hide();
-				}
-			});
+		//	$('body').click(function(event) {
+		//		if (!$(event.target).is('#omnibox')) {
+		//			$("#friendreq,#newmessages,#hey,#general").hide();
+		//		}
+		//	});
 			$("#newmessages").click(function() {
 				$("#newmessages #expandedmessage").toggle();
 				$('#newmessages .toggledown').toggleClass('toggleup')
