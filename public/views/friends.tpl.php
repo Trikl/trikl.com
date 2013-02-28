@@ -1,31 +1,10 @@
 <?php 
-
-$userinfos = $data['userinfos'];
-$user = $userinfos['user'];
-$profile = $userinfos['profile'];
 $friendList = $userinfos['friendlist'];
-$buckets = $userinfos['buckets'];
-$nbFriends = $userinfos['nbFriends'];
-$showfriend = $userinfos['showfriend'];
-$notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
 ?>
 
-<html>
-    <title><?php echo $title?></title>
-
-<body>
-    <h2 align="center"><?php echo $title?></h2>
-
     <fieldset>
         <label for="friends">Which Friends To Display:</label><br>
-            	    <?php if (!$showfriend) { ?>
-			<li id="friendme">
-				<form method="post" action="">
-					<input type="Submit" name="submit" value="Friend Me!">
-				</form>
-			</li>
-		<?php } ?>
             <br>
             <h5><span>Friends:</span></h5><br>
             <br>
@@ -41,5 +20,3 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
 
         </div>
     </fieldset>
-</body>
-</html>
