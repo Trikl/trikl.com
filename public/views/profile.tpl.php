@@ -83,7 +83,7 @@ $('#userfriends').click(function() {
 </div>
 
 <div class="profilefriends"> 
-Forever Alone
+<?php include 'views/friends.tpl.php'; ?>
 </div>
 
 <?php } else { ?>

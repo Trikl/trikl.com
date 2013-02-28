@@ -1,38 +1,22 @@
 <?php 
-
-$userinfos = $data['userinfos'];
-$user = $userinfos['user'];
-$profile = $userinfos['profile'];
 $friendList = $userinfos['friendlist'];
-$showfriend = $userinfos['showfriend'];
-$notfound = $userinfos['notfound'];
 $title = $user->getFirstName() . ' ' . $user->getLastName();
+?>
 
- ?>
+    <fieldset>
+        <label for="friends">Which Friends To Display:</label><br>
+            <br>
+            <h5><span>Friends:</span></h5><br>
+            <br>
+            <?php foreach($friendList as $profriend) {
+                            echo '<div class="profile_friends" id="allfriends" style=border:1px;solid;rgba(0,0,0,0.0980392);>';
+                            echo '<a href="http://trikl.com/profile/'.$profriend['username'].'">';
+                            echo "<img width=80 height=80 style=float:left;margin:5px; src='/public/avatars/" . $profriend['avatar'] . "' />";
+                            echo $profriend['firstname']." ".$profriend['lastname'];
+                            echo '</a>';
+                            echo '<br />';
+                            echo '</div>';
+                        } ?>
 
-        <h1 align="center"><?=$title?></h1>
-<div class="friends_display" align="center">
-	<span>Which Friends To Display:</span>
-	<select name="friends">
-	    <option value="1">All Friends</option>
-	    <option value="2">Buckets</option>
-	</select>
-	<br />
-</div>
-
-
-	<?php if (!$showfriend) { ?>
-		<form method="post" action="">
-			<input type="Submit" name="submit" value="Friend Me!">
-		</form>
-	<?php } ?>
-	<br />
-	<div class="profile_friends">
-	<span> Friends: </span> <br />
-	<?php foreach($friendList as $profriend) {
-		echo '<a href="http://trikl.com/profile/'.$profriend['username'].'">';
-		echo $profriend['firstname']." ".$profriend['lastname'];
-		echo '</a>';
-		echo '<br />';
-	} ?>
-	</div>
+        </div>
+    </fieldset>
