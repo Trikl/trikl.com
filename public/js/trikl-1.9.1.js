@@ -286,8 +286,9 @@
 						"messageid": id,
 						"action": "clearnotification",
 					},
-					success: function(response) {
-						alert(response)
+					success: function() {
+						var notificationclear = "#" + $('.notification').attr('id') + ".notification.contractednotif";
+						$(notificationclear).remove();
 					}
 				})
 			});

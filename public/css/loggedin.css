@@ -66,6 +66,9 @@
 
 #general {
 	display:none;
+	max-height: 400px;
+	width:940px;
+	overflow-y: auto;
 }
 
 #imagepreview {
