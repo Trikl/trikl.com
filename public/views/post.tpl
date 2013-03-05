@@ -2,6 +2,36 @@
 	unset($urlinfo);
 if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; } }
  ?>
+ 
+ <script type="text/javascript">
+$(document).ready(function() {
+$('#load').hide();
+});
+
+$(function() {
+$('.delete').click(function() {
+$('#load').fadeIn();
+var commentContainer = $(this).parent();
+var id = $(this).attr("id");
+var string = 'id='+ id ;
+	
+$.ajax({
+   type: "POST",
+   data: string,
+   cache: false,
+   success: function(){
+	commentContainer.slideUp('slow', function() {$(this).remove();});
+	$('#load').fadeOut();
+  }
+   
+ });
+
+return false;
+	});
+});
+
+</script>
+
 		<div class="post" id="<?php echo $post['pid']; ?>">
 			<div class="postvotes">
 				<div class="upvote" id="upvote-<?php echo $post['pid']; ?>"></div>
@@ -21,7 +51,7 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 						<input type="submit" value="Full Post" />
 						<input class="pin" id="<?php echo $post['pid']; ?>" type="submit" value="Pin" />
 						<?php if ($_SESSION['uid'] === $post['user']->getId()) { ?>
-							<input type="submit" value="Delete" />
+							<input class="delete_post" type="submit" value="Delete" id="deletepost-<?php echo $post['pid'];?>" />
 							<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
 						<?php } ?>
 					</form>								 
