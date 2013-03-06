@@ -11,7 +11,7 @@ $title = $user->getFirstName() . ' ' . $user->getLastName();
             <?php foreach($friendList as $profriend) {
                             echo '<div class="profile_friends" id="allfriends" style=border:1px;solid;rgba(0,0,0,0.0980392);>';
                             echo '<a href="/profile/'.$profriend['username'].'">';
-                            echo "<img width=80 height=80 style=float:left;margin:5px; src='/public/photos/" . $profriend['avatar'] . "' />";
+                            echo "<img class='usr_img' src='/public/photos/" . $profriend['avatar'] . "' />";
                             echo $profriend['firstname']." ".$profriend['lastname'];
                             echo '</a>';
                             echo '<br />';

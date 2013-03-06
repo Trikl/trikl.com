@@ -1,4 +1,4 @@
-<div class="proset">
+<div class="personalinfo">
 	<form method='post' id="changeprivacy">
 		<fieldset class="privacyfields">
 		<div class="small-input-field">

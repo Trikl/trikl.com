@@ -9,11 +9,9 @@ if ($notfound !== NULL) {
 	$title = $user->getFirstName() . ' ' . $user->getLastName();
 ?>
 <div class="profile" style="background:url('/public/photos/<?php echo $user->getBannerFilename(); ?>')">
-	<img class="profile_img" src="public/photos/<?php echo $user->getAvatarFilename(); ?>" />
+	<img class="usr_img" src="public/photos/<?php echo $user->getAvatarFilename(); ?>" />
 	<h1 class="profile_un"><?php echo $title; ?></h1>
-</div>
-<div id="profilebox">
-	<ul id="profilelinks">
+		<ul id="profilelinks">
 	    <li id='userposts'>
 	        Posts
 	    </li>
@@ -37,6 +35,10 @@ if ($notfound !== NULL) {
 			</li>
 		<?php } ?>
 	</ul>
+
+	<div id="profilebox">
+</div>
+
 </div>
 
 <script>
@@ -62,16 +64,16 @@ $('#userfriends').click(function() {
 	<div class="profile_bio">
 		<ul>
 			<?php if($profile->getBio()) { ?>
-			<li>
-				Bio: <?php echo $profile->getBio(); ?>
+			<li><h3> Bio </h3>
+				<p><?php echo $profile->getBio(); ?></p>
 			</li>
 			<?php } if($profile->getPhone()) { ?>
-			<li>
-				Phone: <?php echo $profile->getPhone(); ?>
+			<li><h3> Phone </h3>
+				<p><?php echo $profile->getPhone(); ?></p>
 			</li>
 			<?php } if($profile->getWebsite()) { ?>
-			<li>
-				Website: <?php echo $profile->getWebsite(); ?>
+			<li><h3> Website </h3>
+				<p><?php echo $profile->getWebsite(); ?></p>
 			</li>
 			<?php } ?>
 		</ul>

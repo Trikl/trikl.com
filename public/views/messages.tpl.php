@@ -1,9 +1,8 @@
-<div class="contractednotif">
 	<h3 class="toggledown"></h3>
 	<h3 class="messagecenter">Message Center</h3>
 	<form class="replyform">
-		<input class="buttonleft" type="submit" id="supercompose" value="Compose" />
-		<input class="buttonleft" onclick="window.location='/messages';" type='button' value="View All Messages" />
+		<input class="buttonleft" type="submit" id="supercompose" value="" />
+		<input class="buttonleft" id="readmore" onclick="window.location='/messages';" type='button' value="" />
 	</form>
 </div>
 <form id="sendmessage" method="post">
@@ -32,26 +31,25 @@
 							echo "<img class='usr_img' src='/public/photos/" . $user->getAvatarFilename() . "'/ >";
 						}
 					}
+					echo "<div class='titlebar'>";
 					echo "<p class='subject'><a href='/profile/" . $username . "'>" . $firstname . " " . $lastname . "</a> - " . $thread->getSubject() . "</p>";
 					echo "<p class='date'>" . $contents->getDate() . "</p>";
+					echo "</div>";
 					echo "<p class='content'>" . $contents->getContent() . "</p>";
-					echo "<div class='recipients'>";
-						foreach ($users as $user) {
-							echo "<img height=40 width=40 src='/public/photos/" . $user->getAvatarFilename() . "'/ >";
-						}
 	?>
 						<form class="replyform">
-							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="Reply" />
+							<input id="<?php echo $thread->getMessageId(); ?>"  class="buttonleft replybutton" type="submit" value="" />
 							<!-- <input class="buttonright" type="submit" value="Delete" /> -->
-							<input class="buttonright msgfullview" type="submit" value="View Full Thread" />
-							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="Clear" />
+							<input class="buttonright msgfullview" type="submit" value="" />
+							<input id="<?php echo $thread->getMessageId(); ?>" class="buttonleft archive" type="submit" value="" />
 						</form>
-					</div>
 					<form id="<?php echo $thread->getMessageId(); ?>" class="replymessage" method="post">
 						<textarea id="messagecontents" class="posttextarea" name="content"></textarea>
 						<input type="hidden" name="messageid" value="<?php echo $thread->getMessageId(); ?>" />
 						<input type="submit" value="Send" />
 					</form>
+												        <div style="clear: both;"></div>
+
 				</div>
 				<script>
 					$(".msgfullview").click(function(e) {
@@ -60,13 +58,12 @@
 					});
 				</script>
 			<?php } }?>
-</div>
 
 <script>
-	$(".replybutton").toggle(function(e) {
+	$(".replybutton").click(function(e) {
 		e.preventDefault();
 		var id = "#" + $(this).attr('id') + ".replymessage";
-		$(id).show();
+		$(id).toggle();
 		var reply = {
 			resetForm: true,
 			clearForm: true,
@@ -75,11 +72,9 @@
 				"action": "replymessage",
 			},
 			success: function(response) {
-				alert(response);
+				$(id).toggle();
 			}
 		};
 		$('.replymessage').ajaxForm(reply);
-	}, function() {
-		$(".replymessage").hide();
-	});
+		})
 </script>

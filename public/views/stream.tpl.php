@@ -1,4 +1,4 @@
 
 <?php include 'views/postpage.tpl.php'; ?>
 
-<div id="page" class='more'> more </div>
+<!-- <div id="page" class='more'> more </div> ->

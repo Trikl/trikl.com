@@ -28,7 +28,7 @@ foreach ($data['global'] as $global) { ?>
 		</p>
 		
 		<form class="clearform replyform">
-			<input class="buttonclear buttonleft" type="submit" <?php echo "id='" . $global['notifications']->getNotificationid();?>' value="Clear" />
+			<input class="buttonclear buttonleft globalclear" type="submit" <?php echo "id='" . $global['notifications']->getNotificationid();?>' value="" />
 		</form>
 	</div>
 <?php } }?>

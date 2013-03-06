@@ -12,17 +12,19 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 		
 			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>">
 				<img class="usr_img" src="public/photos/<?php echo $post['user']->getAvatarFilename(); ?>" />
+				<div class="titlebar">
 				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName();  ?></a> <?php if ($post['parentid'] != 0) { echo "- reply"; } ?>
 				<span class='date'> <?php echo $post['date']; ?> </span>
+				</div>
 				<p class="comment"><?php echo $post['text']; ?></p>
 				
 				<div class="share" id="<?php echo $post['pid']; ?>"> 
 					<form>
-						<input type="submit" value="Full Post" />
-						<input class="pin" id="<?php echo $post['pid']; ?>" type="submit" value="Pin" />
+						<input type="submit" value="" class="fullpost" />
+						<input class="pin" id="<?php echo $post['pid']; ?>" type="submit" value="" />
 						<?php if ($_SESSION['uid'] === $post['user']->getId()) { ?>
-							<input type="submit" value="Delete" />
-							<input id="editpost-<?php echo $post['pid']; ?>" type="submit" value="Edit" />
+							<input type="submit" class="delete" value="" />
+							<input class="edit" id="editpost-<?php echo $post['pid']; ?>" type="submit" value="" />
 						<?php } ?>
 					</form>								 
 				</div>
@@ -30,25 +32,13 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 			<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
 			<div class="comments" id="<?php echo $post['pid']; ?>">
 				<div class="commentlist">
-			<?php
-				if (is_array($post['comments'])) {
-					foreach ($post['comments'] as $comments) { 			
-
-			?>
-						<div class="commentcontents" id="<?php echo $comments['id']; ?>">
-							<img class="usr_img" style="width:60px;height:60px;" src="public/photos/<?php echo $comments['user']->getAvatarFilename(); ?>" />
-							<a href="profile/<?php echo $comments['user']->getUsername(); ?>"><?php echo $comments['user']->getFirstName()." ".$comments['user']->getLastName(); ?></a>
-							<span class='date'> <?php echo $comments['date']; ?> </span>
-							<p class="comment more"><?php echo $comments['content']; ?></p>
-						</div>
-			<?php
-					}
-				}
-				?>
+					<?php include('views/allcomments.tpl.php'); ?>
 				</div>
 				<form class="makeComment" method="post">
 					<textarea class="makeCommentTextbox" placeholder="Comment..." name="post"></textarea><br />
-					<input type='submit' id="commentsubmit" value="Comment">
+					<input type='submit' id="commentsubmit" value="">
 				</form>	
+											        <div style="clear: both;"></div>
+
 			</div>
 		</div>

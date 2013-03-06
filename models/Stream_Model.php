@@ -393,7 +393,7 @@ class Stream_Model {
 		}
 	}
 	
-	function newcomments() {
+	function newcomments() {		
 			$comment = StatusQuery::create()
 			->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
 			->findOne();

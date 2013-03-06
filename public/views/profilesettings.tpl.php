@@ -1,13 +1,33 @@
 <div class="proset">
 <?php $settings = $data['settings'];?>
+<div class="customization">
 
-<?php if ($settings['user']->getAvatarFilename()) { ?>
-<h4> Change Avatar: </h4><img id="avatar" src="/public/photos/<?php echo $settings['user']->getAvatarFilename(); ?>">
 
-<?php } else { ?>
-<h4> Change Avatar: </h4><img id="avatar" src="/public/photos/">
+<div class="changebanner" id='banner' style="background:url('/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>')" >
+<div class="changeavatar">
+<img class="usr_img" id="avatar" src="/public/photos/<?php echo $settings['user']->getAvatarFilename(); ?>">
+</div> 
+</div>
 
-<?php } ?>
+<div id="bannerdialog" style="display:none;" title="Upload Avatar">
+		<div id=" imagepreview">
+		<h3>Banner Preview</h3>
+	        <img id="bannerblah" src="#" alt="your image" />
+		</div>
+
+    <div id="bannmessage"></div>
+    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
+                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
+                <input type="submit" id="uploadFile" value="Upload File">
+    </form>
+    <div id="uploader"></div>
+    
+    
+    <div class="avaprogress">
+        <div class="bannbar"></div >
+        <div class="bannpercent">0%</div >
+    </div>
+</div> 
 
 <div id="avatardialog" style="display:none;" title="Upload Avatar">
 		<div id="imagepreview">
@@ -28,36 +48,6 @@
         <div class="avapercent">0%</div >
     </div>
 </div> 
-
-
-<?php if ($settings['user']->getBannerFilename()) { ?>
-<h4> Change Banner: </h4><img style="width:120px;" id="banner" src="/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>">
-
-<?php } else { ?>
-<h4> Change Banner: </h4><img id="banner" src="/public/photos/">
-
-<?php } ?>
-
-
-<div id="bannerdialog" style="display:none;" title="Upload Avatar">
-		<div id=" imagepreview">
-		<h3>Avatar Preview</h3>
-	        <img id="bannerblah" src="#" alt="your image" />
-		</div>
-
-    <div id="bannmessage"></div>
-    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
-                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
-                <input type="submit" id="uploadFile" value="Upload File">
-    </form>
-    <div id="uploader"></div>
-    
-    
-    <div class="avaprogress">
-        <div class="bannbar"></div >
-        <div class="bannpercent">0%</div >
-    </div>
-</div>   
 
 
     <script type="text/javascript">
@@ -102,6 +92,8 @@
 			});
 		$('#avatar').click(function() {
 			$("#avatardialog").toggle();
+							$("#bannerdialog").toggle();
+
 		});
 		            
 		    var bar = $('.bannbar');
@@ -157,31 +149,23 @@
     </script>
  
 
-        
+     <div class="personalinfo">
        <?php if (!$settings['profile']) { ?>
 	<form id="createsettings" method='post' style="text-align:center;">
-		<h4> Bio </h4><textarea placeholder="Tell Us About Yourself...." name='bio' maxlength="100" cols="50" rows="4"></textarea><br>
-		<h4> Website </h4><textarea placeholder="Website" style="resize:none;margin:0px;" name='website' maxlength="100" cols="23" rows="1"></textarea>
-		<h4> Phone Number </h4><textarea placeholder="Phone #" style="resize:none;margin:0px;" name='mynumber' maxlength="100" cols="23" rows="1"></textarea><br>
+		<div class="item big"><h4> Bio </h4><textarea placeholder="Tell Us About Yourself...." name='bio'></textarea></div>
+		<div class="item"><h4> Website </h4><textarea placeholder="Website" style="resize:none;margin:0px;" name='website'></textarea></div>
+		<div class="item"><h4> Phone Number </h4><textarea placeholder="Phone #" style="resize:none;margin:0px;" name='mynumber'></textarea></div>
 		<input type='submit' value='Submit' name='profile'>
 	</form>
 <?php } else { ?>
 	<form id="updatesettings" method='post' style="text-align:center;">
 		<fieldset>
-		<div class="input-field">
-		<h5 class="bigtextlabel">Bio</h5><textarea class="bigtext" placeholder="Tell Us About Yourself...." style="resize:none;" name='bio' maxlength="100" cols="50" rows="4"><?php echo $settings['profile']->getBio(); ?></textarea>
-		</div>
-		<div class="small-input-field">
-
-		<h5 class="smalltextlabel">Website</h5><textarea class="smalltext" placeholder="Website" style="resize:none;margin:0px;" name='website' maxlength="100" cols="23" rows="1"><?php echo $settings['profile']->getWebsite(); ?></textarea>
-				</div>
-		<div class="small-input-field">
-
-		<h5 class="smalltextlabel">Phone</h5><textarea class="smalltext" placeholder="Phone #" style="resize:none;margin:0px;" name='mynumber' maxlength="100" cols="23" rows="1"><?php echo $settings['profile']->getPhone(); ?></textarea>
-						</div>
-		<input type='submit' value='Submit' name='profile'>
+			<div class="item big"><h4>Bio</h4><textarea class="bigtext" placeholder="Bio" name='bio'><?php echo $settings['profile']->getBio(); ?></textarea></div>
+			<div class="item"><h4>Website</h4><textarea class="smalltext" placeholder="Website" name='website'><?php echo $settings['profile']->getWebsite(); ?></textarea></div>
+			<div class="item"><h4>Phone</h4><textarea class="smalltext" placeholder="Phone #" name='mynumber'><?php echo $settings['profile']->getPhone(); ?></textarea></div>
+			<input type='submit' value='Submit' name='profile'>
 		</fieldset>
 	</form>
 <?php } ?> 
-
+     </div>
 </div>
