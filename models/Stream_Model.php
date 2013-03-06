@@ -128,7 +128,7 @@ class Stream_Model {
 				$posts = StatusQuery::create()
 				->filterByUserid($aFriends)
 				->filterByParentid('0')
-				->filterByPostid($postid, \Criteria::GREATER_THAN)
+				->filterByPostid($postid)
 				->find();
 			}
 			break;
@@ -221,6 +221,7 @@ class Stream_Model {
 				$post->setParentid('0');
 			}
 			$post->save();
+			echo $post->getPostid();
 
 			if ($_POST['parentid']) {
 				$noti = new Notification();

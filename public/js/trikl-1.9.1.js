@@ -12,18 +12,15 @@
 			var commentslast = '#' + thispostid + '.comments:last-child';
 			var urldata = '#' + thispostid + '.urldata';
 			$(thispost).hover(
-				function () {
-					$(share).show();
-					$(thispostpost).css('border-color', '#b2b2b2');
-				},
-				function () {
-					$(share).hide();
-					$(thispostpost).css('border-color', '#dadada');
-				}
-			);			
-			
+
+			function() {
+				$(share).show();
+				$(thispostpost).css('border-color', '#b2b2b2');
+			}, function() {
+				$(share).hide();
+				$(thispostpost).css('border-color', '#dadada');
+			});
 			$(thispostedit).click(function(e) {
-			
 				e.preventDefault();
 				$.ajax({
 					type: "POST",
@@ -112,7 +109,7 @@
 								$('.commentlist').append(response);
 							}
 						})
-				}
+					}
 				};
 				if (!$.trim($(urldata).html()).length) {
 					$.ajax({
@@ -146,71 +143,99 @@
 				"action": "createpost",
 			},
 			success: function(response) {
-				alert(response);
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"PID": response,
+						"action": "new",
+					},
+					success: function(insert) {
+						$('#streamlist.stream').prepend(insert);
+						streamUpdates();
+					}
+				})
 			}
 		};
-		var bar = $('.bar');
-		var percent = $('.percent');
-		var status = $('#status');
 		var posttext = '#makePostTextbox';
-		var streamphoto = {
-			url: '/photo',
-			beforeSend: function() {
-				status.empty();
-				var percentVal = '0%';
-				bar.width(percentVal)
-				percent.html(percentVal);
-			},
-			data: {
-				"action": "upload",
-			},
-			uploadProgress: function(event, position, total, percentComplete) {
-				var percentVal = percentComplete + '%';
-				bar.width(percentVal)
-				percent.html(percentVal);
-			},
-			success: function(response) {
-				$(posttext).val($(posttext).val() + ' http://trikl.com/photo/' + response);
-				$("#upload").toggle();
-			}
+
+		function streamInt() {
+			streamUpdates();
+			var intval = setInterval(function() {
+				streamUpdates()
+			}, 15000);
 		};
-		$.ajax({
-			type: "POST",
-			url: "/global",
-			data: {
-				"action": "getNotifications",
-			},
-			success: function(response) {
-				$("#friendreq").html(response).hide();
-			}
-		})
-		$.ajax({
-			type: "POST",
-			url: "/global",
-			data: {
-				"action": "generalNotifications",
-			},
-			success: function(response) {
-				$("#general").html(response).hide();
-			}
-		})
-		$.ajax({
-			type: "POST",
-			url: "/global",
-			data: {
-				"action": "getMessages",
-			},
-			success: function(response) {
-				$("#newmessages").html(response).hide();
-			}
-		})
+
+		function streamUpdates() {
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"PID": $(".post").attr('id'),
+					"action": "updates",
+				},
+				success: function(response) {
+					console.log('streamupdater: ' + response);
+					if (response > 0) {
+						$("#newposts").html(response + ' new update').show();
+					}
+				},
+			});
+			$.ajax({
+				type: "POST",
+				url: "/global",
+				data: {
+					"action": "getNotifications",
+				},
+				success: function(response) {
+					$("#friendreq").html(response);
+				}
+			})
+			$.ajax({
+				type: "POST",
+				url: "/global",
+				data: {
+					"action": "generalNotifications",
+				},
+				success: function(response) {
+					$("#general").html(response);
+				}
+			})
+			$.ajax({
+				type: "POST",
+				url: "/global",
+				data: {
+					"action": "getMessages",
+				},
+				success: function(response) {
+					$("#newmessages").html(response);
+				}
+			})
+		};
+		streamInt();
+		$("#newposts").click(function() {
+			$.ajax({
+				type: "POST",
+				url: "/stream",
+				data: {
+					"PID": $(".post").attr('id'),
+					"action": "new",
+				},
+				success: function(response) {
+					$('#streamlist.stream').prepend(response), $("#newposts").hide()
+					clearInterval(intval);
+					streamInt();
+					postView();
+				}
+			})
+		});
 		$('#settings').click(function() {
 			$.ajax({
 				type: "POST",
 				url: "/settings",
 				success: function(response) {
 					$("#friendreq,#newmessages").hide();
-					$('#hey').html(response).toggle()
+					$('#settingstoggle').html(response).toggle()
 					var createsettings = {
 						url: "/settings",
 						data: {
@@ -235,55 +260,40 @@
 				}
 			})
 		});
-		$('#makePost,#makeBlog').ajaxForm(commentoptions);
 		$(posttext).on("keyup", function() {
 			var postdata = $(posttext).val().length;
-		//	if ($(posttext)[0].scrollHeight > 42) {
-		//		$("#makeBlogtextbox").html($(posttext).val()).focus();
-		//		$('.submitbar,#blog').toggle();
-		//		$(posttext).val('');
-		//	} else {
-				if (postdata > 0) {
-					$('.submitbar').show();
-					$(posttext).addClass('activated');
-					$('#options').css('display', 'inline-block');
-				} else {
-					$(posttext).removeClass('activated');
-					$('#options,.submitbar,#upload').hide();
-				}
-		//	}
+			if (postdata > 0) {
+				$('.submitbar').show();
+				$(posttext).addClass('activated');
+				$('#options').css('display', 'inline-block');
+			} else {
+				$(posttext).removeClass('activated');
+				$('#options,.submitbar,#upload').hide();
+			}
 		});
 		$('#subpost').click(function() {
-			$('#makePost').submit();
+			$('#makePost').ajaxForm(commentoptions);
 			$('#options,.submitbar,#upload').hide();
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"PID": $(".post").attr('id'),
-					"action": "new",
-				},
-				success: function(response) {
-					$('#streamlist.stream').prepend(response);
-				}
-			})
 		});
-		$('#blogpost').click(function() {
-			$('#makeBlog').submit();
+		var streamupload = $('#subimage').upload({
+			action: '/photo',
+			params: {
+				"action": "upload"
+			},
+			onComplete: function(response) {
+				$(posttext).val($(posttext).val() + ' http://trikl.com/photo/' + response);
+			}
 		});
-		$('#subimage').click(function() {
-		     $("#ufile").click();
-		});
-		$("#makePostTextbox,#hey,#editpost,#options,#blog").click(function(e) {
+		$("#makePostTextbox,#settingstoggle,#editpost").click(function(e) {
 			e.stopPropagation();
 			e.preventDefault();
 		})
+		$("#settings,#newmessages,#friendreq,a,.replyform,#general,#subpost,#subimage,.submitbar").click(function(e) {
+			e.stopPropagation();
+		})
 		$('#omnibox').click(function() {
-			$("#settings,#newmessages,#friendreq,a,.replyform,#general").click(function(e) {
-				e.stopPropagation();
-			})
 			$('#friendreq,#newmessages,#general').toggle();
-			$("#newmessages #expandedmessage,#hey").hide();
+			$("#newmessages #expandedmessage,#settingstoggle").hide();
 			$('.notification').click(function(e) {
 				window.location.href = '/post/' + $(this).attr('id');
 			});
@@ -328,8 +338,7 @@
 				$("form,.expandnotif").click(function(e) {
 					e.stopPropagation();
 				});
-								$('.friendrequest:last').addClass("last-notification");
-
+				$('.friendrequest:last').addClass("last-notification");
 			});
 			$("#newmessages").click(function() {
 				$("#newmessages #expandedmessage").toggle(function() {
@@ -373,48 +382,6 @@
 				}
 			})
 		});
-	};
-
-	function newPosts() {
-		function streamInt() {
-			var intval = setInterval(function() {
-				streamUpdates()
-			}, 15000);
-		};
-
-		function streamUpdates() {
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"PID": $(".post").attr('id'),
-					"action": "updates",
-				},
-				success: function(response) {
-					if (response > 0) {
-						$("#newposts").html(response + ' new update').show();
-					}
-				},
-			});
-		};
-		$("#newposts").click(function() {
-			$.ajax({
-				type: "POST",
-				url: "/stream",
-				data: {
-					"PID": $(".post").attr('id'),
-					"action": "new",
-				},
-				success: function(response) {
-					//alert(response);
-					$('#streamlist.stream').prepend(response), $("#newposts").hide()
-					clearInterval(intval);
-					streamInt();
-					postView();
-				}
-			})
-		});
-		streamInt();
 	};
 
 	function frontpage() {
@@ -481,12 +448,10 @@
 			omnibar();
 			postView();
 			morePosts();
-			newPosts();
 			break;
 		case '/stream':
 			omnibar();
-			postView();		
-			newPosts();
+			postView();
 			morePosts();
 			break;
 		default:

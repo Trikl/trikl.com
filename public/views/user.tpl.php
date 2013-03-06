@@ -5,11 +5,9 @@
                 <textarea id="makePostTextbox" placeholder="Whats Trikling Through Your Mind?" class="posttextarea" name="post"></textarea>
                     <div class="submitbar">
 			            <form id="options">
-			            			                <input id="subpost" type="submit" value="" />
-
+			            	<input id="subpost" type="submit" value="" />
 			                <input id="subimage" type="submit" value="" />
-			                <div style='display:none'><input type='file' name='ufile' id='ufile'/></div>
-			                			                <input id="subsearch" value="" type="submit" />
+			                <input id="subsearch" value="" type="submit" />
 
 			            </form>
 			        </div>
@@ -19,7 +17,7 @@
             <div id="streamorder"></div>
             <div id="friendreq"></div>
             <div id="newmessages"></div>
-            <div id="hey" style="display:none;"></div>
+            <div id="settingstoggle" style="display:none;"></div>
             <div id="newposts"></div>
             <div id="editpost"></div>
             <div id="general"></div>

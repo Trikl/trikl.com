@@ -23,18 +23,19 @@ class Photo_Model {
 		$target = SERVER_ROOT . "/public/avatars";
 
 		foreach ($selectfiles as $file) {
-			foreach ($file['name'] as $key => $name) {
+
+			foreach ($file as $fileinfo) {
 				$files[$key] = array(
-					"name" => $name,
-					"type" => $file['type'][$key],
-					"size" => $file['size'][$key],
-					"tmp" => $file['tmp_name'][$key],
-					"error" => $file['error'][$key],
+					"name" => $file['name'],
+					"type" => $file['type'],
+					"size" => $file['size'],
+					"tmp" => $file['tmp_name'],
+					"error" => $file['error'],
 
 				);
 			}
 		}
-
+		
 		foreach ($files as $photo) {
 			$newname = substr(uniqid(), 0 , 15);
 
