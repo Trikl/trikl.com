@@ -346,6 +346,15 @@ class Stream_Model {
 		}
 	}
 
+		function delete_post() {
+		if ($_POST['post']) {
+			$post = StatusQuery::create()
+			->filterByPostid($_POST['post'])
+			->findOne();
+			$post->delete();			
+			}		
+		}
+
 	function updates($lastpost) {
 		$friends = FriendQuery::create()->findByUserid($_SESSION['uid']);
 

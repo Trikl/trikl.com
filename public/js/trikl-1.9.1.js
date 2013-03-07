@@ -20,6 +20,22 @@
 				$(share).hide();
 				$(thispostpost).css('border-color', '#dadada');
 			});
+
+			
+			$('#' + thispostid + '.delete').click(function(e) {
+			e.preventDefault();
+				$.ajax({
+					type: "POST",
+					data: {
+						"action": "deletepost",
+						"post": thispostid,
+					},
+					success: function() {
+						$(thispostpost).remove();
+					}
+				});
+			});
+
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
 				$.ajax({
@@ -340,6 +356,14 @@
 				});
 				$('.friendrequest:last').addClass("last-notification");
 			});
+<<<<<<< HEAD
+=======
+			$('body').click(function(event) {
+				if (!$(event.target).is('#omnibox')) {
+					$("#friendreq,#newmessages,#hey,#general").hide();
+				}
+			});
+>>>>>>> 8e7c27e... Delete button is ALIIIVEEE
 			$("#newmessages").click(function() {
 				$("#newmessages #expandedmessage").toggle(function() {
 					$('#newmessages').toggleClass('expandborder');
