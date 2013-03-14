@@ -2,7 +2,9 @@
 	unset($urlinfo);
 if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; } }
  ?>
-		<div class="post" id="<?php echo $post['pid']; ?>">
+		<div class="post">
+			<div class="begincomments" id="<?php echo $post['pid']; ?>"></div>
+
 			<div class="postvotes">
 				<div class="upvote" id="upvote-<?php echo $post['pid']; ?>"></div>
 				<div class="votes"><?php if ($post['votetally']) { echo $post['votetally']; } else { echo '0'; } ?></div>
@@ -10,10 +12,17 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 				<div class="downvote" id="downvote-<?php echo $post['pid']; ?>"></div>
 			</div>
 		
-			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>">
+			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>" parent="<?php echo $post['parentnumb']; ?>">
 				<img class="usr_img" src="public/photos/<?php echo $post['user']->getAvatarFilename(); ?>" />
 				<div class="titlebar">
-				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName();  ?></a> <?php if ($post['parentid'] != 0) { echo "- reply"; } ?>
+				<a href="profile/<?php echo $post['user']->getUsername(); ?>"><?php echo $post['user']->getFirstName()." ".$post['user']->getLastName();  ?></a>
+				 <?php 
+				 	if (is_array($post['parentid'])) {
+						foreach ($post['parentid'] as $parentid) {
+							echo 'to <a href="profile/' . $parentid['user']->getUsername() . '">' . $parentid['user']->getFirstName() . ' ' . $parentid['user']->getLastName() . '</a>';
+						}
+					}
+				 ?>
 				<span class='date'> <?php echo $post['date']; ?> </span>
 				</div>
 				<p class="comment"><?php echo $post['text']; ?></p>
@@ -35,17 +44,12 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 				</div>
 			</div>
 			<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
-			<div class="comments" id="<?php echo $post['pid']; ?>">
-				<?php if (is_array($post['comments'])) { ?>
-				<div class="commentlist">
-					<?php include('views/allcomments.tpl.php'); ?>
-				</div>
-				<?php } ?>
+			<div class="endcomments" id="<?php echo $post['pid']; ?>"></div>
+			<!-- <div class="reply">
 				<form class="makeComment" method="post">
 					<textarea class="makeCommentTextbox" placeholder="Comment..." name="post"></textarea><br />
 					<input type='submit' id="commentsubmit" value="">
 				</form>	
-											        <div style="clear: both;"></div>
-
-			</div>
+				<div style="clear: both;"></div>
+			</div> -->
 		</div>

@@ -569,7 +569,7 @@ body {
 
 .post .titlebar {
 	height:20px;
-	margin:0 10px 0 150px;
+	margin:0 10px 0 110px;
 }
 
 .post .delete {
@@ -653,7 +653,7 @@ body {
 .post .postcontents {
 	position:relative;
 	min-height:100px;
-	margin:0 auto;
+	margin:0 auto 0 40px;
 	padding:5px 0;
 }
 
@@ -748,8 +748,9 @@ body {
 	margin-left:10px;
 }
 
-.post .comments {
+.post .endcomments, .post .begincomments {
 	display:none;
+	background: #ededed;
 }
 
 .post .postvotes {

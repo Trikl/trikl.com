@@ -1,6 +1,5 @@
 <?php
 class Stream_Model {
-
 	//rewrite this.
 	function ago($datefrom, $dateto=-1) {
 		// Defaults and assume if 0 is passed in that
@@ -139,67 +138,64 @@ class Stream_Model {
 			->orderByDate('desc')
 			->paginate($stuff, $rowsPerPage = 50);
 			break;
+		case 'endresponses':
+			$posts = StatusQuery::create()
+			->filterByParentid($subpage)
+			->find();
+			break;
+		case 'beginresponses':
+			$posts = StatusQuery::create()
+			->filterByPostid($subpage)
+			->find();
+			break;			
 		default:
 			$posts = StatusQuery::create()
 			->filterByUserid($aFriends)
-			->filterByParentid('0')
 			->orderByDate('desc')
 			->paginate($stuff, $rowsPerPage = 50);
 			break;
 		}
 		
-			foreach ($posts as $p => $k) {
-				$text = strip_tags($k->getStatus());
-				//$text = $this->auto_link_text($text);
-				$text = $this->link_parse($text);
-				$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
-				$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
-				$textinfo = nl2br($text);
-				$date = $this->ago($k->getDate());
+		if ($posts) {
+		foreach ($posts as $p => $k) {
+			$text = strip_tags($k->getStatus());
+			$text = $this->link_parse($text);
+			$text = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $text );
+			$text = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $text);
+			$textinfo = nl2br($text);
+			$date = $this->ago($k->getDate());
 
-					$commentquery = StatusQuery::create()->filterByParentid($k->getPostid())->find();
-					foreach ($commentquery as $comment) {
-						$comdatefrom = $comment->getDate();
-						$comdate = $this->ago($comdatefrom);
-						$comtext = strip_tags($comment->getStatus());
-						$comtext = $this->link_parse($comtext);
-						$comtext = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $comtext );
-						$comtext = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $comtext);
-						$comtextinfo = nl2br($comtext);
-	
-						$comments[] = array(
-							'user' => UserQuery::create()->findPK($comment->getUserid()),
-							'date' => $comdate,
-							'content' => $comtext,
-							'id' => $comment->getPostid(),
-						);
-					}
-	
-				$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
-				foreach ($votesquery as $vote) {
-					$votetally = $votetally+$vote->getValue();
-					if (is_int($votetally)) {
-						//kk
-					} else {
-						$votetally = 0;
-					}
+			$votesquery = VotesQuery::create()->filterByPostID($k->getPostid())->find();
+			foreach ($votesquery as $vote) {
+				$votetally = $votetally+$vote->getValue();
+				if (is_int($votetally)) {
+					//kk
+				} else {
+					$votetally = 0;
 				}
-	
-				$parsedPost[] = array(
-					'user' => UserQuery::create()->findPK($k->getUserid()),
-					'date' => $date,
-					'pid' => $k->getPostid(),
-					'bucket' => $k->getBucketid(),
-					'text' => $textinfo,
-					'uid' => $k->getUserid(),
-					'url' => $this->get_url($k->getPostid()),
-					'parentid' => $k->getParentid(),
-					'comments' => $comments,
-					'votetally' => $votetally,
-				);
-				unset($votetally);
-				unset($comments);
 			}
+			
+			if ($k->getParentid() !== '0') {
+				$parent = $this->stream($k->getParentid(), 'single');
+			}
+
+			$parsedPost[] = array(
+				'user' => UserQuery::create()->findPK($k->getUserid()),
+				'date' => $date,
+				'pid' => $k->getPostid(),
+				'bucket' => $k->getBucketid(),
+				'text' => $textinfo,
+				'uid' => $k->getUserid(),
+				'url' => $this->get_url($k->getPostid()),
+				'parentid' => $parent,
+				'parentnumb' => $k->getParentid(),
+				'comments' => $replies,
+				'votetally' => $votetally,
+			);
+			unset($votetally);
+			unset($comments);
+		}
+	}
 		return $parsedPost;
 	}
 
@@ -282,22 +278,15 @@ class Stream_Model {
 
 		$urldata = $this->urldata($url);
 
-		// if ($urlquery) {
-		//  return $urlquery->getUrlid();
-		// } else {
 		$urldb = new Url();
 		$urldb->setUrlhost($url['host']);
 		$urldb->setUrlpath($url['path']);
 		$urldb->setUrlquery($url['query']);
 		$urldb->setContenttype($urldata['type']);
 		$urldb->setTitle($urldata['title']);
-		//  $urldb->setContent($urldata['desc']);
-		//  $urldb->setContentimg($urldata['image']);
 		$urldb->save();
 
 		return $urldb->getUrlid();
-		//}
-
 	}
 
 	function get_url($postid) {
@@ -345,12 +334,12 @@ class Stream_Model {
 			$post->save();
 		}
 	}
-	
+
 	function delete_post() {
-			$post = StatusQuery::create()
-			->filterByPostid($_POST['post'])
-			->findOne();
-			$post->delete();
+		$post = StatusQuery::create()
+		->filterByPostid($_POST['post'])
+		->findOne();
+		$post->delete();
 	}
 
 	function updates($lastpost) {
@@ -384,44 +373,27 @@ class Stream_Model {
 		echo $posts;
 	}
 
-	function comment($commentcon) {
-		$commentcon['comment'] = strip_tags($commentcon['comment']);
-		if ($commentcon['comment']) {
-			$comment = new Comments();
-			$comment->setPostID($commentcon['post']);
-			$comment->setUserID($_SESSION['uid']);
-			$comment->setTier('0');
-			$comment->setContent($commentcon['comment']);
-			$comment->setDate(date("r"));
-			$comment->save();
+	function newcomments() {
+		$comment = StatusQuery::create()
+		->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
+		->findOne();
 
-			$originalpost = StatusQuery::create()->filterByPostid($commentcon['post'])->findOne();
-			//$poster = UserQuery::create()->findPK();
+		$comdatefrom = $comment->getDate();
+		$comdate = $this->ago($comdatefrom);
+		$comtext = strip_tags($comment->getStatus());
+		$comtext = $this->link_parse($comtext);
+		$comtext = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $comtext );
+		$comtext = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $comtext);
+		$comtextinfo = nl2br($comtext);
 
-		}
-	}
-	
-	function newcomments() {		
-			$comment = StatusQuery::create()
-			->filterByPostid($_POST['PID'], \Criteria::GREATER_THAN)
-			->findOne();
-			
-			$comdatefrom = $comment->getDate();
-			$comdate = $this->ago($comdatefrom);
-			$comtext = strip_tags($comment->getStatus());
-			$comtext = $this->link_parse($comtext);
-			$comtext = preg_replace( '/(?!<\S)~(\w+\w)(?!\S)/i', '<a href="/profile/$1" target="_blank">~$1</a>', $comtext );
-			$comtext = preg_replace("/^\n+|^[\t\s]*\n+/m", "", $comtext);
-			$comtextinfo = nl2br($comtext);
-	
-			$comments = array(
-				'user' => UserQuery::create()->findPK($comment->getUserid()),
-				'date' => $comdate,
-				'content' => $comtext,
-				'id' => $comment->getPostid(),
-			);
-			
-			return $comments;
+		$comments = array(
+			'user' => UserQuery::create()->findPK($comment->getUserid()),
+			'date' => $comdate,
+			'content' => $comtext,
+			'id' => $comment->getPostid(),
+		);
+
+		return $comments;
 	}
 
 	function upvote($data) {
@@ -525,34 +497,6 @@ class Stream_Model {
 			unset($newPost);
 
 		}
-
-	}
-
-	function auto_link_text($text) {
-		$pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
-		$callback = create_function('$matches', '$url = array_shift($matches); return $url;');
-		$url = preg_replace_callback($pattern, $callback, $text);
-
-		$urlinfo = parse_url($url);
-
-		if ($urlinfo ['query']) {
-			$query = $url['query'];
-		} else {
-			$query = ' ';
-		}
-
-		$urlquery = UrlQuery::create()
-		->filterByUrlhost($urlinfo ['host'])
-		->filterByUrlpath($urlinfo ['path'])
-		->filterByUrlquery($query)
-		->find();
-
-		foreach ($urlquery as $urltitle) {
-			$title = $urltitle->getTitle();
-			return "<a target='_blank' href='" . $url . "'>" . $title . "</a>";
-
-		}
-
 
 	}
 }

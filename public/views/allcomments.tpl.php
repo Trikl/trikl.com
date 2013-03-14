@@ -1,4 +1,7 @@
 					<?php
+					
+					var_dump($post);
+					
 							foreach ($post['comments'] as $comments) { 			
 		
 					?>

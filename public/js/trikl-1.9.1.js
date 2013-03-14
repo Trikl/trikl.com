@@ -3,6 +3,7 @@
 			var thispost = '#' + $(this).attr('id') + '.postcontents';
 			var thispostcomment = '#' + $(this).attr('id') + '.postcontents .comment';
 			var thispostid = $(this).attr('id');
+			var thispostparent = $(this).attr('parent');
 			var thispostpost = '#' + $(this).attr('id') + '.post';
 			var thispostedit = '#editpost-' + $(this).attr('id');
 			var posteditor = '#' + $(this).attr('id') + '.postcontents .editor';
@@ -11,9 +12,11 @@
 			var thispostdownvote = '#downvote-' + $(this).attr('id');
 			var thispostupvote = '#upvote-' + $(this).attr('id');
 			var share = '#' + $(this).attr('id') + '.share';
-			var comments = '#' + thispostid + '.comments';
+			var endcomments = '#' + thispostid + '.endcomments';
+			var begincomments = '#' + thispostid + '.begincomments';
 			var commentslast = '#' + thispostid + '.comments:last-child';
 			var urldata = '#' + thispostid + '.urldata';
+			var pins = "#" + thispostid + ".pin";
 			$('#' + thispostid + '.delete').click(function(e) {
 				e.preventDefault();
 				$.ajax({
@@ -36,10 +39,8 @@
 				$(share).hide();
 				$(thispostpost).css('border-color', '#dadada');
 			});
-
-			
 			$('#' + thispostid + '.delete').click(function(e) {
-			e.preventDefault();
+				e.preventDefault();
 				$.ajax({
 					type: "POST",
 					data: {
@@ -51,7 +52,6 @@
 					}
 				});
 			});
-
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
 				$(thispostcomment).replaceWith("<textarea class='comment'>" + $(thispostcomment).text() + "</textarea>");
@@ -67,10 +67,10 @@
 						},
 						success: function(response) {
 							$(posteditor).toggle();
-							$(thispostcomment).replaceWith("<p class='comment'>" + $(thispostcomment).val() + "</p>");	
+							$(thispostcomment).replaceWith("<p class='comment'>" + $(thispostcomment).val() + "</p>");
 						}
 					};
-					$('#saveEdit').ajaxForm(editoptions);	
+					$('#saveEdit').ajaxForm(editoptions);
 				})
 				$(posteditorcancel).click(function(e) {
 					e.stopPropagation();
@@ -78,33 +78,32 @@
 					$(thispostcomment).replaceWith("<p class='comment'>" + $(thispostcomment).text() + "</p>");
 				})
 			});
-			$(thispostupvote).click(function() {
+			$(thispostupvote).click(function(e) {
 				$.ajax({
 					type: "POST",
 					url: "/stream",
 					data: {
 						"action": "upvote",
 						"id": thispostid,
+					},
+					success: function(response) {
+						alert(response);
 					}
 				})
 			});
-			$(thispostdownvote).click(function() {
+			$(thispostdownvote).click(function(e) {
 				$.ajax({
 					type: "POST",
 					url: "/stream",
 					data: {
 						"action": "downvote",
 						"id": thispostid,
+					},
+					success: function(response) {
+						alert(response);
 					}
 				})
 			});
-			$(".share,a,.pin").click(function(e) {
-				e.stopPropagation();
-			})
-			$(".pin").click(function(e) {
-				e.preventDefault();
-			})
-			var pins = "#" + thispostid + ".pin";
 			$(pins).click(function() {
 				$.ajax({
 					type: "POST",
@@ -118,7 +117,35 @@
 					}
 				})
 			})
+			$(".share,a,.pin").click(function(e) {
+				e.stopPropagation();
+			})
+			$(".pin").click(function(e) {
+				e.preventDefault();
+			})
 			$(thispost).click(function() {
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"id": thispostid,
+						"action": "endresponses",
+					},
+					success: function(response) {
+						$(endcomments).html(response);
+					}
+				})
+				$.ajax({
+					type: "POST",
+					url: "/stream",
+					data: {
+						"id": thispostparent,
+						"action": "beginresponses",
+					},
+					success: function(response) {
+						$(begincomments).html(response);
+					}
+				})
 				var commentoptions = {
 					resetForm: true,
 					clearForm: true,
@@ -157,7 +184,8 @@
 					$(urldata).toggle();
 				}
 				$('.commentlist :last-child').addClass("last-child");
-				$(comments).toggle();
+				$(endcomments).toggle();
+				$(begincomments).toggle();
 				$('.makeComment').ajaxForm(commentoptions);
 				$(thispost).toggleClass('postcontentsactive');
 				$(thispostpost).toggleClass('postactive');
