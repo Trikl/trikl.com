@@ -16,7 +16,6 @@ class Stream_Controller
 	public function main()
 	{
 		$streamModel = new Stream_Model;
-
 		switch($_POST['action']) {
 		case 'new':
 			$discard = 1;
@@ -56,11 +55,7 @@ class Stream_Controller
 			break;
 		case 'editpost':
 			$streamModel->edit_post($_POST['post']);
-			break;
-
-		case 'deletepost':
-		   $streamModel->delete_post($_POST['post']);
-		   break;	
+			break;	
 		case 'upvote':
 			$streamModel->upvote($_POST);
 			break;
