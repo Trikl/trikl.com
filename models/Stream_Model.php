@@ -337,13 +337,20 @@ class Stream_Model {
 	}
 
 	function edit_post() {
-		if ($_POST['edit']) {
+		if ($_POST['text']) {
 			$post = StatusQuery::create()
 			->filterByPostid($_POST['id'])
 			->findOne();
-			$post->setStatus($_POST['edit']);
+			$post->setStatus($_POST['text']);
 			$post->save();
 		}
+	}
+	
+	function delete_post() {
+			$post = StatusQuery::create()
+			->filterByPostid($_POST['post'])
+			->findOne();
+			$post->delete();
 	}
 
 	function updates($lastpost) {

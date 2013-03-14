@@ -40,6 +40,12 @@ class Global_Controller
 		case 'pinpost':
 			$globalModel->pinpost();
 			break;
+		case 'messaging':
+			$discard = 1;
+			$page = 'chat';
+			$view = new View_Model($page, $discard);
+			$view->assign('chat', $globalModel->livechat());		
+			break;
 		case 'getMessages':
 			$discard = 1;
 			$page = 'messages';

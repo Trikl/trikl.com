@@ -26,6 +26,19 @@ class Global_Model {
 
 		echo "You have friended this fool";
 	}
+	
+	function livechat() {
+		$toquery = UserQuery::create()->findPK($_POST['to']);
+		$fromquery = UserQuery::create()->findPK($_POST['from']);
+		
+		$singlemessage = array(
+			"to" => $toquery,
+			"from" => $fromquery,
+			"message" => $_POST['message'],
+		);
+		
+		return $singlemessage;		
+	}
 
 	function messagelist() {
 		$messageid = UserMessageQuery::create()->filterbyUserID($_SESSION['uid'])->find();

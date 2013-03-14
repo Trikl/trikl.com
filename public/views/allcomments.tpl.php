@@ -1,5 +1,4 @@
 					<?php
-							if (is_array($post['comments'])) {
 							foreach ($post['comments'] as $comments) { 			
 		
 					?>
@@ -13,5 +12,4 @@
 								</div>
 					<?php
 							}
-						}
 						?>	

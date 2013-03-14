@@ -63,6 +63,9 @@ class Stream_Controller
 		case 'downvote':
 			$streamModel->downvote($_POST);
 			break;
+		case 'deletepost':
+			$streamModel->delete_post($_POST['post']);
+			break;
 		default:
 			$view = new View_Model($this->template);
 			$view->assign('status', $streamModel->stream());

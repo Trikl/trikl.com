@@ -1,16 +1,32 @@
 	function postView() {
 		$(".postcontents").each(function() {
 			var thispost = '#' + $(this).attr('id') + '.postcontents';
+			var thispostcomment = '#' + $(this).attr('id') + '.postcontents .comment';
 			var thispostid = $(this).attr('id');
 			var thispostpost = '#' + $(this).attr('id') + '.post';
 			var thispostedit = '#editpost-' + $(this).attr('id');
-			var posteditor = '#editor-' + thispostid;
+			var posteditor = '#' + $(this).attr('id') + '.postcontents .editor';
+			var posteditorcancel = '#' + $(this).attr('id') + '.postcontents .editor .cancel';
+			var posteditorsave = '#' + $(this).attr('id') + '.postcontents .editor .save';
 			var thispostdownvote = '#downvote-' + $(this).attr('id');
 			var thispostupvote = '#upvote-' + $(this).attr('id');
 			var share = '#' + $(this).attr('id') + '.share';
 			var comments = '#' + thispostid + '.comments';
 			var commentslast = '#' + thispostid + '.comments:last-child';
 			var urldata = '#' + thispostid + '.urldata';
+			$('#' + thispostid + '.delete').click(function(e) {
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					data: {
+						"action": "deletepost",
+						"post": thispostid,
+					},
+					success: function(response) {
+						alert(response)
+					}
+				});
+			});
 			$(thispost).hover(
 
 			function() {
@@ -22,30 +38,28 @@
 			});
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
-				$.ajax({
-					type: "POST",
-					url: "/stream",
-					data: {
-						"action": "loadedit",
-						"id": thispostid,
-					},
-					success: function(response) {
-						$('#editpost').html(response).show();
-						var editoptions = {
-							url: "/stream",
-							data: {
-								"action": "editpost",
-								"id": $('#saveEdit').attr('post'),
-							},
-							success: function(response) {
-								$('#editpost').toggle();
-							}
-						};
-						$('#saveEdit').ajaxForm(editoptions);
-						$('.cancel').click(function(e) {
-							$('#editpost').toggle();
-						})
-					}
+				$(thispostcomment).replaceWith("<textarea class='comment'>" + $(thispostcomment).text() + "</textarea>");
+				$(posteditor).toggle();
+				$(posteditorsave).click(function(e) {
+					var editsaving = $(thispostcomment).val();
+					var editoptions = {
+						url: "/stream",
+						data: {
+							"action": "editpost",
+							"id": thispostid,
+							"text": editsaving,
+						},
+						success: function(response) {
+							$(posteditor).toggle();
+							$(thispostcomment).replaceWith("<p class='comment'>" + $(thispostcomment).val() + "</p>");	
+						}
+					};
+					$('#saveEdit').ajaxForm(editoptions);	
+				})
+				$(posteditorcancel).click(function(e) {
+					e.stopPropagation();
+					$(posteditor).toggle();
+					$(thispostcomment).replaceWith("<p class='comment'>" + $(thispostcomment).text() + "</p>");
 				})
 			});
 			$(thispostupvote).click(function() {

@@ -42,11 +42,16 @@
 </div>
 </div>
 </div>
+
+
+
 </div>
+
+
 <div class="stream" id="streamlist">
-
+<div class="postcontainer">
 <?php include 'views/postpage.tpl.php'; ?>
-
+</div>
 
 </div>
 

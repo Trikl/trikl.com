@@ -41,7 +41,7 @@ input::-moz-focus-inner {
 html {
 	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 	font-weight:300;
-	color: #333;
+	color:#333;
 }
 
 textarea {
@@ -66,7 +66,7 @@ body {
 }
 
 #omnibox,#profilebox {
-	background:#444;
+	background:#373C45;
 	height:40px;
 	width:940px;
 	position:fixed;
@@ -129,18 +129,18 @@ body {
 }
 
 #omnitext .activated {
-	-webkit-border-bottom-left-radius: 0px !important;
-	-webkit-border-bottom-right-radius: 0px !important;
-	-moz-border-radius-bottomleft: 0px !important;
-	-moz-border-radius-bottomright: 0px !important;
-	border-bottom-left-radius: 0px !important;
-	border-bottom-right-radius: 0px !important;
-	resize: vertical !important;
+	-webkit-border-bottom-left-radius:0!important;
+	-webkit-border-bottom-right-radius:0!important;
+	-moz-border-radius-bottomleft:0!important;
+	-moz-border-radius-bottomright:0!important;
+	border-bottom-left-radius:0!important;
+	border-bottom-right-radius:0!important;
+	resize:vertical!important;
 }
 
 #makePost input {
-	width: 110px;
-	margin-top: 1px;
+	width:110px;
+	margin-top:1px;
 }
 
 /* start notification dropdown css */
@@ -149,15 +149,19 @@ body {
 	background:#373C45;
 	margin-top:45px;
 	color:#FFF;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+}
+
+#settingstoggle {
+	position:relative;
 }
 
 #notification img {
-	-webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
 }
 
 /* toggle buttons */
@@ -202,6 +206,10 @@ border-radius: 3px;
 	border-bottom-left-radius:3px;
 }
 
+.submitbar div {
+	float:right;
+}
+
 .submitbar input {
 	float:right;
 	margin:0 3px 3px 0;
@@ -212,9 +220,9 @@ border-radius: 3px;
 	padding-top:1px;
 	color:#000;
 	background:#fff;
-	-webkit-border-radius: 3px;
--moz-border-radius: 3px;
-border-radius: 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
 }
 
 .expandborder {
@@ -247,23 +255,27 @@ border-radius: 3px;
 }
 
 #general {
-	margin-left: 1px;
+	margin-left:1px;
+	display:none;
+}
+
+.editor {
+	display:none;
 }
 
 #general .clearform {
-	margin-right: 6px;
+	margin-right:6px;
 }
 
 #friendreq .tinyavatars {
 	float:right;
 	margin-top:9px;
-	margin-right: 3px;
+	margin-right:3px;
 }
 
 #newmessages .replyform {
 	margin-top:12px;
-		margin-right: 3px;
-
+	margin-right:3px;
 	float:right;
 }
 
@@ -319,7 +331,7 @@ border-radius: 3px;
 
 /* expanded notification stuff */
 .message,.friendrequest {
-	margin:8px 3px 0px;
+	margin:8px 3px 0;
 	border-bottom:1px solid #dadada;
 	padding-bottom:8px;
 	position:relative;
@@ -342,8 +354,8 @@ border-radius: 3px;
 .message .date,.friendrequest .date {
 	float:right;
 	margin-right:3px;
-	color: #ccc;
-	font-size: 12px;
+	color:#ccc;
+	font-size:12px;
 }
 
 .message .content,.friendrequest .requestinfo {
@@ -403,13 +415,15 @@ border-radius: 3px;
 }
 
 .proset .changeavatar {
-	margin:10px 5px 5px;
+	position:absolute;
+	top:5px;
+	left:5px;
 }
 
 .proset .changebanner {
 	width:580px;
 	height:170px;
-	border-radius: 3px;
+	border-radius:3px;
 }
 
 .proset .label {
@@ -429,7 +443,7 @@ border-radius: 3px;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
-	border-radius: 3px;
+	border-radius:3px;
 }
 
 .proset .bigtext {
@@ -445,8 +459,7 @@ border-radius: 3px;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
-		border-radius: 3px;
-
+	border-radius:3px;
 }
 
 .proset .personalinfo {
@@ -510,29 +523,53 @@ border-radius: 3px;
 
 /* stream */
 .post {
-	margin:8px 3px 3px 0;
 	min-height:95px;
-	border-bottom:1px solid #ccc;
-	border-right:1px solid #dadada;
-	border-left:1px solid #dadada;
-	-webkit-border-bottom-right-radius:3px;
-	-webkit-border-bottom-left-radius:3px;
-	-moz-border-radius-bottomright:3px;
-	-moz-border-radius-bottomleft:3px;
-	border-bottom-right-radius:3px;
-	border-bottom-left-radius:3px;
-	
+	border-bottom:1px solid #ededed;
+	padding:8px 0;
+}
+
+.postcontainer {
+	background:#FFF;
+	width:719px;
+	margin:0 3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+}
+
+#container {
+	position:fixed;
+	right:0;
+	bottom:0;
+}
+
+#log {
+	color:#000;
+	max-height:280px;
+	overflow-y:scroll;
+}
+
+.chatimage {
+	float:left;
+}
+
+.chatcontents {
+	margin-left:40px;
+}
+
+.chatcontents {
+	width:350px;
 }
 
 .commentlist {
-	width: 710px;
-	margin: 0 auto;
-	border-top: 1px solid #ccc;
+	width:710px;
+	margin:0 auto;
+	border-top:1px solid #ccc;
 }
 
 .post .titlebar {
-	height:30px;
-	margin:0 10px 0 160px;
+	height:20px;
+	margin:0 10px 0 150px;
 }
 
 .post .delete {
@@ -551,7 +588,7 @@ border-radius: 3px;
 	background:url(/public/images/buttonicons/pen_16x16.png) no-repeat;
 	width:16px;
 	cursor:pointer;
-	margin: 5px;
+	margin:5px;
 }
 
 #subpost {
@@ -570,7 +607,7 @@ border-radius: 3px;
 	background:url(/public/images/buttonicons/magnifying_glass_16x16.png) no-repeat center center;
 	width:16px;
 	cursor:pointer;
-	margin: 3px;
+	margin:3px;
 }
 
 .replyform .replybutton {
@@ -616,43 +653,45 @@ border-radius: 3px;
 .post .postcontents {
 	position:relative;
 	min-height:100px;
-	margin:15px auto 0;
-	padding-bottom:25px;
-	margin-bottom:10px;
+	margin:0 auto;
+	padding:5px 0;
 }
 
 .stream {
-	width: 725px;
-	float: left;
+	width:725px;
+	float:left;
+	background:#373C45;
+	padding-top:3px;
+	margin-top:15px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
 }
 
 .rightbar {
-	width: 210px;
-	color: #fff;
-	margin-top: 15px;
-	position: fixed;
-	margin-left: 729px;
+	width:210px;
+	color:#fff;
+	margin-top:15px;
+	position:absolute;
+	margin-left:729px;
 }
 
-
 .userinfo {
-	color: #000;
-	height: 100px;
-	border-bottom: 1px solid #ccc;
+	color:#000;
+	height:100px;
+	border-bottom:1px solid #ccc;
 }
 
 .eventinfo {
-	color: #000;
-	border-bottom: 1px solid #ccc;
+	color:#000;
+	border-bottom:1px solid #ccc;
 }
 
- .usroutline {
-		background: white;
-		width: 204px;
-			margin: 0 3px 0px;
-			border-radius: 3px;
-
-
+.usroutline {
+	background:#fff;
+	width:204px;
+	margin:0 3px;
+	border-radius:3px;
 }
 
 .userinfo .usr_img {
@@ -660,17 +699,16 @@ border-radius: 3px;
 }
 
 .title {
-	background: #373C45;
-	color: #fff;
+	background:#373C45;
+	color:#fff;
 	text-align:center;
-	margin-top: 10px;
-	border-radius: 3px;
-	padding-bottom: 3px;
-	line-height: 25px;
+	margin-top:10px;
+	border-radius:3px;
+	padding-bottom:3px;
+	line-height:25px;
 }
 
 .userinfo p {
-	
 }
 
 .more {
@@ -685,7 +723,7 @@ border-radius: 3px;
 
 .post .comment {
 	width:550px;
-	margin:0 0 20px 20px;
+	margin:10px 0 20px 15px;
 	word-break:break-all;
 	display:inline-block;
 }
@@ -707,8 +745,7 @@ border-radius: 3px;
 
 .post .usr_img {
 	float:left;
-	margin-left:13px;
-
+	margin-left:10px;
 }
 
 .post .comments {
@@ -717,8 +754,7 @@ border-radius: 3px;
 
 .post .postvotes {
 	float:left;
-	margin-top:15px;
-	margin-left:15px;
+	margin: 25px 0 0 10px;
 }
 
 .post .postvotes .votes {
@@ -733,11 +769,11 @@ border-radius: 3px;
 }
 
 .postactive {
-	border-color: #b2b2b2 !important;
+	border-color:#b2b2b2!important;
 }
 
 .postactive .share {
-	display: block !important;
+	display:block!important;
 }
 
 #commentsubmit {
@@ -747,7 +783,7 @@ border-radius: 3px;
 .makeComment {
 	width:700px;
 	position:relative;
-	margin: 0 auto;
+	margin:0 auto;
 }
 
 .commentcontents .titlebar {
@@ -890,7 +926,7 @@ border-radius: 3px;
 }
 
 .profilefriends {
-	display: none;
+	display:none;
 }
 
 #profilebox {

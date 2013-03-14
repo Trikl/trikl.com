@@ -19,23 +19,20 @@ class Photo_Model {
 
 
 	function upload($selectfiles) {
-
 		$target = SERVER_ROOT . "/public/avatars";
 
 		foreach ($selectfiles as $file) {
-
 			foreach ($file as $fileinfo) {
 				$files[$key] = array(
-					"name" => $file['name'],
-					"type" => $file['type'],
-					"size" => $file['size'],
-					"tmp" => $file['tmp_name'],
-					"error" => $file['error'],
+					"name" => $file['name'][0],
+					"type" => $file['type'][0],
+					"size" => $file['size'][0],
+					"tmp" => $file['tmp_name'][0],
+					"error" => $file['error'][0],
 
 				);
 			}
 		}
-		
 		foreach ($files as $photo) {
 			$newname = substr(uniqid(), 0 , 15);
 

@@ -3,57 +3,31 @@
 <div class="customization">
 
 
-<div class="changebanner" id='banner' style="background:url('/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>')" >
-<div class="changeavatar">
-<img class="usr_img" id="avatar" src="/public/photos/<?php echo $settings['user']->getAvatarFilename(); ?>">
-</div> 
-</div>
+<div onclick="$('#bannerupload').click()" class="changebanner" id='banner' style="background:url('/public/photos/<?php echo $settings['user']->getBannerFilename(); ?>')" ></div>
+	<div onclick="$('#avatarupload').click()" class="changeavatar">
+		<img class="usr_img" id="avatar" src="/public/photos/<?php echo $settings['user']->getAvatarFilename(); ?>">
+	</div> 
+	
+<style>
+#avatarupload, #bannerupload {
+	display:none;
+}
+</style>
 
-<div id="bannerdialog" style="display:none;" title="Upload Avatar">
-		<div id=" imagepreview">
-		<h3>Banner Preview</h3>
-	        <img id="bannerblah" src="#" alt="your image" />
-		</div>
+<div id="avatardialog">
 
-    <div id="bannmessage"></div>
-    <form name="bannupload" id="bannupload" method="POST" enctype="multipart/form-data">
-                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
-                <input type="submit" id="uploadFile" value="Upload File">
-    </form>
-    <div id="uploader"></div>
-    
-    
-    <div class="avaprogress">
-        <div class="bannbar"></div >
-        <div class="bannpercent">0%</div >
-    </div>
-</div> 
-
-<div id="avatardialog" style="display:none;" title="Upload Avatar">
-		<div id="imagepreview">
-		<h3>Avatar Preview</h3>
-	        <img id="blah" src="#" alt="your image" />
-		</div>
-
-    <div id="avamessage"></div>
-    <form name="avaupload" id="avaupload" method="POST" enctype="multipart/form-data">
-                <input type="file" onchange="readURL(this);" name="files[]" id="fileToUpload" multiple>
-                <input type="submit" id="uploadFile" value="Upload File">
-    </form>
-    <div id="uploader"></div>
-    
-    
-    <div class="avaprogress">
-        <div class="avabar"></div >
-        <div class="avapercent">0%</div >
-    </div>
+           <form name="avaupload" id="avaupload" >
+                <input type="file" name="files[]" id="avatarupload">
+            </form>
+            
+           <form name="bannupload" id="bannupload" >
+                <input type="file" name="files[]" id="bannerupload">
+            </form>    
 </div> 
 
 
     <script type="text/javascript">
         $(document).ready(function() {
-        
-        
         	$("#avatardialog").click(function(e) {
 				e.stopPropagation();
 			});
@@ -62,90 +36,41 @@
 			});
 			$("#updatesettings").click(function(e) {
 				e.stopPropagation();
-			});			
+			});	
         
-			var bar = $('.avabar');
-			var percent = $('.avapercent');
-			var status = $('#avastatus');
-			var options = {
-				target: '#avamessage',
-				url: '/photo',
-				beforeSend: function() {
-					status.empty();
-					var percentVal = '0%';
-					bar.width(percentVal)
-					percent.html(percentVal);
-				},
-				data: {
-					"action": "uploadavatar",
-				},
-				uploadProgress: function(event, position, total, percentComplete) {
-					var percentVal = percentComplete + '%';
-					bar.width(percentVal)
-					percent.html(percentVal);
-				}
-			};			
-			$('#avaupload').submit(function() {
-				$(this).ajaxSubmit(options);
-				$("#avatardialog").toggle();
-				return false;
-			});
-		$('#avatar').click(function() {
-			$("#avatardialog").toggle();
-							$("#bannerdialog").toggle();
+					var avatarupload = {
+						url: "/photo",
+						data: {
+							"action": "uploadavatar",
+						},
+						success: function(response) {
+						var infos = '/public/photos/' + response;
+							$('#avatar').attr('src', infos);
+						}
+						
+					};
+					
+					$('#avatarupload').change(function () {
+						$('#avaupload').ajaxForm(avatarupload).submit();
+					})
+					
+					var bannerupload = {
+						url: "/photo",
+						data: {
+							"action": "uploadbanner",
+						},
+						success: function(response) {
+						var infos = 'url(/public/photos/' + response + ')';
+							$('#banner').css('background', infos);
+						}
+						}
+						
 
+					
+					$('#bannerupload').change(function () {
+						$('#bannupload').ajaxForm(bannerupload).submit();
+					})
 		});
-		            
-		    var bar = $('.bannbar');
-			var percent = $('.bannpercent');
-			var status = $('#bannstatus');
-			var banneroptions = {
-				target: '#bannmessage',
-				url: '/photo',
-				beforeSend: function() {
-					status.empty();
-					var percentVal = '0%';
-					bar.width(percentVal)
-					percent.html(percentVal);
-				},
-				data: {
-					"action": "uploadbanner",
-				},
-				uploadProgress: function(event, position, total, percentComplete) {
-					var percentVal = percentComplete + '%';
-					bar.width(percentVal)
-					percent.html(percentVal);
-				}
-			};			
-			$('#bannupload').submit(function() {
-				$(this).ajaxSubmit(banneroptions);
-							$("#bannerdialog").toggle();
-
-				return false;
-			});
-		$('#banner').click(function() {
-			$("#bannerdialog").toggle();
-		});
-    
-		            
- 		        }); 
-		        
-		    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah').attr('src', e.target.result);
-
-                }
-
-                reader.readAsDataURL(input.files[0]);
-                $('#imagepreview').show();
-            }
-            
-            }
-
-
     </script>
  
 
