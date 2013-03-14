@@ -36,6 +36,22 @@
 				$(share).hide();
 				$(thispostpost).css('border-color', '#dadada');
 			});
+
+			
+			$('#' + thispostid + '.delete').click(function(e) {
+			e.preventDefault();
+				$.ajax({
+					type: "POST",
+					data: {
+						"action": "deletepost",
+						"post": thispostid,
+					},
+					success: function() {
+						$(thispostpost).remove();
+					}
+				});
+			});
+
 			$(thispostedit).click(function(e) {
 				e.preventDefault();
 				$(thispostcomment).replaceWith("<textarea class='comment'>" + $(thispostcomment).text() + "</textarea>");

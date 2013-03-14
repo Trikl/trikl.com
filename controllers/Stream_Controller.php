@@ -57,6 +57,10 @@ class Stream_Controller
 		case 'editpost':
 			$streamModel->edit_post($_POST['post']);
 			break;
+
+		case 'deletepost':
+		   $streamModel->delete_post($_POST['post']);
+		   break;	
 		case 'upvote':
 			$streamModel->upvote($_POST);
 			break;
