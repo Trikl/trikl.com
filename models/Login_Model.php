@@ -73,5 +73,27 @@ class Login_Model
 		$user->save();
 	}
 	
+	function usernamecheck() {
+		if ($_POST['check']) {
+			$user = UserQuery::create()->filterByUsername(strtolower($_POST['check']))->count();
+			if ($user > 0) {
+				echo 'false';
+			} else {
+				echo 'true';
+			}
+		}
+	}
+	
+	function emailcheck() {
+			if ($_POST['check']) {
+			$user = UserQuery::create()->filterByEmail(strtolower($_POST['check']))->count();
+			if ($user > 0) {
+				echo 'false';
+			} else {
+				echo 'true';
+			}
+		}
+	}
+	
 	//TODO: create activation email function
 }

@@ -1,16 +1,16 @@
 <?php
 	unset($urlinfo);
-if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; } }
- ?>
+	if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url . "-"; } }
+?>
 		<div class="post">
 			<div class="begincomments" id="<?php echo $post['pid']; ?>"></div>
 
-			<div class="postvotes">
+			<!-- <div class="postvotes">
 				<div class="upvote" id="upvote-<?php echo $post['pid']; ?>"></div>
 				<div class="votes"><?php if ($post['votetally']) { echo $post['votetally']; } else { echo '0'; } ?></div>
 
 				<div class="downvote" id="downvote-<?php echo $post['pid']; ?>"></div>
-			</div>
+			</div> -->
 		
 			<div class="postcontents" id="<?php echo $post['pid']; ?>" url="<?php echo $urlinfo ?>" parent="<?php echo $post['parentnumb']; ?>">
 				<img class="usr_img" src="public/photos/<?php echo $post['user']->getAvatarFilename(); ?>" />
@@ -42,14 +42,6 @@ if(is_array($post['url'])) { foreach ($post['url'] as $url) { $urlinfo .= $url .
 						<?php } ?>
 					</form>								 
 				</div>
+				<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
 			</div>
-			<div class="urldata" id="<?php echo $post['pid']; ?>" style="display:none"></div>
-			<div class="endcomments" id="<?php echo $post['pid']; ?>"></div>
-			<!-- <div class="reply">
-				<form class="makeComment" method="post">
-					<textarea class="makeCommentTextbox" placeholder="Comment..." name="post"></textarea><br />
-					<input type='submit' id="commentsubmit" value="">
-				</form>	
-				<div style="clear: both;"></div>
-			</div> -->
 		</div>

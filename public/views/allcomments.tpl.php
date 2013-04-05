@@ -1,10 +1,4 @@
-					<?php
-					
-					var_dump($post);
-					
-							foreach ($post['comments'] as $comments) { 			
-		
-					?>
+					<?php foreach ($post['comments'] as $comments) { ?>
 								<div class="commentcontents" id="<?php echo $comments['id']; ?>">
 									<img class="usr_img" style="width:60px;height:60px;" src="public/photos/<?php echo $comments['user']->getAvatarFilename(); ?>" />
 									<div class="titlebar">
@@ -13,6 +7,4 @@
 									</div>
 									<p class="comment more"><?php echo $comments['content']; ?></p>
 								</div>
-					<?php
-							}
-						?>	
+					<?php } ?>	

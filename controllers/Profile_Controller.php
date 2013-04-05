@@ -18,7 +18,7 @@ class Profile_Controller
     {    
         $profileModel = new Profile_Model;
         $streamModel = new Stream_Model;
-        $view = new View_Model($this->template);
+        $view = new View_Model($this->template, 1);
         $stuff = $profileModel->profile($subpage);
         if ($stuff['user']) { $singleuser = $stuff['user']->getId(); }
     	$view->assign('status', $streamModel->stream(NULL, 'profile', NULL, NULL, $singleuser));

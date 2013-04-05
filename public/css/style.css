@@ -1,40 +1,265 @@
-html, body {
-	width:940px;
-	margin: 0 auto;
-	font-size: 20px;
-	font-family: arial;
+* {
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-weight:300;
+	margin:0;
+	padding:0;
+	border:0;
+	font-size:100%;
+	font:inherit;
+	vertical-align:baseline;
+	line-height:1;
+	list-style:none;
+	quotes:none;
+	content:'';
+	content:none;
+	border-collapse:collapse;
+	border-spacing:0;
+	-webkit-margin-before:0;
+	-webkit-padding-start:0;
+	-webkit-margin-after:0;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
 }
 
-.notstream{
-	margin: 0 auto;
-	text-align:center;
+input::-moz-focus-inner {
+	margin:0 -1px 0 0;
+	padding:0;
+	border:0;
+	font-size:100%;
+	font:inherit;
+	vertical-align:baseline;
+	line-height:1;
+	list-style:none;
+	quotes:none;
+	content:'';
+	content:none;
+	border-collapse:collapse;
+	border-spacing:0;
 }
 
-.notstream img {
-	text-align:center;
+::-webkit-input-placeholder {
+/* WebKit browsers */
+	color:#DDD;
 }
 
-.LoginButn {
-	margin-top:50px;
+:-moz-placeholder {
+/* Mozilla Firefox 4 to 18 */
+	color:#DDD;
 }
 
-#menu {
-	width:375px;
-	margin: 0 auto;
+::-moz-placeholder {
+/* Mozilla Firefox 19+ */
+	color:#DDD;
 }
 
-#login {
+:-ms-input-placeholder {
+/* Internet Explorer 10+ */
+	color:#DDD;
+}
+
+/**
+ * CSS File for ezMark jQuery Plugin
+ *
+ **/
+.ez-hide {
+	opacity:0;
+	filter:alpha(opacity=0);
+}
+
+.ez-checkbox {
+	background:url(/public/images/icons/check_sprite1.png) no-repeat;
+	background-position:9px 0;
+	width:30px;
+	height:14px;
+	display:inline-block;
+}
+
+.ez-checked {
+	background-position:9px -16px;
+}
+
+.ez-checkbox label {
+	line-height:11px;
+	font-size:14px;
+}
+
+.ez-checkbox {
+	zoom:1;
+	*display:inline;
+	_height:30px;
+}
+
+.remember {
+	text-align:left;
+}
+
+.remember span {
+	line-height:24px;
+	color:#CCC;
+}
+
+.valid {
+	background:#FFF url(/public/images/icons/check.png) no-repeat right center;
+}
+
+html,body {
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-weight:300;
+	background:#fff;
+	width:100%;
+	height:100%;
+}
+
+body {
+	margin:0;
+	min-width:1000px;
+}
+
+h3 {
+	color:#3584D8;
+	font-size:100px;
+	margin:0;
+}
+
+.panel {
+	height:80%;
+}
+
+#content {
+	width:100%;
+	height: 100%;
+	overflow:hidden;
+}
+
+#login,#register {
+	cursor:pointer;
+}
+
+#menu, #footer {
+	clear:both;
+	margin:10px;
+	color:#3584D8;
+	height:80px;
+	font-size:40px;
+	padding: 17px 0 0 10px;
+}
+
+#menu span {
+	padding:5px;
+}
+
+#trikl-logo {
+	width:15%;
+	min-width:200px;
+	-webkit-border-top-right-radius:3px;
+	-webkit-border-bottom-right-radius:3px;
+	-moz-border-radius-topright:3px;
+	-moz-border-radius-bottomright:3px;
+	border-top-right-radius:3px;
+	border-bottom-right-radius:3px;
 	float:left;
+	background:#79baff url(/public/images/logo/text_trikl.png) no-repeat 40% 103%;
 }
 
-#registerbtn {
-	float:right;
+#white-band {
+	float:left;
+	width:50px;
+	background-color:#fff;
 }
 
+#register-band {
+	margin:5px;
+	text-align:center;
+	width:300px;
+	background:#EEE;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+
+#login-band {
+	width:300px;
+	margin:5px;
+}
+
+#blue-band {
+	float:left;
+	width:50px;
+	background-color:#3584D8;
+}
+
+#droplet-logo {
+	width:auto;
+	background:#79baff url(/public/images/logo/cntr_homef.png) no-repeat center center;
+}
+
+#footer {
+	clear:both;
+	text-align:right;
+	margin:10px;
+}
+
+#register-container,#login-container {
+	overflow:hidden;
+	float:left;
+	width:0;
+	background-color:#EEE;
+}
+
+.errorDiv {
+	background:#FFF;
+	color:#333;
+	display:none;
+	position:relative;
+	line-height:2px;
+	border:1px solid #ddd;
+	border-top:0;
+	width:285px;
+	margin:-7px 0 5px 8px;
+	-webkit-border-bottom-right-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-bottomright:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-bottom-right-radius:3px;
+	border-bottom-left-radius:3px;
+}
+
+.leftradius {
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+
+.activated {
+	background:#79baff!important;
+	color:#fff!important;
+}
 
 input {
-	font-size: 18px;
-	border: 1px solid #CCC!important;
+	font-size:25px;
+	border:1px solid #DDD!important;
+	margin:0 -1px 5px 0;
+	padding:5px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	width:95%;
 }
 
-:focus { outline: none; }
+input[type=submit] {
+	background:none;
+	color:#DDD;
+	line-height:35px;
+	border:0!important;
+}
+
+:focus {
+	outline:none;
+}

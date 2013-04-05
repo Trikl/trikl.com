@@ -3,6 +3,7 @@
 	
 	
 ?>
+		            	<h3 class="friendrequests"><?php echo $info['count']; ?> Friend Requests </h3>
 		            	<div class="tinyavatars">
 
 
@@ -24,7 +25,6 @@
 
             				            	<h3 class="toggledown"></h3>
 
-		            	<h3 class="friendrequests"><?php echo $info['count']; ?> Friend Requests </h3>
             		</div>
             		<div class="expandnotif">
 

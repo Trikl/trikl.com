@@ -14,7 +14,7 @@ class Logout_Controller
     public function main()
     {
 	    $logoutModel = new Logout_Model;
-	    $view = new View_Model($this->template);
+	    $view = new View_Model('login');
 	    $logoutModel->logout();
 
      }
